@@ -474,7 +474,7 @@
         "value": "payload",
         "valueType": "msg",
         "x": 820,
-        "y": 600,
+        "y": 580,
         "wires": []
     },
     {
@@ -498,7 +498,31 @@
         "value": "payload",
         "valueType": "msg",
         "x": 820,
-        "y": 640,
+        "y": 620,
+        "wires": []
+    },
+    {
+        "id": "e0396c64388e453e",
+        "type": "ui-text",
+        "z": "f6f2187d.f17ca8",
+        "group": "8c07921fea90e189",
+        "order": 5,
+        "width": 0,
+        "height": 0,
+        "name": "Torno Status",
+        "label": "Torno precisa descarregar:  ",
+        "format": "{{msg.payload}}",
+        "layout": "row-left",
+        "style": true,
+        "font": "Verdana,Verdana,Geneva,sans-serif",
+        "fontSize": "24",
+        "color": "#efe6e6",
+        "wrapText": false,
+        "className": "",
+        "value": "payload",
+        "valueType": "msg",
+        "x": 810,
+        "y": 660,
         "wires": []
     }
 ]
