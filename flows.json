@@ -124,39 +124,6 @@
         "disabled": "false"
     },
     {
-        "id": "a61d6065215da822",
-        "type": "ui-group",
-        "name": "Grupo1",
-        "page": "bd2839135f9d9d90",
-        "width": 7,
-        "height": 1,
-        "order": 1,
-        "showTitle": true,
-        "className": "borderless",
-        "visible": false,
-        "disabled": "true",
-        "groupType": "default"
-    },
-    {
-        "id": "5235f08e32243c70",
-        "type": "ui-theme",
-        "name": "Decoração",
-        "colors": {
-            "surface": "#18191b",
-            "primary": "#0d74ce",
-            "bgPage": "#111113",
-            "groupBg": "#212225",
-            "groupOutline": "#363a3f"
-        },
-        "sizes": {
-            "density": "default",
-            "pagePadding": "0px",
-            "groupGap": "0px",
-            "groupBorderRadius": "0px",
-            "widgetGap": "0px"
-        }
-    },
-    {
         "id": "page_pedidos_fms",
         "type": "ui-page",
         "name": "Terminal de Pedidos",
@@ -268,7 +235,7 @@
         "ioFile": "",
         "useIOForPayload": false,
         "emptyMsgOnFail": false,
-        "x": 450,
+        "x": 430,
         "y": 580,
         "wires": [
             [
@@ -282,7 +249,7 @@
         "type": "debug",
         "z": "ee494d7919f39de2",
         "name": "debug 1",
-        "active": true,
+        "active": false,
         "tosidebar": true,
         "console": false,
         "tostatus": false,
@@ -290,8 +257,8 @@
         "targetType": "jsonata",
         "statusVal": "",
         "statusType": "auto",
-        "x": 740,
-        "y": 540,
+        "x": 820,
+        "y": 500,
         "wires": []
     },
     {
@@ -307,7 +274,7 @@
         "finalize": "",
         "libs": [],
         "x": 600,
-        "y": 580,
+        "y": 560,
         "wires": [
             [
                 "7919f70889b27829"
@@ -373,18 +340,18 @@
         "page": "",
         "ui": "",
         "name": "Sinótico Top-Down Célula FMS",
-        "order": 2,
+        "order": 1,
         "width": 0,
         "height": 0,
         "head": "",
-        "format": "<div class=\"scada-root\">\n  <!-- Top Bar com Identidade SENAI SP -->\n  <div class=\"scada-top-bar\">\n    <div class=\"scada-brand-row\">\n      \n      <div>\n        <h2 class=\"scada-main-title\">Célula Integrada de Manufatura de Chaveiros</h2>\n        <p class=\"scada-sub-title\">Visualização da integração em tempo real</p>\n      </div>\n    </div>\n    <div class=\"scada-quick-indicators\">\n      <div class=\"indicator-item\">\n        <span class=\"status-dot green\"></span>\n        <span>CLP Altus: Conectado</span>\n      </div>\n      <div class=\"indicator-item\">\n        <span class=\"status-dot green\"></span>\n        <span>Ciclo: Automático</span>\n      </div>\n    </div>\n  </div>\n\n  <!-- Grid Principal da Célula -->\n  <div class=\"cell-main-grid\">\n    \n    <!-- 1. ESQUERDA: CENTRO DE USINAGEM -->\n    <div class=\"station-elevation-card\">\n      <div class=\"station-title-row\">\n        <h3 class=\"station-headline\">Centro de Usinagem</h3>\n        <span class=\"status-pill\" :class=\"centroAtivo ? 'processing' : 'green'\">\n          {{ centroStatusBadge }}\n        </span>\n      </div>\n\n      <!-- Imagem Hero do Centro de Usinagem -->\n      <div class=\"machine-hero-container\">\n        <div class=\"image-tint-wrapper\" :class=\"{ 'is-processing': centroAtivo }\">\n          <img src=\"/Centro.png\" alt=\"Centro de Usinagem\" class=\"machine-photo\" />\n        </div>\n      </div>\n\n      <div class=\"station-info-metrics\">\n        <div class=\"info-row\">\n          <span class=\"info-label\">Operação</span>\n          <span class=\"info-val\">Gravação / Acabamento</span>\n        </div>\n        <div class=\"info-row\">\n          <span class=\"info-label\">Estado</span>\n          <span class=\"info-val text-emerald\">Pronto para operação</span>\n        </div>\n      </div>\n    </div>\n\n    <!-- 2. CENTRO: RAMPAS (TOPO) + ROBÔ HERO (BASE) -->\n    <!-- 2. CENTRO: LOGÍSTICA E MOVIMENTAÇÃO -->\n    <!-- 2. CENTRO: LOGÍSTICA E MOVIMENTAÇÃO -->\n    <div class=\"center-elevation-flow\">\n      <div class=\"station-elevation-card integrated-center-card\">\n    \n        <div class=\"station-title-row\">\n          <h3 class=\"station-headline\">Logística e Alimentação</h3>\n          <span class=\"status-pill\" :class=\"roboAtivo ? 'processing' : 'green'\">\n                {{ roboAtivo ? 'Robô em Movimento' : 'Robô em Prontidão' }}\n              </span>\n        </div>\n    \n        <!-- Trilhos Dinâmicos de Estoque -->\n        <div class=\"dynamic-buffers\">\n    \n          <!-- Estoque 1 (Bruto) -->\n          <div class=\"buffer-lane\">\n            <div class=\"buffer-header\">\n              <span class=\"buffer-name\">Estoque 1 <span class=\"buffer-type\">Entrada</span></span>\n              <span class=\"buffer-count\">{{ estoque1 }}/3</span>\n            </div>\n            <div class=\"buffer-track\">\n              <!-- Gera 3 slots dinamicamente. Aplica a classe 'filled' se o índice for menor ou igual à quantidade no estoque -->\n              <div v-for=\"n in 3\" :key=\"'e1-'+n\" class=\"piece-slot\" :class=\"{ 'filled bruto': n <= estoque1 }\"></div>\n            </div>\n          </div>\n    \n          <!-- Estoque 2 (Torneadas) -->\n          <div class=\"buffer-lane\">\n            <div class=\"buffer-header\">\n              <span class=\"buffer-name\">Estoque 2 <span class=\"buffer-type\">Buffer</span></span>\n              <span class=\"buffer-count\">{{ estoque2 }}/3</span>\n            </div>\n            <div class=\"buffer-track\">\n              <div v-for=\"n in 3\" :key=\"'e2-'+n\" class=\"piece-slot\" :class=\"{ 'filled torneado': n <= estoque2 }\"></div>\n            </div>\n          </div>\n    \n          <!-- Estoque 3 (Usinadas/Prontas) -->\n          <div class=\"buffer-lane\">\n            <div class=\"buffer-header\">\n              <span class=\"buffer-name\">Estoque 3 <span class=\"buffer-type\">Saída</span></span>\n              <span class=\"buffer-count\">{{ estoque3 }}/3</span>\n            </div>\n            <div class=\"buffer-track\">\n              <div v-for=\"n in 3\" :key=\"'e3-'+n\" class=\"piece-slot\" :class=\"{ 'filled pronto': n <= estoque3 }\"></div>\n            </div>\n          </div>\n    \n        </div>\n    \n        <!-- Eixo Linear do Robô (Design Compacto) -->\n        <div class=\"robot-linear-axis\">\n          <div class=\"axis-track\"></div>\n          <!-- O cursor do robô desliza com base no estado roboAtivo -->\n          <div class=\"robot-cursor\" :class=\"{ 'moving': roboAtivo }\">\n            <span class=\"cursor-dot\"></span> Manipulador\n          </div>\n        </div>\n    \n      </div>\n    </div>\n\n    <!-- 3. DIREITA: TORNO CNC (IMAGEM HERO EM DESTAQUE) -->\n    <div class=\"station-elevation-card\">\n      <div class=\"station-title-row\">\n        <h3 class=\"station-headline\">Torno CNC</h3>\n        <span class=\"status-pill\" :class=\"tornoAtivo ? 'processing' : 'green'\">\n          {{ tornoStatusBadge }}\n        </span>\n      </div>\n\n      <!-- Imagem Hero do Torno CNC com Efeito Verde Suave quando em Processamento -->\n      <div class=\"machine-hero-container\">\n        <div class=\"image-tint-wrapper\" :class=\"{ 'is-processing': tornoAtivo }\">\n          <img src=\"/Torno.png\" alt=\"Torno CNC\" class=\"machine-photo\" />\n        </div>\n      </div>\n\n      <div class=\"station-info-metrics\">\n        <div class=\"info-row\">\n          <span class=\"info-label\">Operação</span>\n          <span class=\"info-val\" :class=\"{ 'text-emerald': tornoAtivo }\">\n            {{ tornoAtivo ? 'Torneamento Lado 1 (Em Curso)' : 'Usinagem Lado 1 / Lado 2' }}\n          </span>\n        </div>\n        <div class=\"info-row\">\n          <span class=\"info-label\">Estado</span>\n          <span class=\"info-val\" :class=\"tornoAtivo ? 'text-emerald' : 'text-emerald'\">\n            {{ tornoAtivo ? '● Processando Peça' : 'Pronto para operação' }}\n          </span>\n        </div>\n      </div>\n    </div>\n\n  </div>\n</div>\n\n<script>\n  export default {\n  data() {\n    return {\n      tornoAtivo: false,\n      tornoStatusBadge: 'Operante',\n      centroAtivo: false,\n      centroStatusBadge: 'Operante', // <--- Adicionado\n      roboAtivo: false,\n      \n      // Novas variáveis preparadas para o fluxo (exemplo com valores iniciais)\n      estoque1: 2, // 2 peças brutas aguardando\n      estoque2: 1, // 1 peça torneada\n      estoque3: 0  // 0 peças finalizadas\n    };\n  },\n  watch: {\n    msg: {\n      immediate: true,\n      handler(newVal) {\n        if (!newVal || !newVal.payload) return;\n        const p = newVal.payload;\n        \n        // Mantém a lógica do Torno que você já possuía\n        if (p.estacao === 'torno' || newVal.topic === 'simulacao_torno') {\n          this.tornoAtivo = !!p.operando;\n          this.tornoStatusBadge = this.tornoAtivo ? 'Torneando L1' : 'Operante';\n        }\n\n        if (p.estacao === 'centro' || newVal.topic === 'simulacao_centro') {\n          this.centroAtivo = !!p.operando;\n          this.centroStatusBadge = this.centroAtivo ? 'Usinando' : 'Operante';\n        }\n        \n        // NOVA LÓGICA: Atualiza as quantidades de estoque a partir de msg.payload\n        if (p.topico === 'atualizacao_celula') {\n           if (p.estoque1 !== undefined) this.estoque1 = p.estoque1;\n           if (p.estoque2 !== undefined) this.estoque2 = p.estoque2;\n           if (p.estoque3 !== undefined) this.estoque3 = p.estoque3;\n           if (p.roboAtivo !== undefined) this.roboAtivo = !!p.roboAtivo;\n        }\n      }\n    }\n  },\n  mounted() {\n    this.$socket?.on('ui-template:' + this.id, (msg) => {\n      if (!msg || !msg.payload) return;\n      \n      if (msg.payload.estacao === 'torno' || msg.topic === 'simulacao_torno') {\n        this.tornoAtivo = !!msg.payload.operando;\n        this.tornoStatusBadge = this.tornoAtivo ? 'Torneando L1' : 'Operante';\n      }\n\n      if (msg.payload.estacao === 'centro' || msg.topic === 'simulacao_centro') {\n      this.centroAtivo = !!msg.payload.operando;\n      this.centroStatusBadge = this.centroAtivo ? 'Usinando' : 'Operante';\n      }\n      \n      // Escuta em tempo real as atualizações de logística via socket\n      if (msg.payload.topico === 'atualizacao_celula') {\n         if (msg.payload.estoque1 !== undefined) this.estoque1 = msg.payload.estoque1;\n         if (msg.payload.estoque2 !== undefined) this.estoque2 = msg.payload.estoque2;\n         if (msg.payload.estoque3 !== undefined) this.estoque3 = msg.payload.estoque3;\n         if (msg.payload.roboAtivo !== undefined) this.roboAtivo = !!msg.payload.roboAtivo;\n      }\n    });\n  }\n};\n</script>\n\n<style>\n.scada-root {\n  font-family: var(--font-sans, system-ui, sans-serif);\n  color: #f8fafc;\n  display: flex;\n  flex-direction: column;\n  gap: 20px;\n}\n\n/* Header com Toque SENAI SP */\n.scada-top-bar {\n  display: flex;\n  justify-content: space-between;\n  align-items: center;\n  padding: 4px 6px;\n}\n.scada-brand-row {\n  display: flex;\n  align-items: center;\n  gap: 14px;\n}\n.senai-sp-badge {\n  background: #e30613;\n  color: #ffffff;\n  font-weight: 700;\n  font-size: 0.85rem;\n  letter-spacing: 0.08em;\n  padding: 6px 14px;\n  border-radius: 6px;\n  display: inline-flex;\n  align-items: center;\n  box-shadow: 0 2px 8px rgba(227, 6, 19, 0.35);\n}\n.scada-main-title {\n  font-size: 1.25rem;\n  font-weight: 600;\n  color: #ffffff;\n  margin: 0;\n  letter-spacing: -0.01em;\n}\n.scada-sub-title {\n  font-size: 0.82rem;\n  color: #94a3b8;\n  margin: 2px 0 0 0;\n}\n.scada-quick-indicators {\n  display: flex;\n  gap: 16px;\n}\n.indicator-item {\n  display: flex;\n  align-items: center;\n  gap: 8px;\n  font-size: 0.8rem;\n  color: #cbd5e1;\n}\n.status-dot {\n  width: 7px;\n  height: 7px;\n  border-radius: 50%;\n}\n.status-dot.green { background: #10b981; }\n\n/* Grid Principal da Célula */\n.cell-main-grid {\n  display: grid;\n  grid-template-columns: 310px 1fr 310px;\n  gap: 20px;\n}\n@media (max-width: 1024px) {\n  .cell-main-grid { grid-template-columns: 1fr; }\n}\n\n/* Cards com Separação por Elevation (Sem bordas pesadas) */\n.station-elevation-card {\n  background: #1e293b;\n  border-radius: 12px;\n  padding: 22px;\n  display: flex;\n  flex-direction: column;\n  gap: 16px;\n  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.25);\n  transition: background-color 0.25s ease, box-shadow 0.25s ease;\n}\n\n/* Títulos sem Linha Divisória */\n.station-title-row {\n  display: flex;\n  justify-content: space-between;\n  align-items: center;\n}\n.station-headline {\n  font-size: 1.15rem;\n  font-weight: 600;\n  color: #ffffff;\n  margin: 0;\n  letter-spacing: -0.01em;\n}\n\n/* Badges de Status */\n.status-pill {\n  font-size: 0.75rem;\n  font-weight: 500;\n  padding: 4px 10px;\n  border-radius: 6px;\n}\n.status-pill.green {\n  background: rgba(16, 185, 129, 0.12);\n  color: #10b981;\n}\n.status-pill.processing {\n  background: rgba(16, 185, 129, 0.2);\n  color: #10b981;\n  font-weight: 600;\n  animation: pulse-soft 2s infinite ease-in-out;\n}\n@keyframes pulse-soft {\n  0%, 100% { opacity: 1; }\n  50% { opacity: 0.7; }\n}\n\n/* HERO IMAGES: As fotos do Torno, Centro e Robô em Destaque */\n.machine-hero-container {\n  background: #141d2e;\n  border-radius: 10px;\n  height: 220px;\n  display: flex;\n  align-items: center;\n  justify-content: center;\n  padding: 16px;\n  position: relative;\n  overflow: hidden;\n}\n.robot-hero-container {\n  background: #141d2e;\n  border-radius: 10px;\n  height: 180px;\n  display: flex;\n  flex-direction: column;\n  align-items: center;\n  justify-content: center;\n  padding: 16px;\n  position: relative;\n}\n\n/* Efeito Verde Suave por Cima da Imagem quando em Processamento */\n.image-tint-wrapper {\n  position: relative;\n  display: flex;\n  align-items: center;\n  justify-content: center;\n  width: 100%;\n  height: 100%;\n  transition: all 0.3s ease;\n}\n.image-tint-wrapper::after {\n  content: '';\n  position: absolute;\n  inset: 0;\n  background: radial-gradient(circle, rgba(16, 185, 129, 0.25) 0%, rgba(16, 185, 129, 0.08) 60%, transparent 85%);\n  pointer-events: none;\n  border-radius: 8px;\n  opacity: 0;\n  transition: opacity 0.35s ease;\n}\n.image-tint-wrapper.is-processing::after {\n  opacity: 1;\n}\n.image-tint-wrapper.is-processing .machine-photo,\n.image-tint-wrapper.is-processing .robot-photo {\n  filter: drop-shadow(0 0 14px rgba(16, 185, 129, 0.55)) brightness(1.05);\n}\n\n.machine-photo {\n  max-width: 110%;\n  max-height: 110%;\n  object-fit: contain;\n  transition: filter 0.3s ease, transform 0.3s ease;\n}\n.robot-photo {\n  max-width: 100%;\n  max-height: 130px;\n  object-fit: contain;\n  transition: filter 0.3s ease;\n  position: relative;\n  z-index: 2;\n}\n\n/* Trilho Físico Discreto do Robô */\n.rail-track-line {\n  position: absolute;\n  bottom: 22px;\n  left: 20px;\n  right: 20px;\n  height: 3px;\n  background: #25334a;\n  border-radius: 2px;\n}\n\n/* Métricas de Informação */\n.station-info-metrics {\n  display: flex;\n  flex-direction: column;\n  gap: 8px;\n  padding-top: 4px;\n}\n.info-row {\n  display: flex;\n  justify-content: space-between;\n  font-size: 0.78rem;\n}\n.info-label { color: #94a3b8; }\n.info-val { font-weight: 500; color: #cbd5e1; }\n.text-emerald { color: #10b981; }\n\n/* Coluna Central */\n.center-elevation-flow {\n  display: flex;\n  flex-direction: column;\n  gap: 20px;\n}\n\n/* Rampas Limpas */\n.ramps-grid-clean {\n  display: grid;\n  grid-template-columns: repeat(3, 1fr);\n  gap: 12px;\n}\n.ramp-chute-clean {\n  background: #141d2e;\n  border-radius: 8px;\n  padding: 14px;\n  display: flex;\n  flex-direction: column;\n  gap: 8px;\n}\n.ramp-top-meta {\n  display: flex;\n  justify-content: space-between;\n  align-items: center;\n}\n.ramp-title {\n  font-size: 0.85rem;\n  font-weight: 600;\n  color: #ffffff;\n}\n.ramp-type-tag {\n  font-size: 0.68rem;\n  color: #94a3b8;\n}\n.roller-strip {\n  display: flex;\n  flex-direction: column;\n  gap: 5px;\n  padding: 8px 0;\n}\n.roller-bar {\n  height: 3px;\n  background: #25334a;\n  border-radius: 2px;\n}\n.ramp-material-desc {\n  font-size: 0.75rem;\n  color: #94a3b8;\n  min-height: 22px;\n}\n.ramp-status-tag {\n  font-size: 0.72rem;\n  font-weight: 500;\n  padding: 4px 6px;\n  border-radius: 4px;\n  text-align: center;\n}\n.ramp-status-tag.ready { background: rgba(37, 99, 235, 0.12); color: #60a5fa; }\n.ramp-status-tag.wait { background: rgba(245, 158, 11, 0.12); color: #f59e0b; }\n.ramp-status-tag.done { background: rgba(16, 185, 129, 0.12); color: #10b981; }\n\n/* =========================================\nESTILOS DOS ESTOQUES DINÂMICOS\n========================================= */\n.integrated-center-card {\npadding: 24px;\n}\n.dynamic-buffers {\ndisplay: flex;\nflex-direction: column;\ngap: 16px;\nmargin-top: 10px;\n}\n.buffer-lane {\nbackground: #141d2e;\nborder-radius: 8px;\npadding: 12px 16px;\nborder: 1px solid #1e293b;\n}\n.buffer-header {\ndisplay: flex;\njustify-content: space-between;\nmargin-bottom: 12px;\n}\n.buffer-name {\nfont-size: 0.85rem;\nfont-weight: 600;\ncolor: #f8fafc;\n}\n.buffer-type {\nfont-size: 0.68rem;\ncolor: #64748b;\nmargin-left: 6px;\npadding: 2px 6px;\nbackground: #0f172a;\nborder-radius: 4px;\n}\n.buffer-count {\nfont-size: 0.8rem;\nfont-weight: 700;\ncolor: #94a3b8;\n}\n\n/* Trilho e Slots (Espaço para as peças) */\n.buffer-track {\ndisplay: flex;\ngap: 12px;\nbackground: rgba(0, 0, 0, 0.15);\npadding: 10px;\nborder-radius: 6px;\nbox-shadow: inset 0 2px 4px rgba(0,0,0,0.2);\n}\n.piece-slot {\nwidth: 32px;\nheight: 32px;\nborder-radius: 50%;\nborder: 2px dashed #334155;\ntransition: all 0.3s ease;\n}\n/* Cores das Peças Preenchidas */\n.piece-slot.filled {\nborder-style: solid;\nbox-shadow: 0 4px 10px rgba(0,0,0,0.3);\ntransform: scale(1.05);\n}\n.piece-slot.filled.bruto {\nbackground: linear-gradient(145deg, #cbd5e1, #94a3b8);\nborder-color: #f8fafc;\n}\n.piece-slot.filled.torneado {\nbackground: linear-gradient(145deg, #fcd34d, #f59e0b);\nborder-color: #fffbeb;\n}\n.piece-slot.filled.pronto {\nbackground: linear-gradient(145deg, #34d399, #10b981);\nborder-color: #d1fae5;\n}\n\n/* =========================================\nEIXO LINEAR DO ROBÔ (COMPACTO)\n========================================= */\n.robot-linear-axis {\nposition: relative;\nmargin-top: 24px;\nheight: 44px;\nbackground: #0f172a;\nborder-radius: 22px;\nborder: 1px solid #1e293b;\ndisplay: flex;\nalign-items: center;\npadding: 0 6px;\nbox-shadow: inset 0 2px 6px rgba(0,0,0,0.3);\n}\n.axis-track {\nposition: absolute;\nleft: 20px;\nright: 20px;\nheight: 4px;\nbackground: #1e293b;\nborder-radius: 2px;\nz-index: 1;\n}\n.robot-cursor {\nposition: relative;\nz-index: 2;\nbackground: #3b82f6;\ncolor: #ffffff;\nfont-size: 0.75rem;\nfont-weight: 600;\npadding: 6px 14px;\nborder-radius: 16px;\ndisplay: flex;\nalign-items: center;\ngap: 6px;\nbox-shadow: 0 4px 12px rgba(59, 130, 246, 0.4);\n/* A animação de movimento simulado */\nleft: 0%;\ntransition: left 1.5s ease-in-out, background 0.3s ease;\n}\n.robot-cursor.moving {\nleft: calc(100% - 110px); /* Desloca o robô para a direita */\nbackground: #10b981;\nbox-shadow: 0 4px 12px rgba(16, 185, 129, 0.4);\n}\n.cursor-dot {\nwidth: 8px;\nheight: 8px;\nbackground: #ffffff;\nborder-radius: 50%;\nanimation: pulse-soft 1.5s infinite;\n}\n\n</style>",
+        "format": "<div class=\"scada-root\">\n  <!-- Top Bar com Identidade SENAI SP -->\n  <div class=\"scada-top-bar\">\n    <div class=\"scada-brand-row\">\n\n      <div>\n        <h2 class=\"scada-main-title\">Célula Integrada de Manufatura de Chaveiros</h2>\n        <p class=\"scada-sub-title\">Visualização da integração em tempo real</p>\n      </div>\n    </div>\n    <div class=\"scada-quick-indicators\">\n      <div class=\"indicator-item\">\n        <span class=\"status-dot green\"></span>\n        <span>CLP Altus: Conectado</span>\n      </div>\n      <div class=\"indicator-item\">\n        <span class=\"status-dot green\"></span>\n        <span>Ciclo: Automático</span>\n      </div>\n    </div>\n  </div>\n\n  <!-- Grid Principal da Célula -->\n  <div class=\"cell-main-grid\">\n\n    <!-- 1. ESQUERDA: CENTRO DE USINAGEM -->\n    <div class=\"station-elevation-card\">\n      <div class=\"station-title-row\">\n        <h3 class=\"station-headline\">Centro de Usinagem</h3>\n        <span class=\"status-pill\" :class=\"centroAtivo ? 'processing' : 'green'\">\n          {{ centroStatusBadge }}\n        </span>\n      </div>\n\n      <!-- Imagem Hero do Centro de Usinagem -->\n      <div class=\"machine-hero-container\">\n        <div class=\"image-tint-wrapper\" :class=\"{ 'is-processing': centroAtivo }\">\n          <img src=\"/Centro.png\" alt=\"Centro de Usinagem\" class=\"machine-photo\" />\n        </div>\n      </div>\n    </div>\n\n    <!-- 2. CENTRO: RAMPAS (TOPO) + ROBÔ HERO (BASE) -->\n    <!-- 2. CENTRO: LOGÍSTICA E MOVIMENTAÇÃO -->\n    <!-- 2. CENTRO: LOGÍSTICA E MOVIMENTAÇÃO -->\n    <div class=\"center-elevation-flow\">\n      <div class=\"station-elevation-card integrated-center-card\">\n\n        <div class=\"station-title-row\">\n          <h3 class=\"station-headline\">Logística e Alimentação</h3>\n          <span class=\"status-pill\" :class=\"roboAtivo ? 'processing' : 'green'\">\n                {{ roboAtivo ? 'Robô em Movimento' : 'Robô em Prontidão' }}\n              </span>\n        </div>\n\n        <!-- Trilhos Dinâmicos de Estoque -->\n        <div class=\"dynamic-buffers\">\n\n          <!-- Estoque 1 (Bruto) -->\n          <div class=\"buffer-lane\">\n            <div class=\"buffer-header\">\n              <span class=\"buffer-name\">Estoque 1 <span class=\"buffer-type\">Peça bruta</span></span>\n              <span class=\"buffer-count\">{{ estoque1 }}/10</span>\n            </div>\n            <div class=\"buffer-track\">\n              <!-- Gera 3 slots dinamicamente. Aplica a classe 'filled' se o índice for menor ou igual à quantidade no estoque -->\n              <div v-for=\"n in 10\" :key=\"'e1-'+n\" class=\"piece-slot\" :class=\"{ 'filled bruto': n <= estoque1 }\"></div>\n            </div>\n          </div>\n\n          <!-- Estoque 2 (Torneadas) -->\n          <div class=\"buffer-lane\">\n            <div class=\"buffer-header\">\n              <span class=\"buffer-name\">Estoque 2 <span class=\"buffer-type\">Torneadas</span></span>\n              <span class=\"buffer-count\">{{ estoque2 }}/10</span>\n            </div>\n            <div class=\"buffer-track\">\n              <div v-for=\"n in 10\" :key=\"'e2-'+n\" class=\"piece-slot\" :class=\"{ 'filled torneado': n <= estoque2 }\">\n              </div>\n            </div>\n          </div>\n\n          <!-- Estoque 3 (Usinadas/Prontas) -->\n          <div class=\"buffer-lane\">\n            <div class=\"buffer-header\">\n              <span class=\"buffer-name\">Estoque 3 <span class=\"buffer-type\">Usinadas</span></span>\n              <span class=\"buffer-count\">{{ estoque3 }}/10</span>\n            </div>\n            <div class=\"buffer-track\">\n              <div v-for=\"n in 10\" :key=\"'e3-'+n\" class=\"piece-slot\" :class=\"{ 'filled pronto': n <= estoque3 }\"></div>\n            </div>\n          </div>\n\n        </div>\n\n        <!-- Eixo Linear do Robô (Design Compacto) -->\n        <div class=\"robot-linear-axis\">\n          <div class=\"axis-track\"></div>\n          <!-- O cursor do robô desliza com base no estado roboAtivo -->\n          <div class=\"robot-cursor\" :class=\"{ 'moving': roboAtivo }\">\n            <span class=\"cursor-dot\"></span> Manipulador\n          </div>\n        </div>\n\n      </div>\n    </div>\n\n    <!-- 3. DIREITA: TORNO CNC (IMAGEM HERO EM DESTAQUE) -->\n    <div class=\"station-elevation-card\">\n      <div class=\"station-title-row\">\n        <h3 class=\"station-headline\">Torno CNC</h3>\n        <span class=\"status-pill\" :class=\"tornoAtivo ? 'processing' : 'green'\">\n          {{ tornoStatusBadge }}\n        </span>\n      </div>\n\n      <!-- Imagem Hero do Torno CNC com Efeito Verde Suave quando em Processamento -->\n      <div class=\"machine-hero-container\">\n        <div class=\"image-tint-wrapper\" :class=\"{ 'is-processing': tornoAtivo }\">\n          <img src=\"/Torno.png\" alt=\"Torno CNC\" class=\"machine-photo\" />\n        </div>\n      </div>\n    </div>\n\n  </div>\n</div>\n\n<script>\n  export default {\n  data() {\n    return {\n      tornoAtivo: false,\n      tornoStatusBadge: 'Operante',\n      centroAtivo: false,\n      centroStatusBadge: 'Operante', // <--- Adicionado\n      roboAtivo: false,\n      \n      // Novas variáveis preparadas para o fluxo (exemplo com valores iniciais)\n      estoque1: 2, // 2 peças brutas aguardando\n      estoque2: 1, // 1 peça torneada\n      estoque3: 0  // 0 peças finalizadas\n    };\n  },\n  watch: {\n    msg: {\n      immediate: true,\n      handler(newVal) {\n        if (!newVal || !newVal.payload) return;\n        const p = newVal.payload;\n        \n        // Mantém a lógica do Torno que você já possuía\n        if (p.estacao === 'torno' || newVal.topic === 'simulacao_torno') {\n          this.tornoAtivo = !!p.operando;\n          this.tornoStatusBadge = this.tornoAtivo ? 'Torneando L1' : 'Operante';\n        }\n\n        if (p.estacao === 'centro' || newVal.topic === 'simulacao_centro') {\n          this.centroAtivo = !!p.operando;\n          this.centroStatusBadge = this.centroAtivo ? 'Usinando' : 'Operante';\n        }\n        \n        // NOVA LÓGICA: Atualiza as quantidades de estoque a partir de msg.payload\n        if (p.topico === 'atualizacao_celula') {\n           if (p.estoque1 !== undefined) this.estoque1 = p.estoque1;\n           if (p.estoque2 !== undefined) this.estoque2 = p.estoque2;\n           if (p.estoque3 !== undefined) this.estoque3 = p.estoque3;\n           if (p.roboAtivo !== undefined) this.roboAtivo = !!p.roboAtivo;\n        }\n      }\n    }\n  },\n  mounted() {\n    this.$socket?.on('ui-template:' + this.id, (msg) => {\n      if (!msg || !msg.payload) return;\n      \n      if (msg.payload.estacao === 'torno' || msg.topic === 'simulacao_torno') {\n        this.tornoAtivo = !!msg.payload.operando;\n        this.tornoStatusBadge = this.tornoAtivo ? 'Torneando L1' : 'Operante';\n      }\n\n      if (msg.payload.estacao === 'centro' || msg.topic === 'simulacao_centro') {\n      this.centroAtivo = !!msg.payload.operando;\n      this.centroStatusBadge = this.centroAtivo ? 'Usinando' : 'Operante';\n      }\n      \n      // Escuta em tempo real as atualizações de logística via socket\n      if (msg.payload.topico === 'atualizacao_celula') {\n         if (msg.payload.estoque1 !== undefined) this.estoque1 = msg.payload.estoque1;\n         if (msg.payload.estoque2 !== undefined) this.estoque2 = msg.payload.estoque2;\n         if (msg.payload.estoque3 !== undefined) this.estoque3 = msg.payload.estoque3;\n         if (msg.payload.roboAtivo !== undefined) this.roboAtivo = !!msg.payload.roboAtivo;\n      }\n    });\n  }\n};\n</script>\n\n<style>\n  .scada-root {\n    max-width:75%;\n    margin: 0 auto;\n    font-family: var(--font-sans, system-ui, sans-serif);\n    color: #f8fafc;\n    display: flex;\n    flex-direction: column;\n    gap: 20px;\n    min-height: calc(100vh - 125px);\n  }\n\n  /* Header com Toque SENAI SP */\n  .scada-top-bar {\n    display: flex;\n    justify-content: space-between;\n    align-items: center;\n    padding: 4px 6px;\n  }\n\n  .scada-brand-row {\n    display: flex;\n    align-items: center;\n    gap: 14px;\n  }\n\n  .senai-sp-badge {\n    background: #e30613;\n    color: #ffffff;\n    font-weight: 700;\n    font-size: 0.85rem;\n    letter-spacing: 0.08em;\n    padding: 6px 14px;\n    border-radius: 6px;\n    display: inline-flex;\n    align-items: center;\n    box-shadow: 0 2px 8px rgba(227, 6, 19, 0.35);\n  }\n\n  .scada-main-title {\n    font-size: 1.25rem;\n    font-weight: 600;\n    color: #ffffff;\n    margin: 0;\n    letter-spacing: -0.01em;\n  }\n\n  .scada-sub-title {\n    font-size: 0.82rem;\n    color: #94a3b8;\n    margin: 2px 0 0 0;\n  }\n\n  .scada-quick-indicators {\n    display: flex;\n    gap: 16px;\n  }\n\n  .indicator-item {\n    display: flex;\n    align-items: center;\n    gap: 8px;\n    font-size: 0.8rem;\n    color: #cbd5e1;\n  }\n\n  .status-dot {\n    width: 7px;\n    height: 7px;\n    border-radius: 50%;\n  }\n\n  .status-dot.green {\n    background: #10b981;\n  }\n\n  /* Grid Principal da Célula */\n  .cell-main-grid {\n    display: grid;\n    grid-template-columns: 460px 1fr 460px;\n    gap: 20px;\n  }\n\n  @media (max-width: 1024px) {\n    .cell-main-grid {\n      grid-template-columns: 1fr;\n    }\n  }\n\n  /* Cards com Separação por Elevation (Sem bordas pesadas) */\n  .station-elevation-card {\n    background: #1e293b;\n    border-radius: 12px;\n    padding: 22px;\n    display: flex;\n    flex-direction: column;\n    gap: 16px;\n    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.25);\n    transition: background-color 0.25s ease, box-shadow 0.25s ease;\n    height: 100%;\n    box-sizing: border-box;\n  }\n\n  /* Títulos sem Linha Divisória */\n  .station-title-row {\n    display: flex;\n    justify-content: space-between;\n    align-items: center;\n  }\n\n  .station-headline {\n    font-size: 1.15rem;\n    font-weight: 600;\n    color: #ffffff;\n    margin: 0;\n    letter-spacing: -0.01em;\n  }\n\n  /* Badges de Status */\n  .status-pill {\n    font-size: 0.75rem;\n    font-weight: 500;\n    padding: 4px 10px;\n    border-radius: 6px;\n  }\n\n  .status-pill.green {\n    background: rgba(16, 185, 129, 0.12);\n    color: #10b981;\n  }\n\n  .status-pill.processing {\n    background: rgba(16, 185, 129, 0.2);\n    color: #10b981;\n    font-weight: 600;\n    animation: pulse-soft 2s infinite ease-in-out;\n  }\n\n  @keyframes pulse-soft {\n\n    0%,\n    100% {\n      opacity: 1;\n    }\n\n    50% {\n      opacity: 0.7;\n    }\n  }\n\n  /* HERO IMAGES: As fotos do Torno, Centro e Robô em Destaque */\n  .machine-hero-container {\n    background: #141d2e;\n    border-radius: 10px;\n    flex: 1;\n    min-height: 280px;\n    display: flex;\n    align-items: center;\n    justify-content: center;\n    padding: 16px;\n    position: relative;\n    overflow: hidden;\n  }\n\n  .robot-hero-container {\n    background: #141d2e;\n    border-radius: 10px;\n    height: 180px;\n    display: flex;\n    flex-direction: column;\n    align-items: center;\n    justify-content: center;\n    padding: 16px;\n    position: relative;\n  }\n\n  /* Efeito Verde Suave por Cima da Imagem quando em Processamento */\n  .image-tint-wrapper {\n    position: relative;\n    display: flex;\n    align-items: center;\n    justify-content: center;\n    width: 100%;\n    height: 100%;\n    transition: all 0.3s ease;\n  }\n\n  .image-tint-wrapper::after {\n    content: '';\n    position: absolute;\n    inset: 0;\n    background: radial-gradient(circle, rgba(16, 185, 129, 0.25) 0%, rgba(16, 185, 129, 0.08) 60%, transparent 85%);\n    pointer-events: none;\n    border-radius: 8px;\n    opacity: 0;\n    transition: opacity 0.35s ease;\n  }\n\n  .image-tint-wrapper.is-processing::after {\n    opacity: 1;\n  }\n\n  .image-tint-wrapper.is-processing .machine-photo,\n  .image-tint-wrapper.is-processing .robot-photo {\n    filter: drop-shadow(0 0 14px rgba(16, 185, 129, 0.55)) brightness(1.05);\n  }\n\n  .machine-photo {\n    max-width: 130%;\n    max-height: 130%;\n    object-fit: contain;\n    transition: filter 0.3s ease, transform 0.3s ease;\n  }\n\n  .robot-photo {\n    max-width: 100%;\n    max-height: 130px;\n    object-fit: contain;\n    transition: filter 0.3s ease;\n    position: relative;\n    z-index: 2;\n  }\n\n  /* Trilho Físico Discreto do Robô */\n  .rail-track-line {\n    position: absolute;\n    bottom: 22px;\n    left: 20px;\n    right: 20px;\n    height: 3px;\n    background: #25334a;\n    border-radius: 2px;\n  }\n\n  /* Métricas de Informação */\n  .station-info-metrics {\n    display: flex;\n    flex-direction: column;\n    gap: 8px;\n    padding-top: 4px;\n  }\n\n  .info-row {\n    display: flex;\n    justify-content: space-between;\n    font-size: 0.78rem;\n  }\n\n  .info-label {\n    color: #94a3b8;\n  }\n\n  .info-val {\n    font-weight: 500;\n    color: #cbd5e1;\n  }\n\n  .text-emerald {\n    color: #10b981;\n  }\n\n  /* Coluna Central */\n  .center-elevation-flow {\n    display: flex;\n    flex-direction: column;\n    gap: 20px;\n  }\n\n  /* Rampas Limpas */\n  .ramps-grid-clean {\n    display: grid;\n    grid-template-columns: repeat(3, 1fr);\n    gap: 12px;\n  }\n\n  .ramp-chute-clean {\n    background: #141d2e;\n    border-radius: 8px;\n    padding: 14px;\n    display: flex;\n    flex-direction: column;\n    gap: 8px;\n  }\n\n  .ramp-top-meta {\n    display: flex;\n    justify-content: space-between;\n    align-items: center;\n  }\n\n  .ramp-title {\n    font-size: 0.85rem;\n    font-weight: 600;\n    color: #ffffff;\n  }\n\n  .ramp-type-tag {\n    font-size: 0.68rem;\n    color: #94a3b8;\n  }\n\n  .roller-strip {\n    display: flex;\n    flex-direction: column;\n    gap: 5px;\n    padding: 8px 0;\n  }\n\n  .roller-bar {\n    height: 3px;\n    background: #25334a;\n    border-radius: 2px;\n  }\n\n  .ramp-material-desc {\n    font-size: 0.75rem;\n    color: #94a3b8;\n    min-height: 22px;\n  }\n\n  .ramp-status-tag {\n    font-size: 0.72rem;\n    font-weight: 500;\n    padding: 4px 6px;\n    border-radius: 4px;\n    text-align: center;\n  }\n\n  .ramp-status-tag.ready {\n    background: rgba(37, 99, 235, 0.12);\n    color: #60a5fa;\n  }\n\n  .ramp-status-tag.wait {\n    background: rgba(245, 158, 11, 0.12);\n    color: #f59e0b;\n  }\n\n  .ramp-status-tag.done {\n    background: rgba(16, 185, 129, 0.12);\n    color: #10b981;\n  }\n\n  /* =========================================\nESTILOS DOS ESTOQUES DINÂMICOS\n========================================= */\n  .integrated-center-card {\n    padding: 24px;\n  }\n\n  .dynamic-buffers {\n    display: flex;\n    flex-direction: column;\n    gap: 16px;\n    margin-top: 10px;\n  }\n\n  .buffer-lane {\n    background: #141d2e;\n    border-radius: 8px;\n    padding: 12px 16px;\n    border: 1px solid #1e293b;\n  }\n\n  .buffer-header {\n    display: flex;\n    justify-content: space-between;\n    margin-bottom: 12px;\n  }\n\n  .buffer-name {\n    font-size: 0.85rem;\n    font-weight: 600;\n    color: #f8fafc;\n  }\n\n  .buffer-type {\n    font-size: 0.68rem;\n    color: #64748b;\n    margin-left: 6px;\n    padding: 2px 6px;\n    background: #0f172a;\n    border-radius: 4px;\n  }\n\n  .buffer-count {\n    font-size: 0.8rem;\n    font-weight: 700;\n    color: #94a3b8;\n  }\n\n  /* Trilho e Slots (Espaço para as peças) */\n  .buffer-track {\n    display: flex;\n    gap: 8px;\n    background: rgba(0, 0, 0, 0.15);\n    padding: 10px;\n    border-radius: 6px;\n    box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.2);\n    width: fit-content\n  }\n\n  .piece-slot {\n    width: 32px;\n    height: 32px;\n    border-radius: 50%;\n    border: 2px dashed #334155;\n    transition: all 0.3s ease;\n  }\n\n  /* Cores das Peças Preenchidas */\n  .piece-slot.filled {\n    border-style: solid;\n    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);\n    transform: scale(1.05);\n  }\n\n  .piece-slot.filled.bruto {\n    background: linear-gradient(145deg, #cbd5e1, #94a3b8);\n    border-color: #f8fafc;\n  }\n\n  .piece-slot.filled.torneado {\n    background: linear-gradient(145deg, #fcd34d, #f59e0b);\n    border-color: #fffbeb;\n  }\n\n  .piece-slot.filled.pronto {\n    background: linear-gradient(145deg, #34d399, #10b981);\n    border-color: #d1fae5;\n  }\n\n  /* =========================================\nEIXO LINEAR DO ROBÔ (COMPACTO)\n========================================= */\n  .robot-linear-axis {\n    position: relative;\n    margin-top: 24px;\n    height: 44px;\n    background: #0f172a;\n    border-radius: 22px;\n    border: 1px solid #1e293b;\n    display: flex;\n    align-items: center;\n    padding: 0 6px;\n    box-shadow: inset 0 2px 6px rgba(0, 0, 0, 0.3);\n  }\n\n  .axis-track {\n    position: absolute;\n    left: 20px;\n    right: 20px;\n    height: 4px;\n    background: #1e293b;\n    border-radius: 2px;\n    z-index: 1;\n  }\n\n  .robot-cursor {\n    position: relative;\n    z-index: 2;\n    background: #3b82f6;\n    color: #ffffff;\n    font-size: 0.75rem;\n    font-weight: 600;\n    padding: 6px 14px;\n    border-radius: 16px;\n    display: flex;\n    align-items: center;\n    gap: 6px;\n    box-shadow: 0 4px 12px rgba(59, 130, 246, 0.4);\n    /* A animação de movimento simulado */\n    left: 0%;\n    transition: left 1.5s ease-in-out, background 0.3s ease;\n  }\n\n  .robot-cursor.moving {\n    left: calc(100% - 110px);\n    /* Desloca o robô para a direita */\n    background: #10b981;\n    box-shadow: 0 4px 12px rgba(16, 185, 129, 0.4);\n  }\n\n  .cursor-dot {\n    width: 8px;\n    height: 8px;\n    background: #ffffff;\n    border-radius: 50%;\n    animation: pulse-soft 1.5s infinite;\n  }\n</style>",
         "storeOutMessages": true,
         "passthru": true,
         "resendOnRefresh": true,
         "templateScope": "local",
         "className": "",
-        "x": 1270,
-        "y": 220,
+        "x": 1250,
+        "y": 240,
         "wires": [
             []
         ]
@@ -397,7 +364,7 @@
         "page": "",
         "ui": "",
         "name": "Totem de Pedidos & Prévia",
-        "order": 2,
+        "order": 1,
         "width": 0,
         "height": 0,
         "head": "",
@@ -421,7 +388,7 @@
         "page": "",
         "ui": "",
         "name": "Fila & Rastreamento CLP",
-        "order": 2,
+        "order": 1,
         "width": 0,
         "height": 0,
         "head": "",
@@ -431,39 +398,10 @@
         "resendOnRefresh": true,
         "templateScope": "local",
         "className": "",
-        "x": 1250,
-        "y": 260,
+        "x": 330,
+        "y": 360,
         "wires": [
             []
-        ]
-    },
-    {
-        "id": "2dbd62bc1a391318",
-        "type": "inject",
-        "z": "ee494d7919f39de2",
-        "name": "Peça sendo torneada FALSE",
-        "props": [
-            {
-                "p": "payload"
-            },
-            {
-                "p": "topic",
-                "vt": "str"
-            }
-        ],
-        "repeat": "",
-        "crontab": "",
-        "once": false,
-        "onceDelay": 0.1,
-        "topic": "simulacao_torno",
-        "payload": "false",
-        "payloadType": "bool",
-        "x": 700,
-        "y": 320,
-        "wires": [
-            [
-                "a7e14ad05480eaaf"
-            ]
         ]
     },
     {
@@ -471,51 +409,20 @@
         "type": "function",
         "z": "ee494d7919f39de2",
         "name": "Processamento",
-        "func": "// Processamento da Entrada Simulada Manual do Torno CNC\n// Entrada esperada: msg.payload booleana (true = peça sendo torneada, false = parado)\n\nconst operando = msg.payload === true;\n\n// 1. Mensagem para o Sinótico da Célula Top-Down (atualiza o Torno visualmente)\nconst msgSinotico = {\n    topic: \"simulacao_torno\",\n    payload: {\n        estacao: \"torno\",\n        operando: operando,\n        status: operando ? \"Torneando o primeiro lado\" : \"Pronto para operação\",\n        tagCLP: operando ? \"Torno: Torneando o primeiro lado\" : \"Pronto para operação\",\n        pecaPresente: operando,\n        timestamp: new Date().toLocaleTimeString()\n    }\n};\n\n// 2. Mensagem para a Fila de Produção (atualiza a ordem ativa)\nconst msgFila = {\n    payload: {\n        ordemId: 0,\n        novoEstado: operando ? \"Torno: Torneando o primeiro lado\" : \"Torno: Torneando o segundo lado\"\n    }\n};\n\n// Envia para o nó do Sinótico (saída 1) e para a Fila (saída 2)\nreturn [msgSinotico, msgFila];",
+        "func": "// Avalia a entrada booleana (true = operando, false = parado)\nconst operando = msg.payload === true;\n\n// Retorna unicamente a mensagem necessária para o sinótico\nreturn {\n    topic: \"simulacao_torno\",\n    payload: {\n        estacao: \"torno\",\n        operando: operando\n    }\n};",
         "outputs": 2,
         "timeout": 0,
         "noerr": 0,
         "initialize": "",
         "finalize": "",
         "libs": [],
-        "x": 940,
-        "y": 300,
+        "x": 1000,
+        "y": 400,
         "wires": [
             [
                 "55a33664224555f7"
             ],
-            [
-                "c67301c8d3d9db2b"
-            ]
-        ]
-    },
-    {
-        "id": "aa5e2f18d40f7413",
-        "type": "inject",
-        "z": "ee494d7919f39de2",
-        "name": "Peça sendo torneada TRUE",
-        "props": [
-            {
-                "p": "payload"
-            },
-            {
-                "p": "topic",
-                "vt": "str"
-            }
-        ],
-        "repeat": "",
-        "crontab": "",
-        "once": false,
-        "onceDelay": 0.1,
-        "topic": "simulacao_torno",
-        "payload": "true",
-        "payloadType": "bool",
-        "x": 700,
-        "y": 280,
-        "wires": [
-            [
-                "a7e14ad05480eaaf"
-            ]
+            []
         ]
     },
     {
@@ -530,7 +437,7 @@
         "width": 0,
         "height": 0,
         "head": "",
-        "format": "/* ==========================================================================\nDESIGN SYSTEM: CORPORATE SLATE DARK (SENAI SP INDUSTRIAL FMS)\nCores: Slate Neutro + Toques Institucionais de Vermelho SENAI SP (#e30613)\n========================================================================== */\n\n:root {\n/* Superfícies Neutras Slate */\n--slate-bg-base: #0b0f19;\n--slate-bg-surface: #0f172a;\n--slate-bg-card: #1e293b;\n--slate-bg-card-hover: #243047;\n--slate-border: #334155;\n--slate-border-subtle: #1e293b;\n\n/* Acento Institucional SENAI SP */\n--senai-red: #e30613;\n--senai-red-dark: #b8050f;\n--senai-red-glow: rgba(227, 6, 19, 0.25);\n\n/* Textos & Tipografia Neutra */\n--text-primary: #f8fafc;\n--text-secondary: #94a3b8;\n--text-muted: #64748b;\n--font-sans: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;\n--font-mono: 'JetBrains Mono', 'Roboto Mono', Consolas, monospace;\n\n/* Status Semânticos Discretos */\n--status-online: #10b981;\n--status-warning: #f59e0b;\n--status-danger: #ef4444;\n--status-processing: #3b82f6;\n\n--radius-sm: 6px;\n--radius-md: 8px;\n--radius-lg: 12px;\n}\n\n/* Fundo da Aplicação */\nbody, html, .nr-dashboard-theme {\nbackground-color: var(--slate-bg-base) !important;\nbackground-image: none !important;\ncolor: var(--text-primary) !important;\nfont-family: var(--font-sans) !important;\n-webkit-font-smoothing: antialiased;\n}\n\n/* Barra Superior com Faixa de Destaque Vermelha do SENAI SP */\nmd-toolbar, .v-toolbar, .nr-dashboard-toolbar {\nbackground: var(--slate-bg-surface) !important;\nborder-top: 3px solid var(--senai-red) !important;\nborder-bottom: 1px solid var(--slate-border) !important;\nbox-shadow: 0 2px 10px rgba(0, 0, 0, 0.3) !important;\nposition: relative; /* Garante o posicionamento da logo */\n}\n\nmd-toolbar .md-toolbar-tools h1,\nmd-toolbar .md-toolbar-tools span {\nfont-weight: 600 !important;\nletter-spacing: -0.01em !important;\ntext-transform: none !important;\ncolor: var(--text-primary) !important;\ntext-shadow: none !important;\n}\n\n/* Implementação da Logo SENAI (Canto Superior Direito) */\n.v-toolbar__content::after, .nr-dashboard-toolbar::after {\ncontent: \"\";\ndisplay: block;\nposition: absolute;\nright: 20px;\ntop: 50%;\ntransform: translateY(-50%);\nwidth: 200px; /* Ajuste a largura conforme necessário */\nheight: 50px; /* Ajuste a altura conforme necessário */\nbackground-image: url('/senai-header.jpg');\nbackground-size: contain;\nbackground-repeat: no-repeat;\nbackground-position: center right;\npointer-events: none; /* Impede que a logo bloqueie cliques em botões abaixo */\nz-index: 10;\n}\n\n/* Cards e Contêineres */\nmd-card, .nr-dashboard-cardcontainer md-card, .v-card {\nbackground: var(--slate-bg-card) !important;\nborder-radius: var(--radius-lg) !important;\nbox-shadow: 0 4px 16px rgba(0, 0, 0, 0.25) !important;\ntransition: background-color 0.2s ease, box-shadow 0.2s ease !important;\n}\n\n/* Títulos dos Cards */\nmd-card md-card-title, md-card .md-headline {\nborder-bottom: none !important;\npadding: 16px 20px 8px 20px !important;\n}\n\nmd-card md-card-title md-card-title-text span:first-child {\nfont-size: 1.05rem !important;\nfont-weight: 600 !important;\nletter-spacing: -0.01em !important;\ntext-transform: none !important;\ncolor: var(--text-primary) !important;\n}\n\n/* Botões Corporativos */\nmd-button, button.v-btn {\nborder-radius: var(--radius-md) !important;\ntext-transform: none !important;\nfont-weight: 500 !important;\nfont-size: 0.85rem !important;\ntransition: all 0.15s ease !important;\nborder: 1px solid var(--slate-border) !important;\nbackground: var(--slate-bg-card) !important;\ncolor: var(--text-primary) !important;\n}\n\nmd-button:hover, button.v-btn:hover {\nbackground: #334155 !important;\ncolor: #ffffff !important;\n}\n\nmd-button.md-raised.md-primary {\nbackground: var(--senai-red) !important;\nborder: 1px solid var(--senai-red) !important;\ncolor: #ffffff !important;\nfont-weight: 600 !important;\nbox-shadow: 0 2px 8px var(--senai-red-glow) !important;\n}\nmd-button.md-raised.md-primary:hover {\nbackground: var(--senai-red-dark) !important;\n}\n\n/* Inputs */\nmd-input-container input,\nmd-input-container textarea {\nbackground: var(--slate-bg-surface) !important;\nborder: 1px solid var(--slate-border) !important;\nborder-radius: var(--radius-sm) !important;\npadding: 8px 12px !important;\ncolor: var(--text-primary) !important;\nfont-family: var(--font-sans) !important;\n}\n\nmd-input-container input:focus,\nmd-input-container textarea:focus {\nborder-color: var(--senai-red) !important;\noutline: none !important;\n}\n\n/* Barra de Rolagem Suave */\n::-webkit-scrollbar {\nwidth: 6px;\nheight: 6px;\n}\n::-webkit-scrollbar-track {\nbackground: transparent;\n}\n::-webkit-scrollbar-thumb {\nbackground: #334155;\nborder-radius: 9999px;\n}\n::-webkit-scrollbar-thumb:hover {\nbackground: #475569;\n}\n\n\n/* ==========================================================================\nPAINEL LATERAL (SIDEBAR / NAVIGATION DRAWER)\n========================================================================== */\n.v-navigation-drawer {\nbackground: var(--slate-bg-surface) !important;\nborder-right: 1px solid var(--slate-border) !important;\nbox-shadow: 2px 0 10px rgba(0, 0, 0, 0.2) !important;\n}\n\n/* Cor base do texto e dos ícones no menu */\n.v-navigation-drawer .v-list-item {\ncolor: var(--text-secondary) !important;\ntransition: all 0.2s ease;\nfont-size: 35px;\n}\n\n/* Efeito ao passar o mouse (Hover) nas abas */\n.v-navigation-drawer .v-list-item:hover {\nbackground: var(--slate-bg-card-hover) !important;\ncolor: var(--text-primary) !important;\n}\n\n/* Estilização da aba ativa (Item selecionado) */\n.v-navigation-drawer .v-list-item--active {\ncolor: var(--text-primary) !important;\nbackground: var(--slate-bg-card) !important;\nborder-right: 3px solid var(--senai-red) !important; /* Detalhe lateral acompanhando a identidade visual */\nfont-weight: 600 !important;\n}\n\n/* Ajuste fino no fundo da lista de navegação para garantir a cor consistente */\n.v-navigation-drawer .v-list {\nbackground: transparent !important;\n}",
+        "format": "/* ==========================================================================\nDESIGN SYSTEM: CORPORATE SLATE DARK (SENAI SP INDUSTRIAL FMS)\nCores: Slate Neutro + Toques Institucionais de Vermelho SENAI SP (#e30613)\n========================================================================== */\n\n:root {\n/* Superfícies Neutras Slate */\n--slate-bg-base: #0b0f19;\n--slate-bg-surface: #0f172a;\n--slate-bg-card: #1e293b;\n--slate-bg-card-hover: #243047;\n--slate-border: #334155;\n--slate-border-subtle: #1e293b;\n\n/* Acento Institucional SENAI SP */\n--senai-red: #e30613;\n--senai-red-dark: #b8050f;\n--senai-red-glow: rgba(227, 6, 19, 0.25);\n\n/* Textos & Tipografia Neutra */\n--text-primary: #f8fafc;\n--text-secondary: #94a3b8;\n--text-muted: #64748b;\n--font-sans: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;\n--font-mono: 'JetBrains Mono', 'Roboto Mono', Consolas, monospace;\n\n/* Status Semânticos Discretos */\n--status-online: #10b981;\n--status-warning: #f59e0b;\n--status-danger: #ef4444;\n--status-processing: #3b82f6;\n\n--radius-sm: 6px;\n--radius-md: 8px;\n--radius-lg: 12px;\n}\n\n/* Fundo da Aplicação */\nbody, html, .nr-dashboard-theme {\nbackground-color: var(--slate-bg-base) !important;\nbackground-image: none !important;\ncolor: var(--text-primary) !important;\nfont-family: var(--font-sans) !important;\n-webkit-font-smoothing: antialiased;\n}\n\n/* Barra Superior com Faixa de Destaque Vermelha do SENAI SP */\nmd-toolbar, .v-toolbar, .nr-dashboard-toolbar {\nbackground: var(--slate-bg-surface) !important;\nborder-top: 3px solid var(--senai-red) !important;\nborder-bottom: 1px solid var(--slate-border) !important;\nbox-shadow: 0 2px 10px rgba(0, 0, 0, 0.3) !important;\nposition: relative; /* Garante o posicionamento da logo */\n}\n\nmd-toolbar .md-toolbar-tools h1,\nmd-toolbar .md-toolbar-tools span {\nfont-weight: 600 !important;\nletter-spacing: -0.01em !important;\ntext-transform: none !important;\ncolor: var(--text-primary) !important;\ntext-shadow: none !important;\n}\n\n/* Implementação da Logo SENAI (Canto Superior Direito) */\n.v-toolbar__content::after, .nr-dashboard-toolbar::after {\ncontent: \"\";\ndisplay: block;\nposition: absolute;\nright: 20px;\ntop: 50%;\ntransform: translateY(-50%);\nwidth: 200px; /* Ajuste a largura conforme necessário */\nheight: 50px; /* Ajuste a altura conforme necessário */\nbackground-image: url(\"/senai-header.jpg\");\nbackground-size: contain;\nbackground-repeat: no-repeat;\nbackground-position: center right;\npointer-events: none; /* Impede que a logo bloqueie cliques em botões abaixo */\nz-index: 10;\n}\n\n/* Cards e Contêineres */\nmd-card, .nr-dashboard-cardcontainer md-card, .v-card {\nbackground: var(--slate-bg-card) !important;\nborder-radius: var(--radius-lg) !important;\nbox-shadow: 0 4px 16px rgba(0, 0, 0, 0.25) !important;\ntransition: background-color 0.2s ease, box-shadow 0.2s ease !important;\n}\n\n/* Títulos dos Cards */\nmd-card md-card-title, md-card .md-headline {\nborder-bottom: none !important;\npadding: 16px 20px 8px 20px !important;\n}\n\nmd-card md-card-title md-card-title-text span:first-child {\nfont-size: 1.05rem !important;\nfont-weight: 600 !important;\nletter-spacing: -0.01em !important;\ntext-transform: none !important;\ncolor: var(--text-primary) !important;\n}\n\n/* Botões Corporativos */\nmd-button, button.v-btn {\nborder-radius: var(--radius-md) !important;\ntext-transform: none !important;\nfont-weight: 500 !important;\nfont-size: 0.85rem !important;\ntransition: all 0.15s ease !important;\nborder: 1px solid var(--slate-border) !important;\nbackground: var(--slate-bg-card) !important;\ncolor: var(--text-primary) !important;\n}\n\nmd-button:hover, button.v-btn:hover {\nbackground: #334155 !important;\ncolor: #ffffff !important;\n}\n\nmd-button.md-raised.md-primary {\nbackground: var(--senai-red) !important;\nborder: 1px solid var(--senai-red) !important;\ncolor: #ffffff !important;\nfont-weight: 600 !important;\nbox-shadow: 0 2px 8px var(--senai-red-glow) !important;\n}\nmd-button.md-raised.md-primary:hover {\nbackground: var(--senai-red-dark) !important;\n}\n\n/* Inputs */\nmd-input-container input,\nmd-input-container textarea {\nbackground: var(--slate-bg-surface) !important;\nborder: 1px solid var(--slate-border) !important;\nborder-radius: var(--radius-sm) !important;\npadding: 8px 12px !important;\ncolor: var(--text-primary) !important;\nfont-family: var(--font-sans) !important;\n}\n\nmd-input-container input:focus,\nmd-input-container textarea:focus {\nborder-color: var(--senai-red) !important;\noutline: none !important;\n}\n\n/* Barra de Rolagem Suave */\n::-webkit-scrollbar {\nwidth: 6px;\nheight: 6px;\n}\n::-webkit-scrollbar-track {\nbackground: transparent;\n}\n::-webkit-scrollbar-thumb {\nbackground: #334155;\nborder-radius: 9999px;\n}\n::-webkit-scrollbar-thumb:hover {\nbackground: #475569;\n}\n\n\n/* ==========================================================================\nPAINEL LATERAL (SIDEBAR / NAVIGATION DRAWER)\n========================================================================== */\n.v-navigation-drawer {\nbackground: var(--slate-bg-surface) !important;\nborder-right: 1px solid var(--slate-border) !important;\nbox-shadow: 2px 0 10px rgba(0, 0, 0, 0.2) !important;\n}\n\n/* Cor base do texto e dos ícones no menu */\n.v-navigation-drawer .v-list-item {\ncolor: var(--text-secondary) !important;\ntransition: all 0.2s ease;\nfont-size: 35px;\n}\n\n/* Efeito ao passar o mouse (Hover) nas abas */\n.v-navigation-drawer .v-list-item:hover {\nbackground: var(--slate-bg-card-hover) !important;\ncolor: var(--text-primary) !important;\n}\n\n/* Estilização da aba ativa (Item selecionado) */\n.v-navigation-drawer .v-list-item--active {\ncolor: var(--text-primary) !important;\nbackground: var(--slate-bg-card) !important;\nborder-right: 3px solid var(--senai-red) !important; /* Detalhe lateral acompanhando a identidade visual */\nfont-weight: 600 !important;\n}\n\n/* Ajuste fino no fundo da lista de navegação para garantir a cor consistente */\n.v-navigation-drawer .v-list {\nbackground: transparent !important;\n}",
         "storeOutMessages": true,
         "passthru": true,
         "resendOnRefresh": true,
@@ -608,9 +515,84 @@
         "y": 200,
         "wires": [
             [
-                "c67301c8d3d9db2b",
                 "55a33664224555f7"
             ]
+        ]
+    },
+    {
+        "id": "4fdb5351ca0a289f",
+        "type": "inject",
+        "z": "ee494d7919f39de2",
+        "name": "",
+        "props": [
+            {
+                "p": "payload"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "payload": "{\t    \"topico\": \"atualizacao_celula\",\t    \"estoque1\": 1,\t    \"estoque2\": 2,\t    \"estoque3\": 3,\t    \"roboAtivo\": false\t}",
+        "payloadType": "jsonata",
+        "x": 1030,
+        "y": 120,
+        "wires": [
+            [
+                "ae0aa252835984e8",
+                "55a33664224555f7"
+            ]
+        ]
+    },
+    {
+        "id": "ae0aa252835984e8",
+        "type": "debug",
+        "z": "ee494d7919f39de2",
+        "name": "debug 2",
+        "active": false,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "true",
+        "targetType": "full",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 1260,
+        "y": 120,
+        "wires": []
+    },
+    {
+        "id": "6949dd87da2e1cdc",
+        "type": "modbus-read",
+        "z": "ee494d7919f39de2",
+        "name": "GP.TorneandoL1",
+        "topic": "",
+        "showStatusActivities": true,
+        "logIOActivities": false,
+        "showErrors": true,
+        "showWarnings": true,
+        "unitid": "1",
+        "dataType": "Coil",
+        "adr": "199",
+        "quantity": "1",
+        "rate": "1",
+        "rateUnit": "s",
+        "delayOnStart": false,
+        "enableDeformedMessages": false,
+        "startDelayTime": "0.5",
+        "server": "7b75d210d181d3bb",
+        "useIOFile": false,
+        "ioFile": "",
+        "useIOForPayload": false,
+        "emptyMsgOnFail": false,
+        "x": 800,
+        "y": 400,
+        "wires": [
+            [
+                "a7e14ad05480eaaf"
+            ],
+            []
         ]
     }
 ]
