@@ -229,17 +229,17 @@
         "page": "",
         "ui": "",
         "name": "Sinótico Top-Down Célula FMS",
-        "order": 1,
+        "order": 2,
         "width": 0,
         "height": 0,
         "head": "",
-        "format": "<div class=\"scada-root\">\n  <!-- Top Bar com Identidade SENAI SP -->\n  <div class=\"scada-top-bar\">\n    <div class=\"scada-brand-row\">\n\n      <div>\n        <h2 class=\"scada-main-title\">Célula Integrada de Manufatura de Chaveiros</h2>\n        <p class=\"scada-sub-title\">Visualização da integração em tempo real</p>\n      </div>\n    </div>\n    <div class=\"scada-quick-indicators\">\n      <div class=\"indicator-item\">\n        <span class=\"status-dot green\"></span>\n        <span>CLP Altus: Conectado</span>\n      </div>\n      <div class=\"indicator-item\">\n        <span class=\"status-dot green\"></span>\n        <span>Ciclo: Automático</span>\n      </div>\n    </div>\n  </div>\n\n  <!-- Grid Principal da Célula -->\n  <div class=\"cell-main-grid\">\n\n    <!-- 1. ESQUERDA: CENTRO DE USINAGEM -->\n    <div class=\"station-elevation-card\">\n      <div class=\"station-title-row\">\n        <h3 class=\"station-headline\">Centro de Usinagem</h3>\n        <span class=\"status-pill\" :class=\"centroAtivo ? 'processing' : 'green'\">\n          {{ centroStatusBadge }}\n        </span>\n      </div>\n\n      <!-- Imagem Hero do Centro de Usinagem -->\n      <div class=\"machine-hero-container\">\n        <div class=\"image-tint-wrapper\" :class=\"{ 'is-processing': centroAtivo }\">\n          <img src=\"/Centro.png\" alt=\"Centro de Usinagem\" class=\"machine-photo\" />\n        </div>\n      </div>\n    </div>\n\n    <!-- 2. CENTRO: RAMPAS (TOPO) + ROBÔ HERO (BASE) -->\n    <!-- 2. CENTRO: LOGÍSTICA E MOVIMENTAÇÃO -->\n    <!-- 2. CENTRO: LOGÍSTICA E MOVIMENTAÇÃO -->\n    <div class=\"center-elevation-flow\">\n      <div class=\"station-elevation-card integrated-center-card\">\n\n        <div class=\"station-title-row\">\n          <h3 class=\"station-headline\">Logística e Alimentação</h3>\n          <span class=\"status-pill\" :class=\"roboAtivo ? 'processing' : 'green'\">\n                {{ roboAtivo ? 'Robô em Movimento' : 'Robô em Prontidão' }}\n              </span>\n        </div>\n\n        <!-- Trilhos Dinâmicos de Estoque -->\n        <div class=\"dynamic-buffers\">\n\n          <!-- Estoque 1 (Bruto) -->\n          <div class=\"buffer-lane\">\n            <div class=\"buffer-header\">\n              <span class=\"buffer-name\">Estoque 1 <span class=\"buffer-type\">Peça bruta</span></span>\n              <span class=\"buffer-count\">{{ estoque1 }}/10</span>\n            </div>\n            <div class=\"buffer-track\">\n              <!-- Gera 3 slots dinamicamente. Aplica a classe 'filled' se o índice for menor ou igual à quantidade no estoque -->\n              <div v-for=\"n in 10\" :key=\"'e1-'+n\" class=\"piece-slot\" :class=\"{ 'filled bruto': n <= estoque1 }\"></div>\n            </div>\n          </div>\n\n          <!-- Estoque 2 (Torneadas) -->\n          <div class=\"buffer-lane\">\n            <div class=\"buffer-header\">\n              <span class=\"buffer-name\">Estoque 2 <span class=\"buffer-type\">Torneadas</span></span>\n              <span class=\"buffer-count\">{{ estoque2 }}/10</span>\n            </div>\n            <div class=\"buffer-track\">\n              <div v-for=\"n in 10\" :key=\"'e2-'+n\" class=\"piece-slot\" :class=\"{ 'filled torneado': n <= estoque2 }\">\n              </div>\n            </div>\n          </div>\n\n          <!-- Estoque 3 (Usinadas/Prontas) -->\n          <div class=\"buffer-lane\">\n            <div class=\"buffer-header\">\n              <span class=\"buffer-name\">Estoque 3 <span class=\"buffer-type\">Usinadas</span></span>\n              <span class=\"buffer-count\">{{ estoque3 }}/10</span>\n            </div>\n            <div class=\"buffer-track\">\n              <div v-for=\"n in 10\" :key=\"'e3-'+n\" class=\"piece-slot\" :class=\"{ 'filled pronto': n <= estoque3 }\"></div>\n            </div>\n          </div>\n\n        </div>\n\n        <!-- Eixo Linear do Robô (Design Compacto) -->\n        <div class=\"robot-linear-axis\">\n          <div class=\"axis-track\"></div>\n          <!-- O cursor do robô desliza com base no estado roboAtivo -->\n          <div class=\"robot-cursor\" :class=\"{ 'moving': roboAtivo }\">\n            <span class=\"cursor-dot\"></span> Manipulador\n          </div>\n        </div>\n\n      </div>\n    </div>\n\n    <!-- 3. DIREITA: TORNO CNC (IMAGEM HERO EM DESTAQUE) -->\n    <div class=\"station-elevation-card\">\n      <div class=\"station-title-row\">\n        <h3 class=\"station-headline\">Torno CNC</h3>\n        <span class=\"status-pill\" :class=\"tornoAtivo ? 'processing' : 'green'\">\n          {{ tornoStatusBadge }}\n        </span>\n      </div>\n\n      <!-- Imagem Hero do Torno CNC com Efeito Verde Suave quando em Processamento -->\n      <div class=\"machine-hero-container\">\n        <div class=\"image-tint-wrapper\" :class=\"{ 'is-processing': tornoAtivo }\">\n          <img src=\"/Torno.png\" alt=\"Torno CNC\" class=\"machine-photo\" />\n        </div>\n      </div>\n    </div>\n\n  </div>\n</div>\n\n<script>\n  export default {\n\n  data() {\n\n    return {\n\n      tornoAtivo: false,\n\n      tornoStatusBadge: 'Operante',\n\n      centroAtivo: false,\n\n      centroStatusBadge: 'Operante', // <--- Adicionado\n\n      roboAtivo: false,\n\n     \n\n      // Novas variáveis preparadas para o fluxo (exemplo com valores iniciais)\n\n      estoque1: 2, // 2 peças brutas aguardando\n\n      estoque2: 1, // 1 peça torneada\n\n      estoque3: 0  // 0 peças finalizadas\n\n    };\n\n  },\n\n  watch: {\n\n    msg: {\n\n      immediate: true,\n\n      handler(newVal) {\n\n        if (!newVal || !newVal.payload) return;\n\n        const p = newVal.payload;\n\n       \n\n        // Mantém a lógica do Torno que você já possuía\n\n        if (p.estacao === 'torno' || newVal.topic === 'simulacao_torno') {\n\n          this.tornoAtivo = !!p.operando;\n\n          this.tornoStatusBadge = this.tornoAtivo ? 'Torneando L1' : 'Operante';\n\n        }\n\n\n\n        if (p.estacao === 'centro' || newVal.topic === 'simulacao_centro') {\n\n          this.centroAtivo = !!p.operando;\n\n          this.centroStatusBadge = this.centroAtivo ? 'Usinando' : 'Operante';\n\n        }\n\n       \n\n        // NOVA LÓGICA: Atualiza as quantidades de estoque a partir de msg.payload\n\n        if (p.estacao === 'estoque') {\n\n          if (p.estoque1 !== undefined) this.estoque1 = p.estoque1;\n\n          if (p.estoque2 !== undefined) this.estoque2 = p.estoque2;\n\n          if (p.estoque3 !== undefined) this.estoque3 = p.estoque3;\n\n           \n\n        }\n\n\n\n        if (p.estacao === 'robo'){\n\n          if (p.roboAtivo !== undefined) this.roboAtivo = !!p.roboAtivo;\n\n        }\n\n      }\n\n    }\n\n  },\n\n  mounted() {\n\n    this.$socket?.on('ui-template:' + this.id, (msg) => {\n\n      if (!msg || !msg.payload) return;\n\n     \n\n      if (msg.payload.estacao === 'torno' || msg.topic === 'simulacao_torno') {\n\n        this.tornoAtivo = !!msg.payload.operando;\n\n        this.tornoStatusBadge = this.tornoAtivo ? 'Torneando L1' : 'Operante';\n\n      }\n\n\n\n      if (msg.payload.estacao === 'centro' || msg.topic === 'simulacao_centro') {\n\n      this.centroAtivo = !!msg.payload.operando;\n\n      this.centroStatusBadge = this.centroAtivo ? 'Usinando' : 'Operante';\n\n      }\n\n     \n\n      // Escuta em tempo real as atualizações de logística via socket\n\n      if (msg.payload.topico === 'atualizacao_celula') {\n\n         if (msg.payload.estoque1 !== undefined) this.estoque1 = msg.payload.estoque1;\n\n         if (msg.payload.estoque2 !== undefined) this.estoque2 = msg.payload.estoque2;\n\n         if (msg.payload.estoque3 !== undefined) this.estoque3 = msg.payload.estoque3;\n\n         if (msg.payload.roboAtivo !== undefined) this.roboAtivo = !!msg.payload.roboAtivo;\n\n      }\n\n    });\n\n  }\n\n};\n\n</script>\n\n<style>\n  .scada-root {\n    width: 100%;\n    max-width: 100%;\n    margin: 0 auto;\n    font-family: var(--font-sans, system-ui, sans-serif);\n    color: #f8fafc;\n    display: flex;\n    flex-direction: column;\n    gap: 20px;\n    min-height: calc(100vh - 125px);\n  }\n\n  /* Header com Toque SENAI SP */\n  .scada-top-bar {\n    display: flex;\n    justify-content: space-between;\n    align-items: center;\n    padding: 4px 6px;\n  }\n\n  .scada-brand-row {\n    display: flex;\n    align-items: center;\n    gap: 14px;\n  }\n\n  .senai-sp-badge {\n    background: #e30613;\n    color: #ffffff;\n    font-weight: 700;\n    font-size: 0.85rem;\n    letter-spacing: 0.08em;\n    padding: 6px 14px;\n    border-radius: 6px;\n    display: inline-flex;\n    align-items: center;\n    box-shadow: 0 2px 8px rgba(227, 6, 19, 0.35);\n  }\n\n  .scada-main-title {\n    font-size: 1.25rem;\n    font-weight: 600;\n    color: #ffffff;\n    margin: 0;\n    letter-spacing: -0.01em;\n  }\n\n  .scada-sub-title {\n    font-size: 0.82rem;\n    color: #94a3b8;\n    margin: 2px 0 0 0;\n  }\n\n  .scada-quick-indicators {\n    display: flex;\n    gap: 16px;\n  }\n\n  .indicator-item {\n    display: flex;\n    align-items: center;\n    gap: 8px;\n    font-size: 0.8rem;\n    color: #cbd5e1;\n  }\n\n  .status-dot {\n    width: 7px;\n    height: 7px;\n    border-radius: 50%;\n  }\n\n  .status-dot.green {\n    background: #10b981;\n  }\n\n  /* Grid Principal da Célula */\n  .cell-main-grid {\n    display: grid;\n    grid-template-columns: 460px 1fr 460px;\n    gap: 20px;\n    flex: 1 1 auto !important;\n    height: 100% !important;\n  }\n\n  @media (max-width: 1024px) {\n    .cell-main-grid {\n      grid-template-columns: 1fr;\n    }\n  }\n\n  /* Cards com Separação por Elevation (Sem bordas pesadas) */\n  .station-elevation-card {\n    background: #1e293b;\n    border-radius: 12px;\n    padding: 22px;\n    display: flex;\n    flex-direction: column;\n    gap: 16px;\n    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.25);\n    transition: background-color 0.25s ease, box-shadow 0.25s ease;\n    height: 100%;\n    box-sizing: border-box;\n  }\n\n  /* Títulos sem Linha Divisória */\n  .station-title-row {\n    display: flex;\n    justify-content: space-between;\n    align-items: center;\n  }\n\n  .station-headline {\n    font-size: 1.15rem;\n    font-weight: 600;\n    color: #ffffff;\n    margin: 0;\n    letter-spacing: -0.01em;\n  }\n\n  /* Badges de Status */\n  .status-pill {\n    font-size: 0.75rem;\n    font-weight: 500;\n    padding: 4px 10px;\n    border-radius: 6px;\n  }\n\n  .status-pill.green {\n    background: rgba(16, 185, 129, 0.12);\n    color: #10b981;\n  }\n\n  .status-pill.processing {\n    background: rgba(16, 185, 129, 0.2);\n    color: #10b981;\n    font-weight: 600;\n    animation: pulse-soft 2s infinite ease-in-out;\n  }\n\n  @keyframes pulse-soft {\n\n    0%,\n    100% {\n      opacity: 1;\n    }\n\n    50% {\n      opacity: 0.7;\n    }\n  }\n\n  /* HERO IMAGES: As fotos do Torno, Centro e Robô em Destaque */\n  .machine-hero-container {\n    background: #141d2e;\n    border-radius: 10px;\n    flex: 1;\n    min-height: 280px;\n    display: flex;\n    align-items: center;\n    justify-content: center;\n    padding: 16px;\n    position: relative;\n    overflow: hidden;\n  }\n\n  .robot-hero-container {\n    background: #141d2e;\n    border-radius: 10px;\n    height: 180px;\n    display: flex;\n    flex-direction: column;\n    align-items: center;\n    justify-content: center;\n    padding: 16px;\n    position: relative;\n  }\n\n  /* Efeito Verde Suave por Cima da Imagem quando em Processamento */\n  .image-tint-wrapper {\n    position: relative;\n    display: flex;\n    align-items: center;\n    justify-content: center;\n    width: 100%;\n    height: 100%;\n    transition: all 0.3s ease;\n  }\n\n  .image-tint-wrapper::after {\n    content: '';\n    position: absolute;\n    inset: 0;\n    background: radial-gradient(circle, rgba(16, 185, 129, 0.25) 0%, rgba(16, 185, 129, 0.08) 60%, transparent 85%);\n    pointer-events: none;\n    border-radius: 8px;\n    opacity: 0;\n    transition: opacity 0.35s ease;\n  }\n\n  .image-tint-wrapper.is-processing::after {\n    opacity: 1;\n  }\n\n  .image-tint-wrapper.is-processing .machine-photo,\n  .image-tint-wrapper.is-processing .robot-photo {\n    filter: drop-shadow(0 0 14px rgba(16, 185, 129, 0.55)) brightness(1.05);\n  }\n\n  .machine-photo {\n    max-width: 130%;\n    max-height: 130%;\n    object-fit: contain;\n    transition: filter 0.3s ease, transform 0.3s ease;\n  }\n\n  .robot-photo {\n    max-width: 100%;\n    max-height: 130px;\n    object-fit: contain;\n    transition: filter 0.3s ease;\n    position: relative;\n    z-index: 2;\n  }\n\n  /* Trilho Físico Discreto do Robô */\n  .rail-track-line {\n    position: absolute;\n    bottom: 22px;\n    left: 20px;\n    right: 20px;\n    height: 3px;\n    background: #25334a;\n    border-radius: 2px;\n  }\n\n  /* Métricas de Informação */\n  .station-info-metrics {\n    display: flex;\n    flex-direction: column;\n    gap: 8px;\n    padding-top: 4px;\n  }\n\n  .info-row {\n    display: flex;\n    justify-content: space-between;\n    font-size: 0.78rem;\n  }\n\n  .info-label {\n    color: #94a3b8;\n  }\n\n  .info-val {\n    font-weight: 500;\n    color: #cbd5e1;\n  }\n\n  .text-emerald {\n    color: #10b981;\n  }\n\n  /* Coluna Central */\n  .center-elevation-flow {\n    display: flex;\n    flex-direction: column;\n    height: 100%;\n    !important gap: 20px;\n  }\n\n  /* Rampas Limpas */\n  .ramps-grid-clean {\n    display: grid;\n    grid-template-columns: repeat(3, 1fr);\n    gap: 12px;\n  }\n\n  .ramp-chute-clean {\n    background: #141d2e;\n    border-radius: 8px;\n    padding: 14px;\n    display: flex;\n    flex-direction: column;\n    gap: 8px;\n  }\n\n  .ramp-top-meta {\n    display: flex;\n    justify-content: space-between;\n    align-items: center;\n  }\n\n  .ramp-title {\n    font-size: 0.85rem;\n    font-weight: 600;\n    color: #ffffff;\n  }\n\n  .ramp-type-tag {\n    font-size: 0.68rem;\n    color: #94a3b8;\n  }\n\n  .roller-strip {\n    display: flex;\n    flex-direction: column;\n    gap: 5px;\n    padding: 8px 0;\n  }\n\n  .roller-bar {\n    height: 3px;\n    background: #25334a;\n    border-radius: 2px;\n  }\n\n  .ramp-material-desc {\n    font-size: 0.75rem;\n    color: #94a3b8;\n    min-height: 22px;\n  }\n\n  .ramp-status-tag {\n    font-size: 0.72rem;\n    font-weight: 500;\n    padding: 4px 6px;\n    border-radius: 4px;\n    text-align: center;\n  }\n\n  .ramp-status-tag.ready {\n    background: rgba(37, 99, 235, 0.12);\n    color: #60a5fa;\n  }\n\n  .ramp-status-tag.wait {\n    background: rgba(245, 158, 11, 0.12);\n    color: #f59e0b;\n  }\n\n  .ramp-status-tag.done {\n    background: rgba(16, 185, 129, 0.12);\n    color: #10b981;\n  }\n\n  /* =========================================\nESTILOS DOS ESTOQUES DINÂMICOS\n========================================= */\n  .integrated-center-card {\n    padding: 24px;\n  }\n\n  .dynamic-buffers {\n    display: flex;\n    flex-direction: column;\n    gap: 16px;\n    margin-top: 10px;\n    flex: 1 1 auto !important;\n  }\n\n  .buffer-lane {\n    background: #141d2e;\n    border-radius: 8px;\n    padding: 12px 16px;\n    border: 1px solid #1e293b;\n    flex: 1 !important;\n  }\n\n  .buffer-header {\n    display: flex;\n    justify-content: space-between;\n    margin-bottom: 12px;\n  }\n\n  .buffer-name {\n    font-size: 0.85rem;\n    font-weight: 600;\n    color: #f8fafc;\n  }\n\n  .buffer-type {\n    font-size: 0.68rem;\n    color: #64748b;\n    margin-left: 6px;\n    padding: 2px 6px;\n    background: #0f172a;\n    border-radius: 4px;\n  }\n\n  .buffer-count {\n    font-size: 0.8rem;\n    font-weight: 700;\n    color: #94a3b8;\n  }\n\n  /* Trilho e Slots (Espaço para as peças) */\n  .buffer-track {\n    display: flex;\n    gap: 8px;\n    background: rgba(0, 0, 0, 0.15);\n    padding: 10px;\n    border-radius: 6px;\n    box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.2);\n    width: fit-content\n  }\n\n  .piece-slot {\n    width: 32px;\n    height: 32px;\n    border-radius: 50%;\n    border: 2px dashed #334155;\n    transition: all 0.3s ease;\n  }\n\n  /* Cores das Peças Preenchidas */\n  .piece-slot.filled {\n    border-style: solid;\n    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);\n    transform: scale(1.05);\n  }\n\n  .piece-slot.filled.bruto {\n    background: linear-gradient(145deg, #cbd5e1, #94a3b8);\n    border-color: #f8fafc;\n  }\n\n  .piece-slot.filled.torneado {\n    background: linear-gradient(145deg, #fcd34d, #f59e0b);\n    border-color: #fffbeb;\n  }\n\n  .piece-slot.filled.pronto {\n    background: linear-gradient(145deg, #34d399, #10b981);\n    border-color: #d1fae5;\n  }\n\n  /* =========================================\nEIXO LINEAR DO ROBÔ (COMPACTO)\n========================================= */\n  .robot-linear-axis {\n    position: relative;\n    margin-top: 24px;\n    height: 44px;\n    background: #0f172a;\n    border-radius: 22px;\n    border: 1px solid #1e293b;\n    display: flex;\n    align-items: center;\n    padding: 0 6px;\n    box-shadow: inset 0 2px 6px rgba(0, 0, 0, 0.3);\n  }\n\n  .axis-track {\n    position: absolute;\n    left: 20px;\n    right: 20px;\n    height: 4px;\n    background: #1e293b;\n    border-radius: 2px;\n    z-index: 1;\n  }\n\n  .robot-cursor {\n    position: relative;\n    z-index: 2;\n    background: #3b82f6;\n    color: #ffffff;\n    font-size: 0.75rem;\n    font-weight: 600;\n    padding: 6px 14px;\n    border-radius: 16px;\n    display: flex;\n    align-items: center;\n    gap: 6px;\n    box-shadow: 0 4px 12px rgba(59, 130, 246, 0.4);\n    /* A animação de movimento simulado */\n    left: 0%;\n    transition: left 1.5s ease-in-out, background 0.3s ease;\n  }\n\n  .robot-cursor.moving {\n    left: calc(100% - 110px);\n    /* Desloca o robô para a direita */\n    background: #10b981;\n    box-shadow: 0 4px 12px rgba(16, 185, 129, 0.4);\n  }\n\n  .cursor-dot {\n    width: 8px;\n    height: 8px;\n    background: #ffffff;\n    border-radius: 50%;\n    animation: pulse-soft 1.5s infinite;\n  }\n</style>",
+        "format": "<div class=\"scada-root\">\n  <!-- Top Bar com Identidade SENAI SP -->\n  <div class=\"scada-top-bar\">\n    <div class=\"scada-brand-row\">\n\n\n      <div>\n        <h2 class=\"scada-main-title\">Célula Integrada de Manufatura de Chaveiros</h2>\n        <p class=\"scada-sub-title\">Visualização da integração em tempo real</p>\n      </div>\n    </div>\n    <div class=\"scada-quick-indicators\">\n      <div class=\"indicator-item\">\n        <span class=\"status-dot green\"></span>\n        <span>CLP Altus: Conectado</span>\n      </div>\n      <div class=\"indicator-item\">\n        <span class=\"status-dot green\"></span>\n        <span>Ciclo: Automático</span>\n      </div>\n    </div>\n  </div>\n\n\n  <!-- Grid Principal da Célula -->\n  <div class=\"cell-main-grid\">\n\n\n    <!-- 1. ESQUERDA: CENTRO DE USINAGEM -->\n    <div class=\"station-elevation-card\">\n      <div class=\"station-title-row\">\n        <h3 class=\"station-headline\">Centro de Usinagem</h3>\n        <span class=\"status-pill\" :class=\"centroAtivo ? 'processing' : 'green'\">\n          {{ centroStatusBadge }}\n        </span>\n      </div>\n\n\n      <!-- Imagem Hero do Centro de Usinagem -->\n      <div class=\"machine-hero-container\">\n        <div class=\"image-tint-wrapper\" :class=\"{ 'is-processing': centroAtivo }\">\n          <img src=\"/Centro.png\" alt=\"Centro de Usinagem\" class=\"machine-photo\" />\n        </div>\n      </div>\n    </div>\n\n\n    <!-- 2. CENTRO: RAMPAS (TOPO) + ROBÔ HERO (BASE) -->\n    <!-- 2. CENTRO: LOGÍSTICA E MOVIMENTAÇÃO -->\n    <!-- 2. CENTRO: LOGÍSTICA E MOVIMENTAÇÃO -->\n    <div class=\"center-elevation-flow\">\n      <div class=\"station-elevation-card integrated-center-card\">\n\n\n        <div class=\"station-title-row\">\n          <h3 class=\"station-headline\">Logística e Alimentação</h3>\n          <span class=\"status-pill\" :class=\"roboAtivo ? 'processing' : 'green'\">\n                {{ roboAtivo ? 'Robô em Movimento' : 'Robô em Prontidão' }}\n              </span>\n        </div>\n\n\n        <!-- Trilhos Dinâmicos de Estoque -->\n        <div class=\"dynamic-buffers\">\n\n\n          <!-- Estoque 1 (Bruto) -->\n          <div class=\"buffer-lane\">\n            <div class=\"buffer-header\">\n              <span class=\"buffer-name\">Estoque 1 <span class=\"buffer-type\">Peça bruta</span></span>\n              <span class=\"buffer-count\">{{ estoque1 }}/10</span>\n            </div>\n            <div class=\"buffer-track\">\n              <!-- Gera 3 slots dinamicamente. Aplica a classe 'filled' se o índice for menor ou igual à quantidade no estoque -->\n              <div v-for=\"n in 10\" :key=\"'e1-'+n\" class=\"piece-slot\" :class=\"{ 'filled bruto': n <= estoque1 }\"></div>\n            </div>\n          </div>\n\n\n          <!-- Estoque 2 (Torneadas) -->\n          <div class=\"buffer-lane\">\n            <div class=\"buffer-header\">\n              <span class=\"buffer-name\">Estoque 2 <span class=\"buffer-type\">Torneadas</span></span>\n              <span class=\"buffer-count\">{{ estoque2 }}/10</span>\n            </div>\n            <div class=\"buffer-track\">\n              <div v-for=\"n in 10\" :key=\"'e2-'+n\" class=\"piece-slot\" :class=\"{ 'filled torneado': n <= estoque2 }\">\n              </div>\n            </div>\n          </div>\n\n\n          <!-- Estoque 3 (Usinadas/Prontas) -->\n          <div class=\"buffer-lane\">\n            <div class=\"buffer-header\">\n              <span class=\"buffer-name\">Estoque 3 <span class=\"buffer-type\">Usinadas</span></span>\n              <span class=\"buffer-count\">{{ estoque3 }}/10</span>\n            </div>\n            <div class=\"buffer-track\">\n              <div v-for=\"n in 10\" :key=\"'e3-'+n\" class=\"piece-slot\" :class=\"{ 'filled pronto': n <= estoque3 }\"></div>\n            </div>\n          </div>\n\n\n        </div>\n\n\n        <div class=\"peca-preview-box\">\n          <div class=\"preview-header-row\">\n            <span class=\"preview-mini-title\">Prévia da Peça em Processo</span>\n            <span class=\"status-pill green\">{{ textoGravado }}</span>\n          </div>\n\n\n          <div class=\"keyring-stage-compact\">\n            <div class=\"aluminum-part-compact\">\n              <!-- Furo Passante -->\n              <div class=\"keychain-hole\">\n                <div class=\"hole-bevel\"></div>\n              </div>\n              <!-- Face de Gravação -->\n              <div class=\"engraving-face\">\n                <span class=\"milled-text\">{{ textoGravado }}</span>\n              </div>\n            </div>\n          </div>\n        </div>\n\n\n        <!-- Eixo Linear do Robô (Design Compacto) -->\n        <div class=\"robot-linear-axis\">\n          <div class=\"axis-track\"></div>\n          <!-- O cursor do robô desliza com base no estado roboAtivo -->\n          <div class=\"robot-cursor\" :class=\"{ 'moving': roboAtivo }\">\n            <span class=\"cursor-dot\"></span> Manipulador\n          </div>\n        </div>\n\n\n      </div>\n    </div>\n\n\n    <!-- 3. DIREITA: TORNO CNC (IMAGEM HERO EM DESTAQUE) -->\n    <div class=\"station-elevation-card\">\n      <div class=\"station-title-row\">\n        <h3 class=\"station-headline\">Torno CNC</h3>\n        <span class=\"status-pill\" :class=\"tornoAtivo ? 'processing' : 'green'\">\n          {{ tornoStatusBadge }}\n        </span>\n      </div>\n\n\n      <!-- Imagem Hero do Torno CNC com Efeito Verde Suave quando em Processamento -->\n      <div class=\"machine-hero-container\">\n        <div class=\"image-tint-wrapper\" :class=\"{ 'is-processing': tornoAtivo }\">\n          <img src=\"/Torno.png\" alt=\"Torno CNC\" class=\"machine-photo\" />\n        </div>\n      </div>\n    </div>\n\n\n  </div>\n</div>\n\n\n<script>\n  export default {\n\n\n  data() {\n\n\n    return {\n\n\n      tornoAtivo: false,\n\n\n      tornoStatusBadge: 'Operante',\n\n\n      centroAtivo: false,\n\n\n      centroStatusBadge: 'Operante', // <--- Adicionado\n\n\n      roboAtivo: false,\n\n\n     \n\n\n      // Novas variáveis preparadas para o fluxo (exemplo com valores iniciais)\n\n\n      estoque1: 2, // 2 peças brutas aguardando\n\n\n      estoque2: 1, // 1 peça torneada\n\n\n      estoque3: 0,  // 0 peças finalizadas\n\n\n\n\n      textoGravado: 'SENAI'\n\n\n    };\n\n\n  },\n\n\n  watch: {\n\n\n    msg: {\n\n\n      immediate: true,\n\n\n      handler(newVal) {\n\n\n        if (!newVal || !newVal.payload) return;\n\n\n        const p = newVal.payload;\n\n\n       \n\n\n        // Mantém a lógica do Torno que você já possuía\n\n\n        if (p.nome) {\n  this.textoGravado = p.nome;\n}\n\n\n        if (p.estacao === 'torno' || newVal.topic === 'simulacao_torno') {\n\n\n          this.tornoAtivo = !!p.operando;\n\n\n          this.tornoStatusBadge = this.tornoAtivo ? 'Torneando L1' : 'Operante';\n\n\n        }\n\n\n\n\n\n\n        if (p.estacao === 'centro' || newVal.topic === 'simulacao_centro') {\n\n\n          this.centroAtivo = !!p.operando;\n\n\n          this.centroStatusBadge = this.centroAtivo ? 'Usinando' : 'Operante';\n\n\n        }\n\n\n       \n\n\n        // NOVA LÓGICA: Atualiza as quantidades de estoque a partir de msg.payload\n\n\n        if (p.estacao === 'estoque') {\n\n\n          if (p.estoque1 !== undefined) this.estoque1 = p.estoque1;\n\n\n          if (p.estoque2 !== undefined) this.estoque2 = p.estoque2;\n\n\n          if (p.estoque3 !== undefined) this.estoque3 = p.estoque3;\n\n\n           \n\n\n        }\n\n\n\n\n\n\n        if (p.estacao === 'robo'){\n\n\n          if (p.roboAtivo !== undefined) this.roboAtivo = !!p.roboAtivo;\n\n\n        }\n\n\n      }\n\n\n    }\n\n\n  },\n\n\n  mounted() {\n\n\n    this.$socket?.on('ui-template:' + this.id, (msg) => {\n\n\n      if (!msg || !msg.payload) return;\n\n\n     \n\n\n      if (msg.payload.estacao === 'torno' || msg.topic === 'simulacao_torno') {\n\n\n        this.tornoAtivo = !!msg.payload.operando;\n\n\n        this.tornoStatusBadge = this.tornoAtivo ? 'Torneando L1' : 'Operante';\n\n\n      }\n\n\n\n\n\n\n      if (msg.payload.estacao === 'centro' || msg.topic === 'simulacao_centro') {\n\n\n      this.centroAtivo = !!msg.payload.operando;\n\n\n      this.centroStatusBadge = this.centroAtivo ? 'Usinando' : 'Operante';\n\n\n      }\n\n\n     \n\n\n      // Escuta em tempo real as atualizações de logística via socket\n\n\n      if (msg.payload.topico === 'atualizacao_celula') {\n\n\n         if (msg.payload.estoque1 !== undefined) this.estoque1 = msg.payload.estoque1;\n\n\n         if (msg.payload.estoque2 !== undefined) this.estoque2 = msg.payload.estoque2;\n\n\n         if (msg.payload.estoque3 !== undefined) this.estoque3 = msg.payload.estoque3;\n\n\n         if (msg.payload.roboAtivo !== undefined) this.roboAtivo = !!msg.payload.roboAtivo;\n\n\n      }\n\n\n    });\n\n\n  }\n\n\n};\n\n\n</script>\n\n\n<style>\n  .scada-root {\n    width: 100%;\n    max-width: 100%;\n    margin: 0 auto;\n    font-family: var(--font-sans, system-ui, sans-serif);\n    color: #f8fafc;\n    display: flex;\n    flex-direction: column;\n    gap: 20px;\n    min-height: calc(100vh - 125px);\n  }\n\n\n  /* Header com Toque SENAI SP */\n  .scada-top-bar {\n    display: flex;\n    justify-content: space-between;\n    align-items: center;\n    padding: 4px 6px;\n  }\n\n\n  .scada-brand-row {\n    display: flex;\n    align-items: center;\n    gap: 14px;\n  }\n\n\n  .senai-sp-badge {\n    background: #e30613;\n    color: #ffffff;\n    font-weight: 700;\n    font-size: 0.85rem;\n    letter-spacing: 0.08em;\n    padding: 6px 14px;\n    border-radius: 6px;\n    display: inline-flex;\n    align-items: center;\n    box-shadow: 0 2px 8px rgba(227, 6, 19, 0.35);\n  }\n\n\n  .scada-main-title {\n    font-size: 1.25rem;\n    font-weight: 600;\n    color: #ffffff;\n    margin: 0;\n    letter-spacing: -0.01em;\n  }\n\n\n  .scada-sub-title {\n    font-size: 0.82rem;\n    color: #94a3b8;\n    margin: 2px 0 0 0;\n  }\n\n\n  .scada-quick-indicators {\n    display: flex;\n    gap: 16px;\n  }\n\n\n  .indicator-item {\n    display: flex;\n    align-items: center;\n    gap: 8px;\n    font-size: 0.8rem;\n    color: #cbd5e1;\n  }\n\n\n  .status-dot {\n    width: 7px;\n    height: 7px;\n    border-radius: 50%;\n  }\n\n\n  .status-dot.green {\n    background: #10b981;\n  }\n\n\n  /* Grid Principal da Célula */\n  .cell-main-grid {\n    display: grid;\n    grid-template-columns: 460px 1fr 460px;\n    gap: 20px;\n    flex: 1 1 auto !important;\n    height: 100% !important;\n  }\n\n\n  @media (max-width: 1024px) {\n    .cell-main-grid {\n      grid-template-columns: 1fr;\n    }\n  }\n\n\n  /* Cards com Separação por Elevation (Sem bordas pesadas) */\n  .station-elevation-card {\n    background: #1e293b;\n    border-radius: 12px;\n    padding: 22px;\n    display: flex;\n    flex-direction: column;\n    gap: 16px;\n    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.25);\n    transition: background-color 0.25s ease, box-shadow 0.25s ease;\n    height: 100%;\n    box-sizing: border-box;\n  }\n\n\n  /* Títulos sem Linha Divisória */\n  .station-title-row {\n    display: flex;\n    justify-content: space-between;\n    align-items: center;\n  }\n\n\n  .station-headline {\n    font-size: 1.15rem;\n    font-weight: 600;\n    color: #ffffff;\n    margin: 0;\n    letter-spacing: -0.01em;\n  }\n\n\n  /* Badges de Status */\n  .status-pill {\n    font-size: 0.75rem;\n    font-weight: 500;\n    padding: 4px 10px;\n    border-radius: 6px;\n  }\n\n\n  .status-pill.green {\n    background: rgba(16, 185, 129, 0.12);\n    color: #10b981;\n  }\n\n\n  .status-pill.processing {\n    background: rgba(16, 185, 129, 0.2);\n    color: #10b981;\n    font-weight: 600;\n    animation: pulse-soft 2s infinite ease-in-out;\n  }\n\n\n  @keyframes pulse-soft {\n\n\n    0%,\n    100% {\n      opacity: 1;\n    }\n\n\n    50% {\n      opacity: 0.7;\n    }\n  }\n\n\n  /* HERO IMAGES: As fotos do Torno, Centro e Robô em Destaque */\n  .machine-hero-container {\n    background: #141d2e;\n    border-radius: 10px;\n    flex: 1;\n    min-height: 280px;\n    display: flex;\n    align-items: center;\n    justify-content: center;\n    padding: 16px;\n    position: relative;\n    overflow: hidden;\n  }\n\n\n  .robot-hero-container {\n    background: #141d2e;\n    border-radius: 10px;\n    height: 180px;\n    display: flex;\n    flex-direction: column;\n    align-items: center;\n    justify-content: center;\n    padding: 16px;\n    position: relative;\n  }\n\n\n  /* Efeito Verde Suave por Cima da Imagem quando em Processamento */\n  .image-tint-wrapper {\n    position: relative;\n    display: flex;\n    align-items: center;\n    justify-content: center;\n    width: 100%;\n    height: 100%;\n    transition: all 0.3s ease;\n  }\n\n\n  .image-tint-wrapper::after {\n    content: '';\n    position: absolute;\n    inset: 0;\n    background: radial-gradient(circle, rgba(16, 185, 129, 0.25) 0%, rgba(16, 185, 129, 0.08) 60%, transparent 85%);\n    pointer-events: none;\n    border-radius: 8px;\n    opacity: 0;\n    transition: opacity 0.35s ease;\n  }\n\n\n  .image-tint-wrapper.is-processing::after {\n    opacity: 1;\n  }\n\n\n  .image-tint-wrapper.is-processing .machine-photo,\n  .image-tint-wrapper.is-processing .robot-photo {\n    filter: drop-shadow(0 0 14px rgba(16, 185, 129, 0.55)) brightness(1.05);\n  }\n\n\n  .machine-photo {\n    max-width: 130%;\n    max-height: 130%;\n    object-fit: contain;\n    transition: filter 0.3s ease, transform 0.3s ease;\n  }\n\n\n  .robot-photo {\n    max-width: 100%;\n    max-height: 130px;\n    object-fit: contain;\n    transition: filter 0.3s ease;\n    position: relative;\n    z-index: 2;\n  }\n\n\n  /* Trilho Físico Discreto do Robô */\n  .rail-track-line {\n    position: absolute;\n    bottom: 22px;\n    left: 20px;\n    right: 20px;\n    height: 3px;\n    background: #25334a;\n    border-radius: 2px;\n  }\n\n\n  /* Métricas de Informação */\n  .station-info-metrics {\n    display: flex;\n    flex-direction: column;\n    gap: 8px;\n    padding-top: 4px;\n  }\n\n\n  .info-row {\n    display: flex;\n    justify-content: space-between;\n    font-size: 0.78rem;\n  }\n\n\n  .info-label {\n    color: #94a3b8;\n  }\n\n\n  .info-val {\n    font-weight: 500;\n    color: #cbd5e1;\n  }\n\n\n  .text-emerald {\n    color: #10b981;\n  }\n\n\n  /* Coluna Central */\n  .center-elevation-flow {\n    display: flex;\n    flex-direction: column;\n    height: 100%;\n    gap: 16px;\n  }\n\n\n  /* Rampas Limpas */\n  .ramps-grid-clean {\n    display: grid;\n    grid-template-columns: repeat(3, 1fr);\n    gap: 12px;\n  }\n\n\n  .ramp-chute-clean {\n    background: #141d2e;\n    border-radius: 8px;\n    padding: 14px;\n    display: flex;\n    flex-direction: column;\n    gap: 8px;\n  }\n\n\n  .ramp-top-meta {\n    display: flex;\n    justify-content: space-between;\n    align-items: center;\n  }\n\n\n  .ramp-title {\n    font-size: 0.85rem;\n    font-weight: 600;\n    color: #ffffff;\n  }\n\n\n  .ramp-type-tag {\n    font-size: 0.68rem;\n    color: #94a3b8;\n  }\n\n\n  .roller-strip {\n    display: flex;\n    flex-direction: column;\n    gap: 5px;\n    padding: 8px 0;\n  }\n\n\n  .roller-bar {\n    height: 3px;\n    background: #25334a;\n    border-radius: 2px;\n  }\n\n\n  .ramp-material-desc {\n    font-size: 0.75rem;\n    color: #94a3b8;\n    min-height: 22px;\n  }\n\n\n  .ramp-status-tag {\n    font-size: 0.72rem;\n    font-weight: 500;\n    padding: 4px 6px;\n    border-radius: 4px;\n    text-align: center;\n  }\n\n\n  .ramp-status-tag.ready {\n    background: rgba(37, 99, 235, 0.12);\n    color: #60a5fa;\n  }\n\n\n  .ramp-status-tag.wait {\n    background: rgba(245, 158, 11, 0.12);\n    color: #f59e0b;\n  }\n\n\n  .ramp-status-tag.done {\n    background: rgba(16, 185, 129, 0.12);\n    color: #10b981;\n  }\n\n\n  /* =========================================\nESTILOS DOS ESTOQUES DINÂMICOS\n========================================= */\n  .integrated-center-card {\n    padding: 24px;\n  }\n\n\n  .dynamic-buffers {\n    display: flex;\n    flex-direction: column;\n    gap: 16px;\n    margin-top: 10px;\n    flex: 0 0 auto !important;\n  }\n\n\n  .buffer-lane {\n    background: #141d2e;\n    border-radius: 8px;\n    padding: 8px 12px;\n    border: 1px solid #1e293b;\n    flex: 0 0 auto !important;\n    height: auto !important\n  }\n\n\n  .buffer-header {\n    display: flex;\n    justify-content: space-between;\n    margin-bottom: 12px;\n  }\n\n\n  .buffer-name {\n    font-size: 0.85rem;\n    font-weight: 600;\n    color: #f8fafc;\n  }\n\n\n  .buffer-type {\n    font-size: 0.68rem;\n    color: #64748b;\n    margin-left: 6px;\n    padding: 2px 6px;\n    background: #0f172a;\n    border-radius: 4px;\n  }\n\n\n  .buffer-count {\n    font-size: 0.8rem;\n    font-weight: 700;\n    color: #94a3b8;\n  }\n\n\n  /* Trilho e Slots (Espaço para as peças) */\n  .buffer-track {\n    display: flex;\n    gap: 8px;\n    background: rgba(0, 0, 0, 0.15);\n    padding: 3px 6px;\n    border-radius: 6px;\n    box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.2);\n    width: 100%;\n    box-sizing: border-box;\n    justify-content: space-between;\n  }\n\n\n  .piece-slot {\n    width: 40px;\n    height: 40px;\n    border-radius: 50%;\n    border: 2px dashed #334155;\n    transition: all 0.3s ease;\n  }\n\n\n  /* Cores das Peças Preenchidas */\n  .piece-slot.filled {\n    border-style: solid;\n    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);\n    transform: scale(1.05);\n  }\n\n\n  .piece-slot.filled.bruto {\n    background: linear-gradient(145deg, #cbd5e1, #94a3b8);\n    border-color: #f8fafc;\n  }\n\n\n  .piece-slot.filled.torneado {\n    background: linear-gradient(145deg, #fcd34d, #f59e0b);\n    border-color: #fffbeb;\n  }\n\n\n  .piece-slot.filled.pronto {\n    background: linear-gradient(145deg, #34d399, #10b981);\n    border-color: #d1fae5;\n  }\n\n\n  /* =========================================\nEIXO LINEAR DO ROBÔ (COMPACTO)\n========================================= */\n  .robot-linear-axis {\n    position: relative;\n    margin-top: 24px;\n    height: 44px;\n    background: #0f172a;\n    border-radius: 22px;\n    border: 1px solid #1e293b;\n    display: flex;\n    align-items: center;\n    padding: 0 6px;\n    box-shadow: inset 0 2px 6px rgba(0, 0, 0, 0.3);\n  }\n\n\n  .axis-track {\n    position: absolute;\n    left: 20px;\n    right: 20px;\n    height: 4px;\n    background: #1e293b;\n    border-radius: 2px;\n    z-index: 1;\n  }\n\n\n  .robot-cursor {\n    position: relative;\n    z-index: 2;\n    background: #3b82f6;\n    color: #ffffff;\n    font-size: 0.75rem;\n    font-weight: 600;\n    padding: 6px 14px;\n    border-radius: 16px;\n    display: flex;\n    align-items: center;\n    gap: 6px;\n    box-shadow: 0 4px 12px rgba(59, 130, 246, 0.4);\n    /* A animação de movimento simulado */\n    left: 0%;\n    transition: left 1.5s ease-in-out, background 0.3s ease;\n  }\n\n\n  .robot-cursor.moving {\n    left: calc(100% - 110px);\n    /* Desloca o robô para a direita */\n    background: #10b981;\n    box-shadow: 0 4px 12px rgba(16, 185, 129, 0.4);\n  }\n\n\n  .cursor-dot {\n    width: 8px;\n    height: 8px;\n    background: #ffffff;\n    border-radius: 50%;\n    animation: pulse-soft 1.5s infinite;\n  }\n\n  /* Container da Prévia da Peça */\n  .peca-preview-box {\n    background: #141d2e;\n    border: 1px solid #24334a;\n    border-radius: 8px;\n    padding: 10px 14px;\n    margin-top: 10px;\n    display: flex;\n    flex-direction: column;\n    gap: 8px;\n    flex: 0 0 auto !important;\n  }\n\n  .preview-header-row {\n    display: flex;\n    justify-content: space-between;\n    align-items: center;\n  }\n\n  .preview-mini-title {\n    font-size: 0.78rem;\n    font-weight: 600;\n    color: #94a3b8;\n    text-transform: uppercase;\n    letter-spacing: 0.04em;\n  }\n\n  /* Palco e Chaveiro em Alumínio */\n  .keyring-stage-compact {\n    background: #0f172a;\n    border: 1px solid #1e293b;\n    border-radius: 6px;\n    padding: 12px;\n    display: flex;\n    align-items: center;\n    justify-content: center;\n  }\n\n  .aluminum-part-compact {\n    width: 100%;\n    max-width: 240px;\n    height: 52px;\n    background: linear-gradient(180deg, #e2e8f0 0%, #cbd5e1 50%, #94a3b8 100%);\n    border-radius: 6px;\n    border: 1px solid #f8fafc;\n    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.4), inset 0 1px 1px #ffffff;\n    display: flex;\n    align-items: center;\n    padding: 0 10px;\n    gap: 10px;\n    box-sizing: border-box;\n  }\n\n  .keychain-hole {\n    width: 16px;\n    height: 16px;\n    border-radius: 50%;\n    background: #475569;\n    display: flex;\n    align-items: center;\n    justify-content: center;\n    flex-shrink: 0;\n    box-shadow: inset 0 2px 3px rgba(0, 0, 0, 0.6);\n  }\n\n  .hole-bevel {\n    width: 8px;\n    height: 8px;\n    border-radius: 50%;\n    background: #0f172a;\n  }\n\n  .engraving-face {\n    flex: 1;\n    height: 34px;\n    border: 1px solid rgba(255, 255, 255, 0.4);\n    border-radius: 4px;\n    display: flex;\n    align-items: center;\n    justify-content: center;\n    background: rgba(0, 0, 0, 0.03);\n    overflow: hidden;\n  }\n\n  .milled-text {\n    font-family: var(--font-mono, monospace);\n    font-size: 0.85rem;\n    font-weight: 700;\n    letter-spacing: 0.08em;\n    color: #1e293b;\n    text-shadow: 0 1px 0 rgba(255, 255, 255, 0.7);\n    white-space: nowrap;\n  }\n</style>",
         "storeOutMessages": true,
         "passthru": true,
         "resendOnRefresh": true,
         "templateScope": "local",
         "className": "",
-        "x": 1250,
+        "x": 1410,
         "y": 240,
         "wires": [
             []
@@ -257,14 +257,14 @@
         "width": 0,
         "height": 0,
         "head": "",
-        "format": "<div class=\"totem-wrapper\">\n  <!-- Configuração do Produto -->\n  <div class=\"totem-card\">\n    <div class=\"totem-card-header\">\n      <h3 class=\"card-title\">Configuração da Peça</h3>\n      <p class=\"card-subtitle\">Selecione o modelo do chaveiro para usinagem na célula</p>\n    </div>\n\n    <!-- Seletor de Tipo (Estilo Segmented Control / Tabs) -->\n    <div class=\"form-group\">\n      <label class=\"form-label\">Modelo de Gravação</label>\n      <div class=\"segmented-control\">\n        <button \n          class=\"segment-btn\" \n          :class=\"{ active: tipoChaveiro === 'PADRAO' }\"\n          @click=\"selecionarTipo('PADRAO')\">\n          Padrão\n        </button>\n        <button \n          class=\"segment-btn\" \n          :class=\"{ active: tipoChaveiro === 'PERSONALIZADO' }\"\n          @click=\"selecionarTipo('PERSONALIZADO')\">\n          Customizado\n        </button>\n      </div>\n    </div>\n\n    <!-- Campo de Nome -->\n    <div class=\"form-group\" v-if=\"tipoChaveiro === 'PERSONALIZADO'\">\n      <div class=\"label-row\">\n        <label class=\"form-label\">Texto da Gravação</label>\n        <span class=\"char-count\">{{ nomeGravacao.length }} / 15 caracteres</span>\n      </div>\n      <input \n        type=\"text\" \n        v-model=\"nomeGravacao\" \n        maxlength=\"15\" \n        placeholder=\"Ex: MARCELO\" \n        class=\"corporate-input\"\n        @input=\"atualizarNome\" />\n      <span class=\"field-hint\">O nome será gravado em baixo-relevo na face superior da peça.</span>\n    </div>\n  </div>\n\n  <!-- Prévia Visual do Chaveiro Usinado -->\n  <div class=\"totem-card\">\n    <div class=\"totem-card-header\">\n      <div class=\"title-with-badge\">\n        <h3 class=\"card-title\">Prévia da Peça Usinada</h3>\n        \n      </div>\n      <p class=\"card-subtitle\">Representação proporcional da peça usinada</p>\n    </div>\n\n    <div class=\"keyring-stage\">\n      <div class=\"aluminum-part\">\n        <!-- Furo Passante da Argola -->\n        <div class=\"keychain-hole\">\n          <div class=\"hole-bevel\"></div>\n        </div>\n        <!-- Face de Gravação -->\n        <div class=\"engraving-face\">\n          <span class=\"milled-text\">{{ textoGravado }}</span>\n        </div>\n      </div>\n    </div>\n\n    <div class=\"part-dimensions\">\n\n    </div>\n  </div>\n\n  <!-- Ação de Envio -->\n  <div class=\"action-block\">\n    <button class=\"btn-submit\" @click=\"enviarParaProducao\">\n      Adicionar à Fila de Fabricação\n    </button>\n    <div class=\"toast-feedback\" v-if=\"feedbackMensagem\">\n      {{ feedbackMensagem }}\n    </div>\n  </div>\n</div>\n\n<script>\nexport default {\n  data() {\n    return {\n      tipoChaveiro: 'PADRAO',\n      nomeGravacao: '',\n      feedbackMensagem: ''\n    };\n  },\n  computed: {\n    textoGravado() {\n      if (this.tipoChaveiro === 'PADRAO') {\n        return 'SENAI';\n      }\n      return this.nomeGravacao.trim().toUpperCase() || 'SEU NOME';\n    }\n  },\n  methods: {\n    selecionarTipo(tipo) {\n      this.tipoChaveiro = tipo;\n      if (tipo === 'PADRAO') {\n        this.nomeGravacao = '';\n      }\n    },\n    atualizarNome() {\n      this.nomeGravacao = this.nomeGravacao.toUpperCase();\n    },\n    enviarParaProducao() {\n      const payload = {\n        tipo: this.tipoChaveiro,\n        nome: this.textoGravado,\n        timestamp: new Date().toLocaleTimeString(),\n        estado: 'Em espera na fila (Estoque 1 - Bruto)'\n      };\n      this.send({ payload: payload });\n      this.feedbackMensagem = 'Pedido \"' + this.textoGravado + '\" inserido na fila com sucesso.';\n      setTimeout(() => {\n        this.feedbackMensagem = '';\n      }, 4000);\n    }\n  }\n};\n</script>\n\n<style>\n.totem-wrapper {\n  font-family: var(--font-sans, system-ui, sans-serif);\n  color: #f8fafc;\n  display: flex;\n  flex-direction: column;\n  gap: 16px;\n}\n.totem-card {\n  background: #1e293b;\n  border: 1px solid #334155;\n  border-radius: 10px;\n  padding: 18px;\n  display: flex;\n  flex-direction: column;\n  gap: 14px;\n}\n.totem-card-header {\n  border-bottom: 1px solid #334155;\n  padding-bottom: 10px;\n}\n.card-title {\n  font-size: 0.95rem;\n  font-weight: 600;\n  color: #f8fafc;\n  margin: 0;\n}\n.card-subtitle {\n  font-size: 0.78rem;\n  color: #94a3b8;\n  margin: 4px 0 0 0;\n}\n.title-with-badge {\n  display: flex;\n  justify-content: space-between;\n  align-items: center;\n}\n.badge-material {\n  font-size: 0.7rem;\n  font-weight: 500;\n  color: #94a3b8;\n  background: #0f172a;\n  padding: 2px 8px;\n  border-radius: 4px;\n  border: 1px solid #334155;\n}\n\n/* Formulário */\n.form-group {\n  display: flex;\n  flex-direction: column;\n  gap: 8px;\n}\n.form-label {\n  font-size: 0.8rem;\n  font-weight: 500;\n  color: #cbd5e1;\n}\n.label-row {\n  display: flex;\n  justify-content: space-between;\n  align-items: center;\n}\n.char-count {\n  font-size: 0.72rem;\n  color: #64748b;\n}\n\n.segmented-control {\n  display: grid;\n  grid-template-columns: 1fr 1fr;\n  background: #0f172a;\n  border: 1px solid #334155;\n  border-radius: 8px;\n  padding: 4px;\n  gap: 4px;\n  width: 50%;\n\n  margin-left:25%;\n}\n\n.segment-btn {\n  background: transparent;\n  border: none;\n  border-radius: 6px;\n  padding: 10px 14px;\n  font-size: 0.82rem;\n  font-weight: 500;\n  color: #94a3b8;\n  cursor: pointer;\n  transition: all 0.15s ease;\n}\n.segment-btn:hover {\n  color: #f8fafc;\n}\n.segment-btn.active {\n  background: #1e293b;\n  color: #f8fafc;\n  border: 1px solid #475569;\n  box-shadow: 0 1px 3px rgba(0,0,0,0.2);\n}\n\n.corporate-input {\n  background: #0f172a;\n  border: 1px solid #334155;\n  border-radius: 6px;\n  padding: 10px 14px;\n  color: #f8fafc;\n  font-size: 0.9rem;\n  font-weight: 500;\n  letter-spacing: 0.04em;\n  outline: none;\n  transition: border-color 0.15s;\n}\n.corporate-input:focus {\n  border-color: #3b82f6;\n  box-shadow: 0 0 0 1px #3b82f6;\n}\n.field-hint {\n  font-size: 0.72rem;\n  color: #64748b;\n}\n\n/* Chaveiro em Alumínio Realista */\n.keyring-stage {\n  background: #0f172a;\n  border: 1px solid #334155;\n  border-radius: 8px;\n  padding: 24px;\n  display: flex;\n  align-items: center;\n  justify-content: center;\n}\n.aluminum-part {\n  width: 260px;\n  height: 90px;\n  background: linear-gradient(180deg, #e2e8f0 0%, #cbd5e1 50%, #94a3b8 100%);\n  border-radius: 8px;\n  border: 1px solid #f8fafc;\n  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.4), inset 0 1px 1px #ffffff;\n  display: flex;\n  align-items: center;\n  padding: 0 16px;\n  gap: 14px;\n}\n.keychain-hole {\n  width: 22px;\n  height: 22px;\n  border-radius: 50%;\n  background: #475569;\n  display: flex;\n  align-items: center;\n  justify-content: center;\n  flex-shrink: 0;\n  box-shadow: inset 0 2px 3px rgba(0,0,0,0.6);\n}\n.hole-bevel {\n  width: 12px;\n  height: 12px;\n  border-radius: 50%;\n  background: #0b0f19;\n}\n.engraving-face {\n  flex: 1;\n  height: 60px;\n  border: 1px solid rgba(255, 255, 255, 0.4);\n  border-radius: 4px;\n  display: flex;\n  align-items: center;\n  justify-content: center;\n  background: rgba(0, 0, 0, 0.03);\n}\n.milled-text {\n  font-family: var(--font-mono, monospace);\n  font-size: 1.15rem;\n  font-weight: 700;\n  letter-spacing: 0.1em;\n  color: #1e293b;\n  text-shadow: 0 1px 0 rgba(255,255,255,0.7);\n}\n\n.part-dimensions {\n  display: flex;\n  justify-content: space-between;\n  font-size: 0.72rem;\n  color: #64748b;\n}\n\n/* Botão */\n.btn-submit {\n  width: 100%;\n  background: #2563eb;\n  color: #ffffff;\n  border: none;\n  border-radius: 8px;\n  padding: 12px;\n  font-size: 0.88rem;\n  font-weight: 500;\n  cursor: pointer;\n  transition: background 0.15s;\n}\n.btn-submit:hover {\n  background: #1d4ed8;\n}\n.toast-feedback {\n  margin-top: 8px;\n  text-align: center;\n  font-size: 0.78rem;\n  color: #10b981;\n}\n</style>",
+        "format": "<div class=\"totem-wrapper\">\n  <!-- Configuração do Produto -->\n  <div class=\"totem-card\">\n    <div class=\"totem-card-header\">\n      <h3 class=\"card-title\">Configuração da Peça</h3>\n      <p class=\"card-subtitle\">Selecione o modelo do chaveiro para usinagem na célula</p>\n    </div>\n\n    <!-- Seletor de Tipo (Estilo Segmented Control / Tabs) -->\n    <div class=\"form-group\">\n      <label class=\"form-label\">Modelo de Gravação</label>\n      <div class=\"segmented-control\">\n        <button \n          class=\"segment-btn\" \n          :class=\"{ active: tipoChaveiro === 'PADRAO' }\"\n          @click=\"selecionarTipo('PADRAO')\">\n          Padrão\n        </button>\n        <button \n          class=\"segment-btn\" \n          :class=\"{ active: tipoChaveiro === 'PERSONALIZADO' }\"\n          @click=\"selecionarTipo('PERSONALIZADO')\">\n          Customizado\n        </button>\n      </div>\n    </div>\n\n    <!-- Campo de Nome -->\n    <div class=\"form-group\" v-if=\"tipoChaveiro === 'PERSONALIZADO'\">\n      <div class=\"label-row\">\n        <label class=\"form-label\">Texto da Gravação</label>\n        <span class=\"char-count\">{{ nomeGravacao.length }} / 15 caracteres</span>\n      </div>\n      <input \n        type=\"text\" \n        v-model=\"nomeGravacao\" \n        maxlength=\"15\" \n        placeholder=\"Ex: MARCELO\" \n        class=\"corporate-input\"\n        @input=\"atualizarNome\" />\n      <span class=\"field-hint\">O nome será gravado em baixo-relevo na face superior da peça.</span>\n    </div>\n  </div>\n\n  <!-- Prévia Visual do Chaveiro Usinado -->\n  <div class=\"totem-card\">\n    <div class=\"totem-card-header\">\n      <div class=\"title-with-badge\">\n        <h3 class=\"card-title\">Prévia da Peça Usinada</h3>\n        \n      </div>\n      <p class=\"card-subtitle\">Representação proporcional da peça usinada</p>\n    </div>\n\n    <div class=\"keyring-stage\">\n      <div class=\"aluminum-part\">\n        <!-- Furo Passante da Argola -->\n        <div class=\"keychain-hole\">\n          <div class=\"hole-bevel\"></div>\n        </div>\n        <!-- Face de Gravação -->\n        <div class=\"engraving-face\">\n          <span class=\"milled-text\">{{ textoGravado }}</span>\n        </div>\n      </div>\n    </div>\n\n    <div class=\"part-dimensions\">\n\n    </div>\n  </div>\n\n  <!-- Ação de Envio -->\n  <div class=\"action-block\">\n    <button class=\"btn-submit\" @click=\"enviarParaProducao\">\n      Adicionar à Fila de Fabricação\n    </button>\n    <div class=\"toast-feedback\" v-if=\"feedbackMensagem\">\n      {{ feedbackMensagem }}\n    </div>\n  </div>\n</div>\n\n<script>\nexport default {\n  data() {\n    return {\n      tipoChaveiro: 'PADRAO',\n      nomeGravacao: '',\n      feedbackMensagem: ''\n    };\n  },\n  computed: {\n    textoGravado() {\n      if (this.tipoChaveiro === 'PADRAO') {\n        return 'SENAI';\n      }\n      return this.nomeGravacao.trim().toUpperCase() || 'SEU NOME';\n    }\n  },\n  methods: {\n    selecionarTipo(tipo) {\n      this.tipoChaveiro = tipo;\n      if (tipo === 'PADRAO') {\n        this.nomeGravacao = '';\n      }\n    },\n    atualizarNome() {\n      this.nomeGravacao = this.nomeGravacao.toUpperCase();\n    },\n    enviarParaProducao() {\n      const payload = {\n        nome: this.textoGravado, // O nome configurado no totem\n        novoPedido: true, // Flag booleana que dispara a criação no CLP\n        timestamp: new Date().toLocaleTimeString()\n      };\n      \n      this.send({ payload: payload }); // Envia os dados para o Node-RED\n      \n      this.feedbackMensagem = 'Pedido \"' + this.textoGravado + '\" enviado ao CLP.';\n\n      setTimeout(() => {\n        this.feedbackMensagem = '';\n      }, 4000);\n    }\n  }\n};\n</script>\n\n<style>\n.totem-wrapper {\n  font-family: var(--font-sans, system-ui, sans-serif);\n  color: #f8fafc;\n  display: flex;\n  flex-direction: column;\n  gap: 16px;\n}\n.totem-card {\n  background: #1e293b;\n  border: 1px solid #334155;\n  border-radius: 10px;\n  padding: 18px;\n  display: flex;\n  flex-direction: column;\n  gap: 14px;\n}\n.totem-card-header {\n  border-bottom: 1px solid #334155;\n  padding-bottom: 10px;\n}\n.card-title {\n  font-size: 0.95rem;\n  font-weight: 600;\n  color: #f8fafc;\n  margin: 0;\n}\n.card-subtitle {\n  font-size: 0.78rem;\n  color: #94a3b8;\n  margin: 4px 0 0 0;\n}\n.title-with-badge {\n  display: flex;\n  justify-content: space-between;\n  align-items: center;\n}\n.badge-material {\n  font-size: 0.7rem;\n  font-weight: 500;\n  color: #94a3b8;\n  background: #0f172a;\n  padding: 2px 8px;\n  border-radius: 4px;\n  border: 1px solid #334155;\n}\n\n/* Formulário */\n.form-group {\n  display: flex;\n  flex-direction: column;\n  gap: 8px;\n}\n.form-label {\n  font-size: 0.8rem;\n  font-weight: 500;\n  color: #cbd5e1;\n}\n.label-row {\n  display: flex;\n  justify-content: space-between;\n  align-items: center;\n}\n.char-count {\n  font-size: 0.72rem;\n  color: #64748b;\n}\n\n.segmented-control {\n  display: grid;\n  grid-template-columns: 1fr 1fr;\n  background: #0f172a;\n  border: 1px solid #334155;\n  border-radius: 8px;\n  padding: 4px;\n  gap: 4px;\n  width: 50%;\n\n  margin-left:25%;\n}\n\n.segment-btn {\n  background: transparent;\n  border: none;\n  border-radius: 6px;\n  padding: 10px 14px;\n  font-size: 0.82rem;\n  font-weight: 500;\n  color: #94a3b8;\n  cursor: pointer;\n  transition: all 0.15s ease;\n}\n.segment-btn:hover {\n  color: #f8fafc;\n}\n.segment-btn.active {\n  background: #1e293b;\n  color: #f8fafc;\n  border: 1px solid #475569;\n  box-shadow: 0 1px 3px rgba(0,0,0,0.2);\n}\n\n.corporate-input {\n  background: #0f172a;\n  border: 1px solid #334155;\n  border-radius: 6px;\n  padding: 10px 14px;\n  color: #f8fafc;\n  font-size: 0.9rem;\n  font-weight: 500;\n  letter-spacing: 0.04em;\n  outline: none;\n  transition: border-color 0.15s;\n}\n.corporate-input:focus {\n  border-color: #3b82f6;\n  box-shadow: 0 0 0 1px #3b82f6;\n}\n.field-hint {\n  font-size: 0.72rem;\n  color: #64748b;\n}\n\n/* Chaveiro em Alumínio Realista */\n.keyring-stage {\n  background: #0f172a;\n  border: 1px solid #334155;\n  border-radius: 8px;\n  padding: 24px;\n  display: flex;\n  align-items: center;\n  justify-content: center;\n}\n.aluminum-part {\n  width: 260px;\n  height: 90px;\n  background: linear-gradient(180deg, #e2e8f0 0%, #cbd5e1 50%, #94a3b8 100%);\n  border-radius: 8px;\n  border: 1px solid #f8fafc;\n  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.4), inset 0 1px 1px #ffffff;\n  display: flex;\n  align-items: center;\n  padding: 0 16px;\n  gap: 14px;\n}\n.keychain-hole {\n  width: 22px;\n  height: 22px;\n  border-radius: 50%;\n  background: #475569;\n  display: flex;\n  align-items: center;\n  justify-content: center;\n  flex-shrink: 0;\n  box-shadow: inset 0 2px 3px rgba(0,0,0,0.6);\n}\n.hole-bevel {\n  width: 12px;\n  height: 12px;\n  border-radius: 50%;\n  background: #0b0f19;\n}\n.engraving-face {\n  flex: 1;\n  height: 60px;\n  border: 1px solid rgba(255, 255, 255, 0.4);\n  border-radius: 4px;\n  display: flex;\n  align-items: center;\n  justify-content: center;\n  background: rgba(0, 0, 0, 0.03);\n}\n.milled-text {\n  font-family: var(--font-mono, monospace);\n  font-size: 1.15rem;\n  font-weight: 700;\n  letter-spacing: 0.1em;\n  color: #1e293b;\n  text-shadow: 0 1px 0 rgba(255,255,255,0.7);\n}\n\n.part-dimensions {\n  display: flex;\n  justify-content: space-between;\n  font-size: 0.72rem;\n  color: #64748b;\n}\n\n/* Botão */\n.btn-submit {\n  width: 100%;\n  background: #2563eb;\n  color: #ffffff;\n  border: none;\n  border-radius: 8px;\n  padding: 12px;\n  font-size: 0.88rem;\n  font-weight: 500;\n  cursor: pointer;\n  transition: background 0.15s;\n}\n.btn-submit:hover {\n  background: #1d4ed8;\n}\n.toast-feedback {\n  margin-top: 8px;\n  text-align: center;\n  font-size: 0.78rem;\n  color: #10b981;\n}\n</style>",
         "storeOutMessages": true,
         "passthru": true,
         "resendOnRefresh": true,
         "templateScope": "local",
         "className": "",
-        "x": 1080,
-        "y": 700,
+        "x": 820,
+        "y": 900,
         "wires": [
             [
                 "4abbe4acc2f98bbf"
@@ -283,14 +283,14 @@
         "width": 0,
         "height": 0,
         "head": "",
-        "format": "<div class=\"queue-container\">\n  <!-- Header de Monitoramento da Fila -->\n  <div class=\"queue-card-top\">\n    <div class=\"queue-meta\">\n      <span class=\"queue-count-label\">Ordens na Linha: <strong>{{ pedidos.length }}</strong></span>\n    </div>\n    <div class=\"clp-status-tag\">\n      <span class=\"status-indicator-dot online\"></span>\n      <span>Sincronizado via Modbus</span>\n    </div>\n  </div>\n\n  <!-- Lista de Pedidos -->\n  <div class=\"queue-items-list\">\n    <div v-for=\"(pedido, index) in pedidos\" :key=\"index\" class=\"queue-item-card\">\n\n      <div class=\"item-header-row\">\n        <div class=\"id-and-name\">\n          <span class=\"order-sequence\">#{{ String(index + 1).padStart(3, '0') }}</span>\n          <span class=\"order-name\">{{ pedido.nome }}</span>\n        </div>\n        <span class=\"type-pill\" :class=\"pedido.tipo.toLowerCase()\">{{ pedido.tipo }}</span>\n      </div>\n\n      <!-- Tag de Estado do CLP Sóbria -->\n      <div class=\"clp-state-container\">\n        <div class=\"clp-state-pill\" :class=\"getStateBadgeClass(pedido.estado)\">\n          <span class=\"state-dot\" :class=\"getStateDotClass(pedido.estado)\"></span>\n          <span class=\"state-text\">{{ pedido.estado }}</span>\n        </div>\n      </div>\n\n      <!-- Barra de Progresso Discreta -->\n      <div class=\"progress-container\">\n        <div class=\"progress-bar\" :style=\"{ width: getProgressPercent(pedido.estado) + '%' }\"></div>\n      </div>\n\n      <div class=\"item-footer-row\">\n        <span class=\"progress-percentage\">{{ getProgressPercent(pedido.estado) }}% concluído</span>\n        <span class=\"order-time\">{{ pedido.timestamp }}</span>\n      </div>\n    </div>\n\n    <!-- Estado Vazio -->\n    <div class=\"empty-list-notice\" v-if=\"pedidos.length === 0\">\n      <span>Nenhum pedido ativo na esteira no momento.</span>\n    </div>\n  </div>\n</div>\n\n<script>\n  export default {\n  data() {\n    return {\n      pedidos: [\n        {\n          nome: 'SENAI',\n          tipo: 'PADRAO',\n          estado: 'Centro: Usinando peça',\n          timestamp: '15:40:12'\n        },\n        {\n          nome: 'MARCELO',\n          tipo: 'PERSONALIZADO',\n          estado: 'Estoque 2 (Torneadas): Aguardando Centro de Usinagem',\n          timestamp: '15:42:05'\n        },\n        {\n          nome: 'RODRIGO',\n          tipo: 'PERSONALIZADO',\n          estado: 'Em espera na fila (Estoque 1 - Bruto)',\n          timestamp: '15:44:30'\n        }\n      ]\n    };\n  },\n  mounted() {\n    this.$socket?.on('ui-template:' + this.id, (msg) => {\n      if (msg && msg.payload) {\n        if (msg.payload.tipo && msg.payload.nome) {\n          this.pedidos.unshift(msg.payload);\n        } else if (msg.payload.ordemId !== undefined && msg.payload.novoEstado) {\n          const item = this.pedidos[msg.payload.ordemId];\n          if (item) item.estado = msg.payload.novoEstado;\n        }\n      }\n    });\n  },\n  methods: {\n    getProgressPercent(estado) {\n      const mapa = {\n        'Em espera na fila (Estoque 1 - Bruto)': 15,\n        'Torno: Torneando o primeiro lado': 30,\n        'Torno: Torneando o segundo lado': 45,\n        'Estoque 2 (Torneadas): Aguardando Centro de Usinagem': 60,\n        'Centro: Usinando peça': 75,\n        'Estoque 3 (Usinadas): Aguardando Centro para customizar a sua peça!': 85,\n        'Centro: Customizando sua peça': 92,\n        'Peça pronta': 100\n      };\n      return mapa[estado] || 10;\n    },\n    getStateBadgeClass(estado) {\n      if (estado === 'Peça pronta') return 'badge-success';\n      if (estado.includes('Centro') || estado.includes('Torno')) return 'badge-active';\n      return 'badge-waiting';\n    },\n    getStateDotClass(estado) {\n      if (estado === 'Peça pronta') return 'dot-success';\n      if (estado.includes('Centro') || estado.includes('Torno')) return 'dot-active';\n      return 'dot-waiting';\n    }\n  }\n};\n</script>\n\n<style>\n  .queue-container {\n    font-family: var(--font-sans, system-ui, sans-serif);\n    color: #f8fafc;\n    display: flex;\n    flex-direction: column;\n    gap: 14px;\n  }\n\n  .queue-card-top {\n    display: flex;\n    justify-content: space-between;\n    align-items: center;\n    background: #1e293b;\n    border: 1px solid #334155;\n    border-radius: 8px;\n    padding: 12px 16px;\n  }\n\n  .queue-count-label {\n    font-size: 0.8rem;\n    color: #94a3b8;\n  }\n\n  .queue-count-label strong {\n    color: #f8fafc;\n  }\n\n  .clp-status-tag {\n    display: flex;\n    align-items: center;\n    gap: 6px;\n    font-size: 0.75rem;\n    color: #10b981;\n  }\n\n  .status-indicator-dot {\n    width: 6px;\n    height: 6px;\n    border-radius: 50%;\n    background: #10b981;\n  }\n\n  .queue-items-list {\n    display: flex;\n    flex-direction: column;\n    gap: 10px;\n    /* Aumentado de 480px para 535px para igualar à altura do bloco da esquerda */\n    height: 458px;\n    overflow-y: auto;\n  }\n\n  .queue-item-card {\n    background: #1e293b;\n    border-radius: 8px;\n    padding: 14px;\n    display: flex;\n    flex-direction: column;\n    gap: 10px;\n    width: 100%;\n    /* Removido o 'height: 60%' para deixar o card com altura automática natural */\n    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.25);\n    transition: background-color 0.25s ease, box-shadow 0.25s ease;\n  }\n\n\n  .item-header-row {\n    display: flex;\n    justify-content: space-between;\n    align-items: center;\n  }\n\n  .id-and-name {\n    display: flex;\n    align-items: center;\n    gap: 8px;\n  }\n\n  .order-sequence {\n    font-size: 0.75rem;\n    font-weight: 600;\n    color: #64748b;\n    background: #0f172a;\n    padding: 2px 6px;\n    border-radius: 4px;\n    border: 1px solid #334155;\n  }\n\n  .order-name {\n    font-size: 0.92rem;\n    font-weight: 600;\n    color: #f8fafc;\n  }\n\n  .type-pill {\n    font-size: 0.7rem;\n    font-weight: 500;\n    padding: 2px 8px;\n    border-radius: 4px;\n  }\n\n  .type-pill.padrao {\n    background: #0f172a;\n    color: #94a3b8;\n    border: 1px solid #334155;\n  }\n\n  .type-pill.personalizado {\n    background: rgba(37, 99, 235, 0.12);\n    color: #60a5fa;\n    border: 1px solid rgba(37, 99, 235, 0.3);\n  }\n\n  .clp-state-container {\n    display: flex;\n  }\n\n  .clp-state-pill {\n    display: inline-flex;\n    align-items: center;\n    gap: 6px;\n    padding: 4px 10px;\n    border-radius: 6px;\n    font-size: 0.75rem;\n  }\n\n  .clp-state-pill.badge-active {\n    background: rgba(37, 99, 235, 0.12);\n    border: 1px solid rgba(37, 99, 235, 0.3);\n    color: #93c5fd;\n  }\n\n  .clp-state-pill.badge-waiting {\n    background: rgba(245, 158, 11, 0.12);\n    border: 1px solid rgba(245, 158, 11, 0.3);\n    color: #fcd34d;\n  }\n\n  .clp-state-pill.badge-success {\n    background: rgba(16, 185, 129, 0.12);\n    border: 1px solid rgba(16, 185, 129, 0.3);\n    color: #6ee7b7;\n  }\n\n  .state-dot {\n    width: 6px;\n    height: 6px;\n    border-radius: 50%;\n  }\n\n  .dot-active {\n    background: #3b82f6;\n  }\n\n  .dot-waiting {\n    background: #f59e0b;\n  }\n\n  .dot-success {\n    background: #10b981;\n  }\n\n  .progress-container {\n    height: 4px;\n    background: #0f172a;\n    border-radius: 9999px;\n    overflow: hidden;\n  }\n\n  .progress-bar {\n    height: 100%;\n    background: #2563eb;\n    border-radius: 9999px;\n    transition: width 0.3s ease;\n  }\n\n  .item-footer-row {\n    display: flex;\n    justify-content: space-between;\n    font-size: 0.72rem;\n    color: #64748b;\n  }\n\n  .empty-list-notice {\n    text-align: center;\n    padding: 30px;\n    color: #64748b;\n    font-size: 0.8rem;\n  }\n\n  .totem-card {\n    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.25);\n    transition: background-color 0.25s ease, box-shadow 0.25s ease\n  }\n\n  .nrdb-ui-page {\n    display: flex;\n    justify-content: center;\n    align-items: center;\n  }\n</style>",
+        "format": "<div class=\"queue-container\">\n  <!-- Header de Monitoramento da Fila -->\n  <div class=\"queue-card-top\">\n    <div class=\"queue-meta\">\n      <span class=\"queue-count-label\">Ordens na Linha: <strong>{{ pedidos.length }}</strong></span>\n    </div>\n  </div>\n\n  <!-- Lista de Pedidos -->\n  <div class=\"queue-items-list\">\n    <div v-for=\"(pedido, index) in pedidos\" :key=\"index\" class=\"queue-item-card\">\n\n      <div class=\"item-header-row\">\n        <div class=\"id-and-name\">\n          <span class=\"order-sequence\">#{{ String(index + 1).padStart(3, '0') }}</span>\n          <span class=\"order-name\">{{ pedido.nome }}</span>\n        </div>\n        <span class=\"type-pill\" :class=\"pedido.tipo.toLowerCase()\">{{ pedido.tipo }}</span>\n      </div>\n\n      <!-- Tag de Estado do CLP Sóbria -->\n      <div class=\"clp-state-container\">\n        <div class=\"clp-state-pill\" :class=\"getStateBadgeClass(pedido.estado)\">\n          <span class=\"state-dot\" :class=\"getStateDotClass(pedido.estado)\"></span>\n          <span class=\"state-text\">{{ pedido.estado }}</span>\n        </div>\n      </div>\n\n      <!-- Barra de Progresso Discreta -->\n      <div class=\"progress-container\">\n        <div class=\"progress-bar\" :style=\"{ width: getProgressPercent(pedido.estado) + '%' }\"></div>\n      </div>\n\n      <div class=\"item-footer-row\">\n        <span class=\"progress-percentage\">{{ getProgressPercent(pedido.estado) }}% concluído</span>\n        <span class=\"order-time\">{{ pedido.timestamp }}</span>\n      </div>\n    </div>\n\n    <!-- Estado Vazio -->\n    <div class=\"empty-list-notice\" v-if=\"pedidos.length === 0\">\n      <span>Nenhum pedido ativo na esteira no momento.</span>\n    </div>\n  </div>\n</div>\n\n<script>\n  export default {\n  data() {\n    return {\n      // Inicia a lista vazia para ser preenchida dinamicamente\n      pedidos: []\n    };\n  },\n  watch: {\n    msg: {\n      immediate: true,\n      handler(newVal) {\n        if (!newVal || !newVal.payload) return;\n        \n        // O Node-RED sempre enviará a lista completa e atualizada de pedidos\n        if (Array.isArray(newVal.payload)) {\n          this.pedidos = newVal.payload;\n        }\n      }\n    }\n  },\n  mounted() {\n    // Escuta atualizações via WebSocket em tempo real\n    this.$socket?.on('ui-template:' + this.id, (msg) => {\n      if (msg && Array.isArray(msg.payload)) {\n        this.pedidos = msg.payload;\n      }\n    });\n  },\n  methods: {\n    getProgressPercent(estado) {\n      const mapa = {\n        'Em espera na fila (Estoque 1 - Bruto)': 10,\n        'Torno: Torneando o primeiro lado': 30,\n        'Torno: Torneando o segundo lado': 45,\n        'Estoque 2 (Torneadas): Aguardando Centro de Usinagem': 60,\n        'Centro: Usinando peça': 75,\n        'Estoque 3 (Usinadas): Aguardando Centro para customizar a sua peça!': 85,\n        'Centro: Customizando sua peça': 90,\n        'Peça pronta': 100\n      };\n      return mapa[estado] || 10;\n    },\n    getStateBadgeClass(estado) {\n      if (!estado) return 'badge-waiting';\n      if (estado === 'Peça pronta') return 'badge-success';\n      if (estado.includes('Centro') || estado.includes('Torno')) return 'badge-active';\n      return 'badge-waiting';\n    },\n    getStateDotClass(estado) {\n      if (!estado) return 'dot-waiting';\n      if (estado === 'Peça pronta') return 'dot-success';\n      if (estado.includes('Centro') || estado.includes('Torno')) return 'dot-active';\n      return 'dot-waiting';\n    }\n  }\n};\n</script>\n\n<style>\n  .queue-container {\n    font-family: var(--font-sans, system-ui, sans-serif);\n    color: #f8fafc;\n    display: flex;\n    flex-direction: column;\n    gap: 14px;\n  }\n\n  .queue-card-top {\n    display: flex;\n    justify-content: space-between;\n    align-items: center;\n    background: #1e293b;\n    border: 1px solid #334155;\n    border-radius: 8px;\n    padding: 12px 16px;\n  }\n\n  .queue-count-label {\n    font-size: 1.2rem;\n    color: #94a3b8;\n  }\n\n  .queue-count-label strong {\n    color: #f8fafc;\n  }\n\n  .clp-status-tag {\n    display: flex;\n    align-items: center;\n    gap: 6px;\n    font-size: 0.75rem;\n    color: #10b981;\n  }\n\n  .status-indicator-dot {\n    width: 6px;\n    height: 6px;\n    border-radius: 50%;\n    background: #10b981;\n  }\n\n  .queue-items-list {\n    display: flex;\n    flex-direction: column;\n    gap: 10px;\n    /* Aumentado de 480px para 535px para igualar à altura do bloco da esquerda */\n    height: 458px;\n    overflow-y: auto;\n  }\n\n  .queue-item-card {\n    background: #1e293b;\n    border-radius: 8px;\n    padding: 14px;\n    display: flex;\n    flex-direction: column;\n    gap: 10px;\n    width: 100%;\n    /* Removido o 'height: 60%' para deixar o card com altura automática natural */\n    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.25);\n    transition: background-color 0.25s ease, box-shadow 0.25s ease;\n  }\n\n\n  .item-header-row {\n    display: flex;\n    justify-content: space-between;\n    align-items: center;\n  }\n\n  .id-and-name {\n    display: flex;\n    align-items: center;\n    gap: 8px;\n  }\n\n  .order-sequence {\n    font-size: 0.75rem;\n    font-weight: 600;\n    color: #64748b;\n    background: #0f172a;\n    padding: 2px 6px;\n    border-radius: 4px;\n    border: 1px solid #334155;\n  }\n\n  .order-name {\n    font-size: 0.92rem;\n    font-weight: 600;\n    color: #f8fafc;\n  }\n\n  .type-pill {\n    font-size: 0.7rem;\n    font-weight: 500;\n    padding: 2px 8px;\n    border-radius: 4px;\n  }\n\n  .type-pill.padrao {\n    background: #0f172a;\n    color: #94a3b8;\n    border: 1px solid #334155;\n  }\n\n  .type-pill.personalizado {\n    background: rgba(37, 99, 235, 0.12);\n    color: #60a5fa;\n    border: 1px solid rgba(37, 99, 235, 0.3);\n  }\n\n  .clp-state-container {\n    display: flex;\n  }\n\n  .clp-state-pill {\n    display: inline-flex;\n    align-items: center;\n    gap: 6px;\n    padding: 4px 10px;\n    border-radius: 6px;\n    font-size: 0.75rem;\n  }\n\n  .clp-state-pill.badge-active {\n    background: rgba(37, 99, 235, 0.12);\n    border: 1px solid rgba(37, 99, 235, 0.3);\n    color: #93c5fd;\n  }\n\n  .clp-state-pill.badge-waiting {\n    background: rgba(245, 158, 11, 0.12);\n    border: 1px solid rgba(245, 158, 11, 0.3);\n    color: #fcd34d;\n  }\n\n  .clp-state-pill.badge-success {\n    background: rgba(16, 185, 129, 0.12);\n    border: 1px solid rgba(16, 185, 129, 0.3);\n    color: #6ee7b7;\n  }\n\n  .state-dot {\n    width: 6px;\n    height: 6px;\n    border-radius: 50%;\n  }\n\n  .dot-active {\n    background: #3b82f6;\n  }\n\n  .dot-waiting {\n    background: #f59e0b;\n  }\n\n  .dot-success {\n    background: #10b981;\n  }\n\n  .progress-container {\n    height: 4px;\n    background: #0f172a;\n    border-radius: 9999px;\n    overflow: hidden;\n  }\n\n  .progress-bar {\n    height: 100%;\n    background: #2563eb;\n    border-radius: 9999px;\n    transition: width 0.3s ease;\n  }\n\n  .item-footer-row {\n    display: flex;\n    justify-content: space-between;\n    font-size: 0.72rem;\n    color: #64748b;\n  }\n\n  .empty-list-notice {\n    text-align: center;\n    padding: 30px;\n    color: #64748b;\n    font-size: 1.2rem;\n  }\n\n  .totem-card {\n    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.25);\n    transition: background-color 0.25s ease, box-shadow 0.25s ease\n  }\n\n  .nrdb-ui-page {\n    display: flex;\n    justify-content: center;\n    align-items: center;\n  }\n</style>",
         "storeOutMessages": true,
         "passthru": true,
         "resendOnRefresh": true,
         "templateScope": "local",
         "className": "",
-        "x": 1250,
-        "y": 560,
+        "x": 1410,
+        "y": 640,
         "wires": [
             []
         ]
@@ -300,15 +300,15 @@
         "type": "function",
         "z": "ee494d7919f39de2",
         "name": "Processamento",
-        "func": "// Avalia a entrada booleana (true = operando, false = parado)\nconst operando = msg.payload === true;\n\n// Retorna unicamente a mensagem necessária para o sinótico\nreturn {\n    topic: \"simulacao_torno\",\n    payload: {\n        estacao: \"torno\",\n        operando: operando\n    }\n};",
+        "func": "// Avalia a entrada booleana (true = operando, false = parado)\nconst operando = msg.payload[0] || msg.payload[1] === true;\n\n// Retorna unicamente a mensagem necessária para o sinótico\nreturn {\n\n   topic: \"simulacao_torno\",\n    payload: {\n        estacao: \"torno\",\n        operando: operando\n    }\n};",
         "outputs": 1,
         "timeout": 0,
         "noerr": 0,
         "initialize": "",
         "finalize": "",
         "libs": [],
-        "x": 1000,
-        "y": 420,
+        "x": 1020,
+        "y": 360,
         "wires": [
             [
                 "55a33664224555f7"
@@ -356,8 +356,8 @@
         "topic": "",
         "payload": "true",
         "payloadType": "bool",
-        "x": 750,
-        "y": 180,
+        "x": 770,
+        "y": 220,
         "wires": [
             [
                 "76ca22d97e6b92b4"
@@ -381,8 +381,8 @@
         "topic": "",
         "payload": "false",
         "payloadType": "bool",
-        "x": 730,
-        "y": 220,
+        "x": 750,
+        "y": 260,
         "wires": [
             [
                 "76ca22d97e6b92b4"
@@ -401,8 +401,8 @@
         "initialize": "",
         "finalize": "",
         "libs": [],
-        "x": 960,
-        "y": 200,
+        "x": 1000,
+        "y": 240,
         "wires": [
             [
                 "55a33664224555f7"
@@ -426,12 +426,10 @@
         "topic": "",
         "payload": "{\t   \"estacao\": \"estoque\",\t   \"estoque1\": 3,\t   \"estoque2\": 2,\t   \"estoque3\": 0\t}",
         "payloadType": "jsonata",
-        "x": 1040,
-        "y": 80,
+        "x": 1160,
+        "y": 100,
         "wires": [
-            [
-                "55a33664224555f7"
-            ]
+            []
         ]
     },
     {
@@ -447,7 +445,7 @@
         "unitid": "1",
         "dataType": "Coil",
         "adr": "199",
-        "quantity": "1",
+        "quantity": "2",
         "rate": "1",
         "rateUnit": "s",
         "delayOnStart": false,
@@ -458,64 +456,11 @@
         "ioFile": "",
         "useIOForPayload": false,
         "emptyMsgOnFail": false,
-        "x": 800,
-        "y": 420,
+        "x": 820,
+        "y": 360,
         "wires": [
             [
                 "a7e14ad05480eaaf"
-            ],
-            []
-        ]
-    },
-    {
-        "id": "39bdb19fd5f3d6bc",
-        "type": "function",
-        "z": "ee494d7919f39de2",
-        "name": "Processamento",
-        "func": "// Avalia a entrada booleana (true = operando, false = parado)\nconst operando = msg.payload === true;\n\n// Retorna unicamente a mensagem necessária para o sinótico\nreturn {\n    topic: \"simulacao_torno\",\n    payload: {\n        estacao: \"torno\",\n        operando: operando\n    }\n};",
-        "outputs": 1,
-        "timeout": 0,
-        "noerr": 0,
-        "initialize": "",
-        "finalize": "",
-        "libs": [],
-        "x": 1000,
-        "y": 360,
-        "wires": [
-            [
-                "55a33664224555f7"
-            ]
-        ]
-    },
-    {
-        "id": "10046d837e8c1ae7",
-        "type": "modbus-read",
-        "z": "ee494d7919f39de2",
-        "name": "GP.TorneandoL2",
-        "topic": "",
-        "showStatusActivities": true,
-        "logIOActivities": false,
-        "showErrors": true,
-        "showWarnings": true,
-        "unitid": "1",
-        "dataType": "Coil",
-        "adr": "200",
-        "quantity": "1",
-        "rate": "1",
-        "rateUnit": "s",
-        "delayOnStart": false,
-        "enableDeformedMessages": false,
-        "startDelayTime": "0.5",
-        "server": "7b75d210d181d3bb",
-        "useIOFile": false,
-        "ioFile": "",
-        "useIOForPayload": false,
-        "emptyMsgOnFail": false,
-        "x": 800,
-        "y": 360,
-        "wires": [
-            [
-                "39bdb19fd5f3d6bc"
             ],
             []
         ]
@@ -544,7 +489,7 @@
         "ioFile": "",
         "useIOForPayload": false,
         "emptyMsgOnFail": false,
-        "x": 830,
+        "x": 790,
         "y": 300,
         "wires": [
             [],
@@ -552,44 +497,19 @@
         ]
     },
     {
-        "id": "eeadfda4ef17ab5f",
-        "type": "inject",
-        "z": "ee494d7919f39de2",
-        "name": "Robo",
-        "props": [
-            {
-                "p": "payload"
-            }
-        ],
-        "repeat": "",
-        "crontab": "",
-        "once": false,
-        "onceDelay": 0.1,
-        "topic": "",
-        "payload": "{\t    \"estacao\" : \"robo\",\t    \"roboAtivo\" : false\t}",
-        "payloadType": "jsonata",
-        "x": 1030,
-        "y": 120,
-        "wires": [
-            [
-                "55a33664224555f7"
-            ]
-        ]
-    },
-    {
         "id": "1253871655bb76a9",
         "type": "modbus-read",
         "z": "ee494d7919f39de2",
-        "name": "GP.TorneandoL1",
-        "topic": "",
+        "name": "bloco1",
+        "topic": "bloco1",
         "showStatusActivities": true,
         "logIOActivities": false,
         "showErrors": true,
         "showWarnings": true,
         "unitid": "1",
         "dataType": "HoldingRegister",
-        "adr": "203",
-        "quantity": "1",
+        "adr": "19",
+        "quantity": "117",
         "rate": "1",
         "rateUnit": "s",
         "delayOnStart": false,
@@ -600,11 +520,11 @@
         "ioFile": "",
         "useIOForPayload": false,
         "emptyMsgOnFail": false,
-        "x": 920,
-        "y": 560,
+        "x": 970,
+        "y": 620,
         "wires": [
             [
-                "c67301c8d3d9db2b"
+                "d530a5f19e9df284"
             ],
             []
         ]
@@ -626,8 +546,8 @@
         "keepMsgProperties": true,
         "delayOnStart": false,
         "startDelayTime": "",
-        "x": 660,
-        "y": 720,
+        "x": 480,
+        "y": 540,
         "wires": [
             [],
             []
@@ -640,7 +560,7 @@
         "name": "",
         "label": "OpAuto",
         "group": "grp_sinotico_topdown",
-        "order": 0,
+        "order": 1,
         "width": 0,
         "height": 0,
         "passthru": false,
@@ -659,8 +579,8 @@
         "offvalueType": "bool",
         "officon": "",
         "offcolor": "",
-        "x": 460,
-        "y": 720,
+        "x": 280,
+        "y": 540,
         "wires": [
             [
                 "c72541dbbeceec46"
@@ -672,18 +592,270 @@
         "type": "function",
         "z": "ee494d7919f39de2",
         "name": "function 1",
-        "func": "\nreturn msg;",
+        "func": "// Pega os dados vindos do template do Totem\nlet dadosPedido = msg.payload;\nlet nomeString = dadosPedido.nome || \"\";\n\n// Garante que a string tenha um tamanho fixo de 16 caracteres completando com espaços\nnomeString = nomeString.padEnd(16, \" \"); \n\nlet modbusRegisters = [];\n// Converte os caracteres em registradores de 16 bits (2 caracteres por registrador)\nfor (let i = 0; i < nomeString.length; i += 2) {\n    let byte1 = nomeString.charCodeAt(i);\n    let byte2 = nomeString.charCodeAt(i + 1) || 32; // 32 = Espaço vazio\n    // Combina os dois bytes em uma word (16-bits)\n    modbusRegisters.push((byte1 << 8) | byte2); \n}\n\n// Mensagem 1: Envia o Nome (Array de inteiros) para os Holding Registers (ex: 40001 a 40008)\nlet msgRegistradores = {\n    payload: modbusRegisters,\n    fc: 16 // Function code para Write Multiple Registers\n};\n\n// Mensagem 2: Envia o pulso de 'novoPedido' (Boolean) para um Coil (ex: 00001)\nlet msgTrigger = {\n    payload: dadosPedido.novoPedido, \n    fc: 5 // Function code para Write Single Coil\n};\n\n// Envia para as duas saídas do nó (crie 2 saídas na configuração deste nó Function)\nreturn [msgRegistradores, msgTrigger];",
+        "outputs": 2,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 1040,
+        "y": 900,
+        "wires": [
+            [
+                "2fd18dcac5c17ad9"
+            ],
+            [
+                "81a83a7474c10f2d"
+            ]
+        ]
+    },
+    {
+        "id": "2fd18dcac5c17ad9",
+        "type": "modbus-write",
+        "z": "ee494d7919f39de2",
+        "name": "Enviar Nome do pedido",
+        "showStatusActivities": false,
+        "showErrors": false,
+        "showWarnings": true,
+        "unitid": "1",
+        "dataType": "MHoldingRegisters",
+        "adr": "1",
+        "quantity": "8",
+        "server": "7b75d210d181d3bb",
+        "emptyMsgOnFail": false,
+        "keepMsgProperties": false,
+        "delayOnStart": false,
+        "startDelayTime": "",
+        "x": 1250,
+        "y": 860,
+        "wires": [
+            [],
+            []
+        ]
+    },
+    {
+        "id": "81a83a7474c10f2d",
+        "type": "modbus-write",
+        "z": "ee494d7919f39de2",
+        "name": "Trigger Fila",
+        "showStatusActivities": false,
+        "showErrors": false,
+        "showWarnings": true,
+        "unitid": "1",
+        "dataType": "Coil",
+        "adr": "203",
+        "quantity": "1",
+        "server": "7b75d210d181d3bb",
+        "emptyMsgOnFail": false,
+        "keepMsgProperties": false,
+        "delayOnStart": false,
+        "startDelayTime": "",
+        "x": 1210,
+        "y": 940,
+        "wires": [
+            [],
+            []
+        ]
+    },
+    {
+        "id": "a9aac0a5e098ba3a",
+        "type": "modbus-read",
+        "z": "ee494d7919f39de2",
+        "name": "bloco2",
+        "topic": "bloco2",
+        "showStatusActivities": true,
+        "logIOActivities": false,
+        "showErrors": true,
+        "showWarnings": true,
+        "unitid": "1",
+        "dataType": "HoldingRegister",
+        "adr": "136",
+        "quantity": "108",
+        "rate": "1",
+        "rateUnit": "s",
+        "delayOnStart": false,
+        "enableDeformedMessages": false,
+        "startDelayTime": "0.5",
+        "server": "7b75d210d181d3bb",
+        "useIOFile": false,
+        "ioFile": "",
+        "useIOForPayload": false,
+        "emptyMsgOnFail": false,
+        "x": 970,
+        "y": 680,
+        "wires": [
+            [
+                "d530a5f19e9df284"
+            ],
+            []
+        ]
+    },
+    {
+        "id": "d530a5f19e9df284",
+        "type": "function",
+        "z": "ee494d7919f39de2",
+        "name": "function 2",
+        "func": "// Armazena ou recupera os blocos na memória de fluxo do Node-RED\nlet bloco1 = flow.get('bloco1') || [];\nlet bloco2 = flow.get('bloco2') || [];\n\n// Atualiza o bloco correspondente com base no tópico da mensagem recebida\nif (msg.topic === 'bloco1') {\n    bloco1 = msg.payload;\n    flow.set('bloco1', bloco1);\n} else if (msg.topic === 'bloco2') {\n    bloco2 = msg.payload;\n    flow.set('bloco2', bloco2);\n}\n\n// Une os dois arrays de registradores em um array contínuo de 225 WORDS\nlet rawRegisters = bloco1.concat(bloco2);\n\n// Só executa o parser se já tiver recebido dados de ambos os blocos\nif (rawRegisters.length < 225) {\n    return null; \n}\n\nconst MAPA_ESTADOS = {\n    1: 'Em espera na fila (Estoque 1 - Bruto)',\n    2: 'Torno: Torneando o primeiro lado',\n    3: 'Torno: Torneando o segundo lado',\n    4: 'Estoque 2 (Torneadas): Aguardando Centro de Usinagem',\n    5: 'Centro: Usinando peça',\n    6: 'Estoque 3 (Usinadas): Aguardando Centro para customizar a sua peça!',\n    7: 'Centro: Customizando sua peça',\n    8: 'Peça pronta'\n};\n\nlet pedidosFormatados = [];\nconst totalPedidos = Math.floor(rawRegisters.length / 9);\n\nfor (let i = 0; i < totalPedidos; i++) {\n    let offset = i * 9;\n    \n    // Pega o código de estado na 9ª WORD\n    let estadoCodigo = rawRegisters[offset + 8] & 0xFF;\n    \n    // Pula slots desativados\n    if (estadoCodigo === 0) continue;\n\n    // Decodifica a String do Nome\n    let nomeChars = [];\n    for (let w = 0; w < 8; w++) {\n        let wordVal = rawRegisters[offset + w];\n        let charHigh = (wordVal >> 8) & 0xFF;\n        let charLow = wordVal & 0xFF;\n\n        if (charHigh !== 0) nomeChars.push(String.fromCharCode(charHigh));\n        if (charLow !== 0) nomeChars.push(String.fromCharCode(charLow));\n    }\n    \n    let nomeString = nomeChars.join(\"\").trim();\n\n    if (nomeString.length > 0) {\n        pedidosFormatados.push({\n            nome: nomeString,\n            tipo: nomeString === 'SENAI' ? 'PADRAO' : 'PERSONALIZADO',\n            estado: MAPA_ESTADOS[estadoCodigo] || 'Em processamento',\n            timestamp: new Date().toLocaleTimeString()\n        });\n    }\n}\n\nreturn { payload: pedidosFormatados };",
         "outputs": 1,
         "timeout": 0,
         "noerr": 0,
         "initialize": "",
         "finalize": "",
         "libs": [],
-        "x": 1300,
-        "y": 700,
+        "x": 1160,
+        "y": 660,
         "wires": [
             [
                 "c67301c8d3d9db2b"
+            ]
+        ]
+    },
+    {
+        "id": "b43694cb1922245a",
+        "type": "debug",
+        "z": "ee494d7919f39de2",
+        "name": "debug 1",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "false",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 1320,
+        "y": 420,
+        "wires": []
+    },
+    {
+        "id": "1e624db73601f37e",
+        "type": "modbus-read",
+        "z": "ee494d7919f39de2",
+        "name": "GP.CentroUsinando",
+        "topic": "",
+        "showStatusActivities": true,
+        "logIOActivities": false,
+        "showErrors": true,
+        "showWarnings": true,
+        "unitid": "1",
+        "dataType": "Coil",
+        "adr": "206",
+        "quantity": "2",
+        "rate": "1",
+        "rateUnit": "s",
+        "delayOnStart": false,
+        "enableDeformedMessages": false,
+        "startDelayTime": "0.5",
+        "server": "7b75d210d181d3bb",
+        "useIOFile": false,
+        "ioFile": "",
+        "useIOForPayload": false,
+        "emptyMsgOnFail": false,
+        "x": 810,
+        "y": 420,
+        "wires": [
+            [
+                "642178f9e16d3230"
+            ],
+            []
+        ]
+    },
+    {
+        "id": "642178f9e16d3230",
+        "type": "function",
+        "z": "ee494d7919f39de2",
+        "name": "Processamento",
+        "func": "// Avalia a entrada booleana (true = operando, false = parado)\nconst operando = msg.payload[0] || msg.payload[1] === true;\n\n// Retorna unicamente a mensagem necessária para o sinótico\nreturn {\n    topic: \"simulacao_centro\",\n    payload: {\n        estacao: \"centro\",\n        operando: operando\n    }\n};",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 1020,
+        "y": 420,
+        "wires": [
+            [
+                "55a33664224555f7"
+            ]
+        ]
+    },
+    {
+        "id": "481234f82258bfb4",
+        "type": "modbus-read",
+        "z": "ee494d7919f39de2",
+        "name": "GP.Estoque",
+        "topic": "",
+        "showStatusActivities": true,
+        "logIOActivities": false,
+        "showErrors": true,
+        "showWarnings": true,
+        "unitid": "1",
+        "dataType": "HoldingRegister",
+        "adr": "10",
+        "quantity": "3",
+        "rate": "1",
+        "rateUnit": "s",
+        "delayOnStart": false,
+        "enableDeformedMessages": false,
+        "startDelayTime": "0.5",
+        "server": "7b75d210d181d3bb",
+        "useIOFile": false,
+        "ioFile": "",
+        "useIOForPayload": false,
+        "emptyMsgOnFail": false,
+        "x": 830,
+        "y": 160,
+        "wires": [
+            [
+                "25272cbb7a4d17ce"
+            ],
+            []
+        ]
+    },
+    {
+        "id": "eeadfda4ef17ab5f",
+        "type": "inject",
+        "z": "ee494d7919f39de2",
+        "name": "Robo",
+        "props": [
+            {
+                "p": "payload"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "payload": "{\t    \"estacao\" : \"robo\",\t    \"roboAtivo\" : false\t}",
+        "payloadType": "jsonata",
+        "x": 1230,
+        "y": 60,
+        "wires": [
+            [
+                "55a33664224555f7"
+            ]
+        ]
+    },
+    {
+        "id": "25272cbb7a4d17ce",
+        "type": "function",
+        "z": "ee494d7919f39de2",
+        "name": "Processamento",
+        "func": "const E1 = msg.payload[0];\n\nconst E2 = msg.payload[1];\n\nconst E3 = msg.payload[2];\n\nreturn {\n\n   payload: {\n      estacao: \"estoque\",\n      estoque1: E1,\n      estoque2: E2,\n      estoque3: E3\n   }\n\n};",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 1020,
+        "y": 160,
+        "wires": [
+            [
+                "55a33664224555f7",
+                "b43694cb1922245a"
             ]
         ]
     }
