@@ -1,13 +1,13 @@
 [
     {
-        "id": "165c9cd4e414f75b",
+        "id": "8496e6936d8e92b0",
         "type": "tab",
         "label": "Flow 1",
         "disabled": false,
         "info": ""
     },
     {
-        "id": "a0e5734fb3d03f9f",
+        "id": "7aae740c266d0d41",
         "type": "tab",
         "label": "Produtividade FMS",
         "disabled": false,
@@ -32,7 +32,7 @@
         "clienttype": "tcp",
         "bufferCommands": true,
         "stateLogEnabled": false,
-        "queueLogEnabled": false,
+        "queueLogEnabled": true,
         "failureLogEnabled": true,
         "tcpHost": "192.168.0.1",
         "tcpPort": 502,
@@ -47,7 +47,7 @@
         "serialAsciiResponseStartDelimiter": "0x3A",
         "unit_id": 1,
         "commandDelay": 1,
-        "clientTimeout": 1000,
+        "clientTimeout": 500,
         "reconnectOnTimeout": true,
         "reconnectTimeout": 2000,
         "parallelUnitIdsAllowed": true,
@@ -163,8 +163,8 @@
         ],
         "order": 2,
         "className": "",
-        "visible": true,
-        "disabled": false
+        "visible": "true",
+        "disabled": "false"
     },
     {
         "id": "grp_sinotico_topdown",
@@ -241,8 +241,8 @@
         ],
         "order": 3,
         "className": "",
-        "visible": "true",
-        "disabled": "false"
+        "visible": true,
+        "disabled": false
     },
     {
         "id": "614bdd54e9c64248",
@@ -273,7 +273,7 @@
         "type": "ui-spacer",
         "group": "614bdd54e9c64248",
         "name": "spacer",
-        "order": 5,
+        "order": 4,
         "width": 1,
         "height": 1,
         "className": ""
@@ -283,7 +283,7 @@
         "type": "ui-spacer",
         "group": "614bdd54e9c64248",
         "name": "spacer",
-        "order": 7,
+        "order": 5,
         "width": 1,
         "height": 1,
         "className": ""
@@ -395,9 +395,9 @@
         "groupType": "default"
     },
     {
-        "id": "71032eca385d5823",
+        "id": "f758e69520d7b105",
         "type": "comment",
-        "z": "165c9cd4e414f75b",
+        "z": "8496e6936d8e92b0",
         "name": "Decoração",
         "info": "",
         "x": 180,
@@ -405,9 +405,9 @@
         "wires": []
     },
     {
-        "id": "ffa078874e730c2a",
+        "id": "1a307d5686bd39bc",
         "type": "ui-template",
-        "z": "165c9cd4e414f75b",
+        "z": "8496e6936d8e92b0",
         "group": "grp_sinotico_topdown",
         "page": "",
         "ui": "",
@@ -416,22 +416,22 @@
         "width": 0,
         "height": 0,
         "head": "",
-        "format": "<div class=\"scada-root\">\n  <div class=\"scada-top-bar\">\n    <div class=\"scada-brand-row\">\n      <div class=\"senai-sp-badge\">SENAI SP</div>\n      <div>\n        <h2 class=\"scada-main-title\">Célula Integrada de Manufatura de Chaveiros</h2>\n        <p class=\"scada-sub-title\">Visualização da integração em tempo real</p>\n      </div>\n    </div>\n    <div class=\"scada-quick-indicators\">\n      <div class=\"indicator-item\">\n        <span class=\"status-dot\" :class=\"clpConectado ? 'green' : 'red'\"></span>\n        <span>CLP Altus: {{ clpConectado ? 'Conectado' : 'Desconectado' }}</span>\n      </div>\n      <div class=\"indicator-item\">\n        <span class=\"status-dot\" :class=\"cicloAutomatico ? 'green' : 'amber'\"></span>\n        <span>Ciclo: {{ cicloAutomatico ? 'Automático' : 'Manual' }}</span>\n      </div>\n    </div>\n  </div>\n\n  <div class=\"cell-main-grid\">\n    <div class=\"station-elevation-card\">\n      <div class=\"station-title-row\">\n        <h3 class=\"station-headline\">Centro de Usinagem</h3>\n        <span class=\"status-pill\" :class=\"centroAtivo ? 'processing' : 'green'\">{{ centroStatusBadge }}</span>\n      </div>\n      <div class=\"machine-hero-container\">\n        <div class=\"image-tint-wrapper\" :class=\"{ 'is-processing': centroAtivo }\">\n          <img src=\"/Centro.png\" alt=\"Centro de Usinagem\" class=\"machine-photo\" />\n        </div>\n      </div>\n    </div>\n\n    <div class=\"center-elevation-flow\">\n      <div class=\"station-elevation-card integrated-center-card\">\n        <div class=\"station-title-row\">\n          <h3 class=\"station-headline\">Logística e Alimentação</h3>\n          <span class=\"status-pill\" :class=\"roboAtivo ? 'processing' : 'green'\">{{ roboAtivo ? 'Robô em Movimento' : 'Robô em Prontidão' }}</span>\n        </div>\n\n        <div class=\"dynamic-buffers\">\n          <div class=\"buffer-lane\">\n            <div class=\"buffer-header\">\n              <span class=\"buffer-name\">Estoque 1 <span class=\"buffer-type\">Peça bruta</span></span>\n              <span class=\"buffer-count\">{{ estoque1 }}/10</span>\n            </div>\n            <div class=\"buffer-track\">\n              <div v-for=\"n in 10\" :key=\"'e1-'+n\" class=\"piece-slot\" :class=\"{ 'filled bruto': n <= estoque1 }\"></div>\n            </div>\n          </div>\n\n          <div class=\"buffer-lane\">\n            <div class=\"buffer-header\">\n              <span class=\"buffer-name\">Estoque 2 <span class=\"buffer-type\">Torneadas</span></span>\n              <span class=\"buffer-count\">{{ estoque2 }}/10</span>\n            </div>\n            <div class=\"buffer-track\">\n              <div v-for=\"n in 10\" :key=\"'e2-'+n\" class=\"piece-slot\" :class=\"{ 'filled torneado': n <= estoque2 }\"></div>\n            </div>\n          </div>\n\n          <div class=\"buffer-lane\">\n            <div class=\"buffer-header\">\n              <span class=\"buffer-name\">Estoque 3 <span class=\"buffer-type\">Usinadas</span></span>\n              <span class=\"buffer-count\">{{ estoque3 }}/10</span>\n            </div>\n            <div class=\"buffer-track\">\n              <div v-for=\"n in 10\" :key=\"'e3-'+n\" class=\"piece-slot\" :class=\"{ 'filled pronto': n <= estoque3 }\"></div>\n            </div>\n          </div>\n        </div>\n\n        <div class=\"peca-preview-box\">\n          <div class=\"preview-header-row\">\n            <span class=\"preview-mini-title\">Prévia da Peça em Processo</span>\n            <span class=\"status-pill green\">{{ textoGravado }}</span>\n          </div>\n          <div class=\"keyring-stage-compact\">\n            <div class=\"aluminum-part-compact\">\n              <div class=\"keychain-hole\"><div class=\"hole-bevel\"></div></div>\n              <div class=\"engraving-face\"><span class=\"milled-text\">{{ textoGravado }}</span></div>\n            </div>\n          </div>\n        </div>\n\n        <div class=\"robot-linear-axis\">\n          <div class=\"axis-track\"></div>\n          <div class=\"robot-cursor\" :class=\"{ 'moving': roboAtivo }\">\n            <span class=\"cursor-dot\"></span> Manipulador\n          </div>\n        </div>\n      </div>\n    </div>\n\n    <div class=\"station-elevation-card\">\n      <div class=\"station-title-row\">\n        <h3 class=\"station-headline\">Torno CNC</h3>\n        <span class=\"status-pill\" :class=\"tornoAtivo ? 'processing' : 'green'\">{{ tornoStatusBadge }}</span>\n      </div>\n      <div class=\"machine-hero-container\">\n        <div class=\"image-tint-wrapper\" :class=\"{ 'is-processing': tornoAtivo }\">\n          <img src=\"/Torno.png\" alt=\"Torno CNC\" class=\"machine-photo\" />\n        </div>\n      </div>\n    </div>\n  </div>\n</div>\n\n<script>\nexport default {\n  data() {\n    return {\n      clpConectado: true,\n      cicloAutomatico: true,\n      tornoAtivo: false,\n      tornoStatusBadge: 'Operante',\n      centroAtivo: false,\n      centroStatusBadge: 'Operante',\n      roboAtivo: false,\n      estoque1: 2,\n      estoque2: 1,\n      estoque3: 0,\n      textoGravado: 'SENAI'\n    };\n  },\n  watch: {\n    msg: {\n      immediate: true,\n      handler(newVal) {\n        if (!newVal || !newVal.payload) return;\n        const p = newVal.payload;\n        if (Array.isArray(p)) {\n          this.textoGravado = (p.length > 0 && p[0].nome) ? p[0].nome : 'SEM PEÇA';\n          return;\n        }\n        if (p.nome) this.textoGravado = p.nome;\n        if (p.clpConectado !== undefined) this.clpConectado = !!p.clpConectado;\n        if (p.cicloAutomatico !== undefined) this.cicloAutomatico = !!p.cicloAutomatico;\n        if (p.estacao === 'torno' || newVal.topic === 'simulacao_torno') {\n          this.tornoAtivo = !!p.operando;\n          this.tornoStatusBadge = this.tornoAtivo ? 'Torneando L1' : 'Operante';\n        }\n        if (p.estacao === 'centro' || newVal.topic === 'simulacao_centro') {\n          this.centroAtivo = !!p.operando;\n          this.centroStatusBadge = this.centroAtivo ? 'Usinando' : 'Operante';\n        }\n        if (p.estacao === 'estoque') {\n          if (p.estoque1 !== undefined) this.estoque1 = p.estoque1;\n          if (p.estoque2 !== undefined) this.estoque2 = p.estoque2;\n          if (p.estoque3 !== undefined) this.estoque3 = p.estoque3;\n        }\n        if (p.estacao === 'robo') {\n          if (p.roboAtivo !== undefined) this.roboAtivo = !!p.roboAtivo;\n        }\n      }\n    }\n  }\n};\n</script>\n\n<style>\n.scada-root { width: 100%; margin: 0 auto; font-family: var(--font-sans, system-ui, sans-serif); color: #f8fafc; display: flex; flex-direction: column; gap: 16px; }\n.scada-top-bar { display: flex; justify-content: space-between; align-items: center; padding: 4px 6px; }\n.scada-brand-row { display: flex; align-items: center; gap: 14px; }\n.senai-sp-badge { background: #e30613; color: #ffffff; font-weight: 700; font-size: 0.85rem; letter-spacing: 0.08em; padding: 6px 14px; border-radius: 6px; display: inline-flex; align-items: center; box-shadow: 0 2px 8px rgba(227, 6, 19, 0.35); }\n.scada-main-title { font-size: 1.25rem; font-weight: 600; color: #ffffff; margin: 0; }\n.scada-sub-title { font-size: 0.82rem; color: #94a3b8; margin: 2px 0 0 0; }\n.scada-quick-indicators { display: flex; gap: 16px; }\n.indicator-item { display: flex; align-items: center; gap: 8px; font-size: 0.8rem; color: #cbd5e1; }\n.status-dot { width: 7px; height: 7px; border-radius: 50%; }\n.status-dot.green { background: #10b981; }\n.status-dot.red { background: #ef4444; }\n.status-dot.amber { background: #f59e0b; }\n.cell-main-grid { display: grid; grid-template-columns: 460px 1fr 460px; gap: 20px; }\n@media (max-width: 1024px) { .cell-main-grid { grid-template-columns: 1fr; } }\n.station-elevation-card { background: #1e293b; border-radius: 12px; padding: 22px; display: flex; flex-direction: column; gap: 16px; box-shadow: 0 4px 16px rgba(0,0,0,0.25); }\n.station-title-row { display: flex; justify-content: space-between; align-items: center; }\n.station-headline { font-size: 1.15rem; font-weight: 600; color: #ffffff; margin: 0; }\n.status-pill { font-size: 0.75rem; font-weight: 500; padding: 4px 10px; border-radius: 6px; }\n.status-pill.green { background: rgba(16, 185, 129, 0.12); color: #10b981; }\n.status-pill.processing { background: rgba(16, 185, 129, 0.2); color: #10b981; font-weight: 600; animation: pulse-soft 2s infinite ease-in-out; }\n@keyframes pulse-soft { 0%, 100% { opacity: 1; } 50% { opacity: 0.7; } }\n.machine-hero-container { background: #141d2e; border-radius: 10px; flex: 1; min-height: 280px; display: flex; align-items: center; justify-content: center; padding: 16px; position: relative; overflow: hidden; }\n.image-tint-wrapper { position: relative; display: flex; align-items: center; justify-content: center; width: 100%; height: 100%; }\n.machine-photo { max-width: 100%; max-height: 260px; object-fit: contain; }\n.center-elevation-flow { display: flex; flex-direction: column; height: 100%; gap: 16px; }\n.integrated-center-card { padding: 24px; }\n.dynamic-buffers { display: flex; flex-direction: column; gap: 14px; margin-top: 10px; }\n.buffer-lane { background: #141d2e; border-radius: 8px; padding: 8px 12px; border: 1px solid #1e293b; }\n.buffer-header { display: flex; justify-content: space-between; margin-bottom: 8px; }\n.buffer-name { font-size: 0.85rem; font-weight: 600; color: #f8fafc; }\n.buffer-type { font-size: 0.68rem; color: #64748b; margin-left: 6px; padding: 2px 6px; background: #0f172a; border-radius: 4px; }\n.buffer-count { font-size: 0.8rem; font-weight: 700; color: #94a3b8; }\n.buffer-track { display: flex; gap: 6px; background: rgba(0,0,0,0.15); padding: 4px 6px; border-radius: 6px; justify-content: space-between; }\n.piece-slot { width: 34px; height: 34px; border-radius: 50%; border: 2px dashed #334155; }\n.piece-slot.filled.bruto { background: linear-gradient(145deg, #cbd5e1, #94a3b8); border-color: #f8fafc; border-style: solid; }\n.piece-slot.filled.torneado { background: linear-gradient(145deg, #fcd34d, #f59e0b); border-color: #fffbeb; border-style: solid; }\n.piece-slot.filled.pronto { background: linear-gradient(145deg, #34d399, #10b981); border-color: #d1fae5; border-style: solid; }\n.peca-preview-box { background: #141d2e; border: 1px solid #24334a; border-radius: 8px; padding: 10px 14px; margin-top: 10px; }\n.preview-header-row { display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px; }\n.preview-mini-title { font-size: 0.78rem; font-weight: 600; color: #94a3b8; text-transform: uppercase; }\n.keyring-stage-compact { background: #0f172a; border: 1px solid #1e293b; border-radius: 6px; padding: 10px; display: flex; align-items: center; justify-content: center; }\n.aluminum-part-compact { width: 100%; max-width: 240px; height: 48px; background: linear-gradient(180deg, #e2e8f0, #94a3b8); border-radius: 6px; border: 1px solid #f8fafc; display: flex; align-items: center; padding: 0 10px; gap: 10px; }\n.keychain-hole { width: 16px; height: 16px; border-radius: 50%; background: #475569; display: flex; align-items: center; justify-content: center; }\n.hole-bevel { width: 8px; height: 8px; border-radius: 50%; background: #0f172a; }\n.engraving-face { flex: 1; height: 32px; border-radius: 4px; display: flex; align-items: center; justify-content: center; background: rgba(0,0,0,0.05); }\n.milled-text { font-family: var(--font-mono, monospace); font-size: 0.85rem; font-weight: 700; color: #1e293b; }\n.robot-linear-axis { position: relative; margin-top: 16px; height: 40px; background: #0f172a; border-radius: 20px; border: 1px solid #1e293b; display: flex; align-items: center; padding: 0 6px; }\n.axis-track { position: absolute; left: 20px; right: 20px; height: 4px; background: #1e293b; border-radius: 2px; }\n.robot-cursor { position: relative; z-index: 2; background: #e30613; color: #ffffff; font-size: 0.75rem; font-weight: 600; padding: 6px 14px; border-radius: 16px; display: flex; align-items: center; gap: 6px; left: 0%; transition: left 1.5s ease-in-out, background 0.3s; }\n.robot-cursor.moving { left: calc(100% - 110px); background: #10b981; }\n.cursor-dot { width: 8px; height: 8px; background: #ffffff; border-radius: 50%; }\n</style>",
+        "format": "<div class=\"scada-root\">\n  <div class=\"cell-main-grid\">\n    <div class=\"station-elevation-card\">\n      <div class=\"station-title-row\">\n        <h3 class=\"station-headline\">Centro de Usinagem</h3>\n        <span class=\"status-pill\" :class=\"centroAtivo ? 'processing' : 'green'\">{{ centroStatusBadge }}</span>\n      </div>\n      <div class=\"machine-hero-container\">\n        <div class=\"image-tint-wrapper\" :class=\"{ 'is-processing': centroAtivo }\">\n          <img src=\"/Centro.png\" alt=\"Centro de Usinagem\" class=\"machine-photo\" />\n        </div>\n      </div>\n    </div>\n\n    <div class=\"center-elevation-flow\">\n      <div class=\"station-elevation-card integrated-center-card\">\n        <div class=\"station-title-row\">\n          <h3 class=\"station-headline\">Logística e Alimentação</h3>\n          <span class=\"status-pill\" :class=\"roboAtivo ? 'processing' : 'green'\">{{ roboAtivo ? 'Robô em Movimento' : 'Robô em Prontidão' }}</span>\n        </div>\n\n        <div class=\"dynamic-buffers\">\n          <div class=\"buffer-lane\">\n            <div class=\"buffer-header\">\n              <span class=\"buffer-name\">Estoque 1 <span class=\"buffer-type\">Peça bruta</span></span>\n              <span class=\"buffer-count\">{{ estoque1 }}/10</span>\n            </div>\n            <div class=\"buffer-track\">\n              <div v-for=\"n in 10\" :key=\"'e1-'+n\" class=\"piece-slot\" :class=\"{ 'filled bruto': n <= estoque1 }\"></div>\n            </div>\n          </div>\n\n          <div class=\"buffer-lane\">\n            <div class=\"buffer-header\">\n              <span class=\"buffer-name\">Estoque 2 <span class=\"buffer-type\">Torneadas</span></span>\n              <span class=\"buffer-count\">{{ estoque2 }}/10</span>\n            </div>\n            <div class=\"buffer-track\">\n              <div v-for=\"n in 10\" :key=\"'e2-'+n\" class=\"piece-slot\" :class=\"{ 'filled torneado': n <= estoque2 }\"></div>\n            </div>\n          </div>\n\n          <div class=\"buffer-lane\">\n            <div class=\"buffer-header\">\n              <span class=\"buffer-name\">Estoque 3 <span class=\"buffer-type\">Usinadas</span></span>\n              <span class=\"buffer-count\">{{ estoque3 }}/10</span>\n            </div>\n            <div class=\"buffer-track\">\n              <div v-for=\"n in 10\" :key=\"'e3-'+n\" class=\"piece-slot\" :class=\"{ 'filled pronto': n <= estoque3 }\"></div>\n            </div>\n          </div>\n        </div>\n\n        <div class=\"peca-preview-box\">\n          <div class=\"preview-header-row\">\n            <span class=\"preview-mini-title\">Prévia da Peça em Processo</span>\n            <span class=\"status-pill green\">{{ textoGravado }}</span>\n          </div>\n          <div class=\"keyring-stage-compact\">\n            <div class=\"aluminum-part-compact\">\n              <div class=\"keychain-hole\"><div class=\"hole-bevel\"></div></div>\n              <div class=\"engraving-face\"><span class=\"milled-text\">{{ textoGravado }}</span></div>\n            </div>\n          </div>\n        </div>\n\n        <div class=\"robot-linear-axis\">\n          <div class=\"axis-track\"></div>\n          <div class=\"robot-cursor\" :class=\"{ 'moving': roboAtivo }\">\n            <span class=\"cursor-dot\"></span> Manipulador\n          </div>\n        </div>\n      </div>\n    </div>\n\n    <div class=\"station-elevation-card\">\n      <div class=\"station-title-row\">\n        <h3 class=\"station-headline\">Torno CNC</h3>\n        <span class=\"status-pill\" :class=\"tornoAtivo ? 'processing' : 'green'\">{{ tornoStatusBadge }}</span>\n      </div>\n      <div class=\"machine-hero-container\">\n        <div class=\"image-tint-wrapper\" :class=\"{ 'is-processing': tornoAtivo }\">\n          <img src=\"/Torno.png\" alt=\"Torno CNC\" class=\"machine-photo\" />\n        </div>\n      </div>\n    </div>\n  </div>\n</div>\n\n<script>\nexport default {\n  data() {\n    return {\n      clpConectado: true,\n      cicloAutomatico: true,\n      tornoAtivo: false,\n      tornoStatusBadge: 'Operante',\n      centroAtivo: false,\n      centroStatusBadge: 'Operante',\n      roboAtivo: false,\n      estoque1: 2,\n      estoque2: 1,\n      estoque3: 0,\n      textoGravado: 'SENAI'\n    };\n  },\n  watch: {\n    msg: {\n      immediate: true,\n      handler(newVal) {\n        if (!newVal || !newVal.payload) return;\n        const p = newVal.payload;\n        if (Array.isArray(p)) {\n          this.textoGravado = (p.length > 0 && p[0].nome) ? p[0].nome : 'SEM PEÇA';\n          return;\n        }\n        if (p.nome) this.textoGravado = p.nome;\n        if (p.clpConectado !== undefined) this.clpConectado = !!p.clpConectado;\n        if (p.cicloAutomatico !== undefined) this.cicloAutomatico = !!p.cicloAutomatico;\n        if (p.estacao === 'torno' || newVal.topic === 'simulacao_torno') {\n          this.tornoAtivo = !!p.operando;\n          this.tornoStatusBadge = this.tornoAtivo ? 'Torneando L1' : 'Operante';\n        }\n        if (p.estacao === 'centro' || newVal.topic === 'simulacao_centro') {\n          this.centroAtivo = !!p.operando;\n          this.centroStatusBadge = this.centroAtivo ? 'Usinando' : 'Operante';\n        }\n        if (p.estacao === 'estoque') {\n          if (p.estoque1 !== undefined) this.estoque1 = p.estoque1;\n          if (p.estoque2 !== undefined) this.estoque2 = p.estoque2;\n          if (p.estoque3 !== undefined) this.estoque3 = p.estoque3;\n        }\n        if (p.estacao === 'robo') {\n          if (p.roboAtivo !== undefined) this.roboAtivo = !!p.roboAtivo;\n        }\n      }\n    }\n  }\n};\n</script>\n\n<style>\n.scada-root { width: 100%; margin: 0 auto; font-family: var(--font-sans, system-ui, sans-serif); color: #f8fafc; display: flex; flex-direction: column; gap: 16px; }\n.scada-top-bar { display: flex; justify-content: space-between; align-items: center; padding: 4px 6px; }\n.scada-brand-row { display: flex; align-items: center; gap: 14px; }\n.senai-sp-badge { background: #e30613; color: #ffffff; font-weight: 700; font-size: 0.85rem; letter-spacing: 0.08em; padding: 6px 14px; border-radius: 6px; display: inline-flex; align-items: center; box-shadow: 0 2px 8px rgba(227, 6, 19, 0.35); }\n.scada-main-title { font-size: 1.25rem; font-weight: 600; color: #ffffff; margin: 0; }\n.scada-sub-title { font-size: 0.82rem; color: #94a3b8; margin: 2px 0 0 0; }\n.scada-quick-indicators { display: flex; gap: 16px; }\n.indicator-item { display: flex; align-items: center; gap: 8px; font-size: 0.8rem; color: #cbd5e1; }\n.status-dot { width: 7px; height: 7px; border-radius: 50%; }\n.status-dot.green { background: #10b981; }\n.status-dot.red { background: #ef4444; }\n.status-dot.amber { background: #f59e0b; }\n.cell-main-grid { display: grid; grid-template-columns: 460px 1fr 460px; gap: 20px; }\n@media (max-width: 1024px) { .cell-main-grid { grid-template-columns: 1fr; } }\n.station-elevation-card { background: #1e293b; border-radius: 12px; padding: 22px; display: flex; flex-direction: column; gap: 16px; box-shadow: 0 4px 16px rgba(0,0,0,0.25); }\n.station-title-row { display: flex; justify-content: space-between; align-items: center; }\n.station-headline { font-size: 1.15rem; font-weight: 600; color: #ffffff; margin: 0; }\n.status-pill { font-size: 0.75rem; font-weight: 500; padding: 4px 10px; border-radius: 6px; }\n.status-pill.green { background: rgba(16, 185, 129, 0.12); color: #10b981; }\n.status-pill.processing { background: rgba(16, 185, 129, 0.2); color: #10b981; font-weight: 600; animation: pulse-soft 2s infinite ease-in-out; }\n@keyframes pulse-soft { 0%, 100% { opacity: 1; } 50% { opacity: 0.7; } }\n.machine-hero-container { background: #141d2e; border-radius: 10px; flex: 1; min-height: 280px; display: flex; align-items: center; justify-content: center; padding: 16px; position: relative; overflow: hidden; }\n.image-tint-wrapper { position: relative; display: flex; align-items: center; justify-content: center; width: 100%; height: 100%; }\n.machine-photo { max-width: 100%; max-height: 260px; object-fit: contain; }\n.center-elevation-flow { display: flex; flex-direction: column; height: 100%; gap: 16px; }\n.integrated-center-card { padding: 24px; }\n.dynamic-buffers { display: flex; flex-direction: column; gap: 14px; margin-top: 10px; }\n.buffer-lane { background: #141d2e; border-radius: 8px; padding: 8px 12px; border: 1px solid #1e293b; }\n.buffer-header { display: flex; justify-content: space-between; margin-bottom: 8px; }\n.buffer-name { font-size: 0.85rem; font-weight: 600; color: #f8fafc; }\n.buffer-type { font-size: 0.68rem; color: #64748b; margin-left: 6px; padding: 2px 6px; background: #0f172a; border-radius: 4px; }\n.buffer-count { font-size: 0.8rem; font-weight: 700; color: #94a3b8; }\n.buffer-track { display: flex; gap: 6px; background: rgba(0,0,0,0.15); padding: 4px 6px; border-radius: 6px; justify-content: space-between; }\n.piece-slot { width: 34px; height: 34px; border-radius: 50%; border: 2px dashed #334155; }\n.piece-slot.filled.bruto { background: linear-gradient(145deg, #cbd5e1, #94a3b8); border-color: #f8fafc; border-style: solid; }\n.piece-slot.filled.torneado { background: linear-gradient(145deg, #fcd34d, #f59e0b); border-color: #fffbeb; border-style: solid; }\n.piece-slot.filled.pronto { background: linear-gradient(145deg, #34d399, #10b981); border-color: #d1fae5; border-style: solid; }\n.peca-preview-box { background: #141d2e; border: 1px solid #24334a; border-radius: 8px; padding: 10px 14px; margin-top: 10px; }\n.preview-header-row { display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px; }\n.preview-mini-title { font-size: 0.78rem; font-weight: 600; color: #94a3b8; text-transform: uppercase; }\n.keyring-stage-compact { background: #0f172a; border: 1px solid #1e293b; border-radius: 6px; padding: 10px; display: flex; align-items: center; justify-content: center; }\n.aluminum-part-compact { width: 100%; max-width: 240px; height: 48px; background: linear-gradient(180deg, #e2e8f0, #94a3b8); border-radius: 6px; border: 1px solid #f8fafc; display: flex; align-items: center; padding: 0 10px; gap: 10px; }\n.keychain-hole { width: 16px; height: 16px; border-radius: 50%; background: #475569; display: flex; align-items: center; justify-content: center; }\n.hole-bevel { width: 8px; height: 8px; border-radius: 50%; background: #0f172a; }\n.engraving-face { flex: 1; height: 32px; border-radius: 4px; display: flex; align-items: center; justify-content: center; background: rgba(0,0,0,0.05); }\n.milled-text { font-family: var(--font-mono, monospace); font-size: 0.85rem; font-weight: 700; color: #1e293b; }\n.robot-linear-axis { position: relative; margin-top: 16px; height: 40px; background: #0f172a; border-radius: 20px; border: 1px solid #1e293b; display: flex; align-items: center; padding: 0 6px; }\n.axis-track { position: absolute; left: 20px; right: 20px; height: 4px; background: #1e293b; border-radius: 2px; }\n.robot-cursor { position: relative; z-index: 2; background: #e30613; color: #ffffff; font-size: 0.75rem; font-weight: 600; padding: 6px 14px; border-radius: 16px; display: flex; align-items: center; gap: 6px; left: 0%; transition: left 1.5s ease-in-out, background 0.3s; }\n.robot-cursor.moving { left: calc(100% - 110px); background: #10b981; }\n.cursor-dot { width: 8px; height: 8px; background: #ffffff; border-radius: 50%; }\n</style>",
         "storeOutMessages": true,
         "passthru": true,
         "resendOnRefresh": true,
         "templateScope": "local",
         "className": "",
-        "x": 1410,
+        "x": 1430,
         "y": 420,
         "wires": [
             []
         ]
     },
     {
-        "id": "816b9b92dd824b52",
+        "id": "3967ac1e723bd688",
         "type": "ui-template",
-        "z": "165c9cd4e414f75b",
+        "z": "8496e6936d8e92b0",
         "group": "grp_pedido_totem",
         "page": "",
         "ui": "",
@@ -450,14 +450,14 @@
         "y": 940,
         "wires": [
             [
-                "c13bd04b018dbe8c"
+                "6fc25429e1f7cd25"
             ]
         ]
     },
     {
-        "id": "2ef388b6e34c025a",
+        "id": "7878cec33a732a6b",
         "type": "ui-template",
-        "z": "165c9cd4e414f75b",
+        "z": "8496e6936d8e92b0",
         "group": "grp_fila_pedidos",
         "page": "",
         "ui": "",
@@ -472,16 +472,16 @@
         "resendOnRefresh": true,
         "templateScope": "local",
         "className": "",
-        "x": 1330,
+        "x": 1390,
         "y": 640,
         "wires": [
             []
         ]
     },
     {
-        "id": "e92d75a776f6840f",
+        "id": "2f788cef21fa8ef3",
         "type": "function",
-        "z": "165c9cd4e414f75b",
+        "z": "8496e6936d8e92b0",
         "name": "Processamento",
         "func": "const operando = msg.payload[0] || msg.payload[1] === true;\nreturn {\n   topic: \"simulacao_torno\",\n    payload: {\n        estacao: \"torno\",\n        operando: operando\n    }\n};",
         "outputs": 1,
@@ -490,18 +490,18 @@
         "initialize": "",
         "finalize": "",
         "libs": [],
-        "x": 960,
+        "x": 1020,
         "y": 380,
         "wires": [
             [
-                "6f5c5ea6cd5a641f"
+                "053b92feb5e4e6bf"
             ]
         ]
     },
     {
-        "id": "76b0aeb9655e35c4",
+        "id": "b9d0bb6428b8829f",
         "type": "ui-template",
-        "z": "165c9cd4e414f75b",
+        "z": "8496e6936d8e92b0",
         "group": "",
         "page": "",
         "ui": "f26cc9bff8326cdd",
@@ -523,9 +523,9 @@
         ]
     },
     {
-        "id": "f89005d865aa73e8",
+        "id": "df961d204a3754a0",
         "type": "modbus-read",
-        "z": "165c9cd4e414f75b",
+        "z": "8496e6936d8e92b0",
         "name": "GP.TorneandoL1",
         "topic": "",
         "showStatusActivities": true,
@@ -536,8 +536,8 @@
         "dataType": "Coil",
         "adr": "199",
         "quantity": "2",
-        "rate": "1100",
-        "rateUnit": "ms",
+        "rate": "1",
+        "rateUnit": "s",
         "delayOnStart": false,
         "enableDeformedMessages": false,
         "startDelayTime": "0.5",
@@ -545,20 +545,20 @@
         "useIOFile": false,
         "ioFile": "",
         "useIOForPayload": false,
-        "emptyMsgOnFail": false,
-        "x": 760,
+        "emptyMsgOnFail": true,
+        "x": 820,
         "y": 380,
         "wires": [
             [
-                "e92d75a776f6840f"
+                "2f788cef21fa8ef3"
             ],
             []
         ]
     },
     {
-        "id": "0380474232c2412a",
+        "id": "b0eaa01a4d771e9e",
         "type": "modbus-read",
-        "z": "165c9cd4e414f75b",
+        "z": "8496e6936d8e92b0",
         "name": "Rotina Automática Ligada",
         "topic": "",
         "showStatusActivities": true,
@@ -569,8 +569,8 @@
         "dataType": "Coil",
         "adr": "204",
         "quantity": "1",
-        "rate": "1990",
-        "rateUnit": "ms",
+        "rate": "1",
+        "rateUnit": "s",
         "delayOnStart": false,
         "enableDeformedMessages": false,
         "startDelayTime": "",
@@ -578,20 +578,20 @@
         "useIOFile": false,
         "ioFile": "",
         "useIOForPayload": false,
-        "emptyMsgOnFail": false,
-        "x": 730,
+        "emptyMsgOnFail": true,
+        "x": 790,
         "y": 500,
         "wires": [
             [
-                "81186d220b14d032"
+                "036a71ed288ecec6"
             ],
             []
         ]
     },
     {
-        "id": "d31f4422819caab6",
+        "id": "da99408b7eb60975",
         "type": "modbus-read",
-        "z": "165c9cd4e414f75b",
+        "z": "8496e6936d8e92b0",
         "name": "bloco1",
         "topic": "bloco1",
         "showStatusActivities": true,
@@ -601,9 +601,9 @@
         "unitid": "1",
         "dataType": "HoldingRegister",
         "adr": "19",
-        "quantity": "1510",
-        "rate": "970",
-        "rateUnit": "ms",
+        "quantity": "117",
+        "rate": "1",
+        "rateUnit": "s",
         "delayOnStart": false,
         "enableDeformedMessages": false,
         "startDelayTime": "0.5",
@@ -611,20 +611,20 @@
         "useIOFile": false,
         "ioFile": "",
         "useIOForPayload": false,
-        "emptyMsgOnFail": false,
-        "x": 790,
+        "emptyMsgOnFail": true,
+        "x": 850,
         "y": 620,
         "wires": [
             [
-                "f3c4b12c5aa9a7fc"
+                "cb6dbf056f614d3a"
             ],
             []
         ]
     },
     {
-        "id": "a2232449aa97310c",
+        "id": "43506c4fa3e3cbf6",
         "type": "modbus-write",
-        "z": "165c9cd4e414f75b",
+        "z": "8496e6936d8e92b0",
         "name": "Toggle OpAuto",
         "showStatusActivities": true,
         "showErrors": true,
@@ -634,7 +634,7 @@
         "adr": "204",
         "quantity": "1",
         "server": "7b75d210d181d3bb",
-        "emptyMsgOnFail": false,
+        "emptyMsgOnFail": true,
         "keepMsgProperties": true,
         "delayOnStart": false,
         "startDelayTime": "",
@@ -646,9 +646,9 @@
         ]
     },
     {
-        "id": "678d945f693efe54",
+        "id": "ecc765ac1ceba5b7",
         "type": "ui-switch",
-        "z": "165c9cd4e414f75b",
+        "z": "8496e6936d8e92b0",
         "name": "",
         "label": "Rotina Automática",
         "group": "614bdd54e9c64248",
@@ -675,15 +675,15 @@
         "y": 620,
         "wires": [
             [
-                "a2232449aa97310c",
-                "e6c61a0679e2c9d7"
+                "43506c4fa3e3cbf6",
+                "4e3bf81e96d7be2f"
             ]
         ]
     },
     {
-        "id": "c13bd04b018dbe8c",
+        "id": "6fc25429e1f7cd25",
         "type": "function",
-        "z": "165c9cd4e414f75b",
+        "z": "8496e6936d8e92b0",
         "name": "function 1",
         "func": "let dadosPedido = msg.payload;\nlet nomeString = dadosPedido.nome || \"\";\nnomeString = nomeString.padEnd(16, \" \");\nlet modbusRegisters = [];\nfor (let i = 0; i < nomeString.length; i += 2) {\n    let byte1 = nomeString.charCodeAt(i);\n    let byte2 = nomeString.charCodeAt(i + 1) || 32;\n    modbusRegisters.push((byte1 << 8) | byte2);\n}\nlet msgRegistradores = { payload: modbusRegisters, fc: 16 };\nlet msgTrigger = { payload: dadosPedido.novoPedido, fc: 5 };\nreturn [msgRegistradores, msgTrigger];",
         "outputs": 2,
@@ -696,17 +696,17 @@
         "y": 940,
         "wires": [
             [
-                "096ce2d2a6771faa"
+                "6eea5ab6ef1bf6e8"
             ],
             [
-                "0437adb132a95645"
+                "a4765b7334dc0d5a"
             ]
         ]
     },
     {
-        "id": "096ce2d2a6771faa",
+        "id": "6eea5ab6ef1bf6e8",
         "type": "modbus-write",
-        "z": "165c9cd4e414f75b",
+        "z": "8496e6936d8e92b0",
         "name": "Enviar Nome do pedido",
         "showStatusActivities": false,
         "showErrors": false,
@@ -716,7 +716,7 @@
         "adr": "1",
         "quantity": "8",
         "server": "7b75d210d181d3bb",
-        "emptyMsgOnFail": false,
+        "emptyMsgOnFail": true,
         "keepMsgProperties": false,
         "delayOnStart": false,
         "startDelayTime": "",
@@ -728,9 +728,9 @@
         ]
     },
     {
-        "id": "0437adb132a95645",
+        "id": "a4765b7334dc0d5a",
         "type": "modbus-write",
-        "z": "165c9cd4e414f75b",
+        "z": "8496e6936d8e92b0",
         "name": "Trigger Fila",
         "showStatusActivities": false,
         "showErrors": false,
@@ -740,7 +740,7 @@
         "adr": "203",
         "quantity": "1",
         "server": "7b75d210d181d3bb",
-        "emptyMsgOnFail": false,
+        "emptyMsgOnFail": true,
         "keepMsgProperties": false,
         "delayOnStart": false,
         "startDelayTime": "",
@@ -752,9 +752,9 @@
         ]
     },
     {
-        "id": "eda4821d55189968",
+        "id": "e9760257995d627e",
         "type": "modbus-read",
-        "z": "165c9cd4e414f75b",
+        "z": "8496e6936d8e92b0",
         "name": "bloco2",
         "topic": "bloco2",
         "showStatusActivities": true,
@@ -765,8 +765,8 @@
         "dataType": "HoldingRegister",
         "adr": "136",
         "quantity": "108",
-        "rate": "1510",
-        "rateUnit": "ms",
+        "rate": "1",
+        "rateUnit": "s",
         "delayOnStart": false,
         "enableDeformedMessages": false,
         "startDelayTime": "0.5",
@@ -774,20 +774,20 @@
         "useIOFile": false,
         "ioFile": "",
         "useIOForPayload": false,
-        "emptyMsgOnFail": false,
-        "x": 790,
+        "emptyMsgOnFail": true,
+        "x": 850,
         "y": 660,
         "wires": [
             [
-                "f3c4b12c5aa9a7fc"
+                "cb6dbf056f614d3a"
             ],
             []
         ]
     },
     {
-        "id": "f3c4b12c5aa9a7fc",
+        "id": "cb6dbf056f614d3a",
         "type": "function",
-        "z": "165c9cd4e414f75b",
+        "z": "8496e6936d8e92b0",
         "name": "function 2",
         "func": "let bloco1 = flow.get('bloco1') || [];\nlet bloco2 = flow.get('bloco2') || [];\n\nif (msg.topic === 'bloco1') {\n    bloco1 = msg.payload;\n    flow.set('bloco1', bloco1);\n} else if (msg.topic === 'bloco2') {\n    bloco2 = msg.payload;\n    flow.set('bloco2', bloco2);\n}\n\nlet rawRegisters = bloco1.concat(bloco2);\nif (rawRegisters.length < 225) return null;\n\nconst MAPA_ESTADOS = {\n    1: 'Em espera na fila (Estoque 1 - Bruto)',\n    2: 'Torno: Torneando o primeiro lado',\n    3: 'Torno: Torneando o segundo lado',\n    4: 'Estoque 2 (Torneadas): Aguardando Centro de Usinagem',\n    5: 'Centro: Usinando peça',\n    6: 'Estoque 3 (Usinadas): Aguardando Centro para customizar a sua peça!',\n    7: 'Centro: Customizando sua peça',\n    8: 'Peça pronta'\n};\n\nlet pedidosFormatados = [];\nconst totalPedidos = Math.floor(rawRegisters.length / 9);\n\nfor (let i = 0; i < totalPedidos; i++) {\n    let offset = i * 9;\n    let estadoCodigo = rawRegisters[offset + 8] & 0xFF;\n    if (estadoCodigo === 0) continue;\n\n    let nomeChars = [];\n    for (let w = 0; w < 8; w++) {\n        let wordVal = rawRegisters[offset + w];\n        let charHigh = (wordVal >> 8) & 0xFF;\n        let charLow = wordVal & 0xFF;\n        if (charHigh !== 0) nomeChars.push(String.fromCharCode(charHigh));\n        if (charLow !== 0) nomeChars.push(String.fromCharCode(charLow));\n    }\n    let nomeString = nomeChars.join(\"\").trim();\n    if (nomeString.length > 0) {\n        pedidosFormatados.push({\n            id: 'ordem_' + (i + 1) + '_' + nomeString,\n            nome: nomeString,\n            tipo: nomeString === 'SENAI' ? 'PADRAO' : 'PERSONALIZADO',\n            estado: MAPA_ESTADOS[estadoCodigo] || 'Em processamento',\n            timestamp: new Date().toLocaleTimeString()\n        });\n    }\n}\nreturn { payload: pedidosFormatados };",
         "outputs": 1,
@@ -796,18 +796,18 @@
         "initialize": "",
         "finalize": "",
         "libs": [],
-        "x": 940,
+        "x": 1000,
         "y": 640,
         "wires": [
             [
-                "ebfd7d75dd6e734c"
+                "d076d0b97e5abeea"
             ]
         ]
     },
     {
-        "id": "164f091f252adf4b",
+        "id": "6be2de611b262570",
         "type": "modbus-read",
-        "z": "165c9cd4e414f75b",
+        "z": "8496e6936d8e92b0",
         "name": "GP.CentroUsinando",
         "topic": "",
         "showStatusActivities": true,
@@ -818,8 +818,8 @@
         "dataType": "Coil",
         "adr": "206",
         "quantity": "2",
-        "rate": "1300",
-        "rateUnit": "ms",
+        "rate": "1",
+        "rateUnit": "s",
         "delayOnStart": false,
         "enableDeformedMessages": false,
         "startDelayTime": "0.5",
@@ -827,20 +827,20 @@
         "useIOFile": false,
         "ioFile": "",
         "useIOForPayload": false,
-        "emptyMsgOnFail": false,
-        "x": 750,
+        "emptyMsgOnFail": true,
+        "x": 810,
         "y": 440,
         "wires": [
             [
-                "9b6636b556b606b1"
+                "eda70a999e3ef8c0"
             ],
             []
         ]
     },
     {
-        "id": "9b6636b556b606b1",
+        "id": "eda70a999e3ef8c0",
         "type": "function",
-        "z": "165c9cd4e414f75b",
+        "z": "8496e6936d8e92b0",
         "name": "Processamento",
         "func": "const operando = msg.payload[0] || msg.payload[1] === true;\nreturn {\n    topic: \"simulacao_centro\",\n    payload: { estacao: \"centro\", operando: operando }\n};",
         "outputs": 1,
@@ -849,18 +849,18 @@
         "initialize": "",
         "finalize": "",
         "libs": [],
-        "x": 960,
+        "x": 1020,
         "y": 440,
         "wires": [
             [
-                "6f5c5ea6cd5a641f"
+                "053b92feb5e4e6bf"
             ]
         ]
     },
     {
-        "id": "d227edc18e0c60e1",
+        "id": "9581b1f48b87e6c0",
         "type": "modbus-read",
-        "z": "165c9cd4e414f75b",
+        "z": "8496e6936d8e92b0",
         "name": "GP.Estoque",
         "topic": "",
         "showStatusActivities": true,
@@ -871,8 +871,8 @@
         "dataType": "HoldingRegister",
         "adr": "10",
         "quantity": "3",
-        "rate": "700",
-        "rateUnit": "ms",
+        "rate": "1",
+        "rateUnit": "s",
         "delayOnStart": false,
         "enableDeformedMessages": false,
         "startDelayTime": "0.5",
@@ -880,20 +880,20 @@
         "useIOFile": false,
         "ioFile": "",
         "useIOForPayload": false,
-        "emptyMsgOnFail": false,
-        "x": 770,
+        "emptyMsgOnFail": true,
+        "x": 830,
         "y": 320,
         "wires": [
             [
-                "7a07389f86d37d56"
+                "8e35d6f2bfe0c58c"
             ],
             []
         ]
     },
     {
-        "id": "7a07389f86d37d56",
+        "id": "8e35d6f2bfe0c58c",
         "type": "function",
-        "z": "165c9cd4e414f75b",
+        "z": "8496e6936d8e92b0",
         "name": "Processamento",
         "func": "let E1 = msg.payload[0];\nlet E2 = Math.max(0, msg.payload[1]);\nlet E3 = Math.max(0, msg.payload[2]);\nreturn {\n   payload: { estacao: \"estoque\", estoque1: E1, estoque2: E2, estoque3: E3 }\n};",
         "outputs": 1,
@@ -902,18 +902,18 @@
         "initialize": "",
         "finalize": "",
         "libs": [],
-        "x": 960,
+        "x": 1020,
         "y": 320,
         "wires": [
             [
-                "6f5c5ea6cd5a641f"
+                "053b92feb5e4e6bf"
             ]
         ]
     },
     {
-        "id": "b8b9a53aa4afe275",
+        "id": "f762016a0857b7cc",
         "type": "modbus-write",
-        "z": "165c9cd4e414f75b",
+        "z": "8496e6936d8e92b0",
         "name": "Write E1",
         "showStatusActivities": true,
         "showErrors": true,
@@ -923,7 +923,7 @@
         "adr": "10",
         "quantity": "1",
         "server": "7b75d210d181d3bb",
-        "emptyMsgOnFail": false,
+        "emptyMsgOnFail": true,
         "keepMsgProperties": true,
         "delayOnStart": false,
         "startDelayTime": "",
@@ -935,13 +935,13 @@
         ]
     },
     {
-        "id": "1f74a36d13767a9a",
+        "id": "257c9354a710fd4f",
         "type": "ui-number-input",
-        "z": "165c9cd4e414f75b",
+        "z": "8496e6936d8e92b0",
         "group": "614bdd54e9c64248",
         "name": "Estoque 1",
         "label": "Definir Estoque 1",
-        "order": 4,
+        "order": 8,
         "width": 1,
         "height": 1,
         "topic": "topic",
@@ -965,14 +965,14 @@
         "y": 720,
         "wires": [
             [
-                "b8b9a53aa4afe275"
+                "f762016a0857b7cc"
             ]
         ]
     },
     {
-        "id": "178b53ad2dc038f9",
+        "id": "ba74fdcb2d444f8b",
         "type": "modbus-write",
-        "z": "165c9cd4e414f75b",
+        "z": "8496e6936d8e92b0",
         "name": "Write E2",
         "showStatusActivities": true,
         "showErrors": true,
@@ -982,7 +982,7 @@
         "adr": "11",
         "quantity": "1",
         "server": "7b75d210d181d3bb",
-        "emptyMsgOnFail": false,
+        "emptyMsgOnFail": true,
         "keepMsgProperties": true,
         "delayOnStart": false,
         "startDelayTime": "",
@@ -994,13 +994,13 @@
         ]
     },
     {
-        "id": "766a0c8ba7e63dae",
+        "id": "1d15fc0a72e31977",
         "type": "ui-number-input",
-        "z": "165c9cd4e414f75b",
+        "z": "8496e6936d8e92b0",
         "group": "614bdd54e9c64248",
         "name": "Estoque 2",
         "label": "Definir Estoque 2",
-        "order": 6,
+        "order": 7,
         "width": 1,
         "height": 1,
         "topic": "topic",
@@ -1024,14 +1024,14 @@
         "y": 800,
         "wires": [
             [
-                "178b53ad2dc038f9"
+                "ba74fdcb2d444f8b"
             ]
         ]
     },
     {
-        "id": "4ae081a0827728b5",
+        "id": "d95ad4026d22c767",
         "type": "modbus-write",
-        "z": "165c9cd4e414f75b",
+        "z": "8496e6936d8e92b0",
         "name": "Write E3",
         "showStatusActivities": true,
         "showErrors": true,
@@ -1041,7 +1041,7 @@
         "adr": "12",
         "quantity": "1",
         "server": "7b75d210d181d3bb",
-        "emptyMsgOnFail": false,
+        "emptyMsgOnFail": true,
         "keepMsgProperties": true,
         "delayOnStart": false,
         "startDelayTime": "",
@@ -1053,13 +1053,13 @@
         ]
     },
     {
-        "id": "78f80e79cad13db6",
+        "id": "580ccb25e3bf0187",
         "type": "ui-number-input",
-        "z": "165c9cd4e414f75b",
+        "z": "8496e6936d8e92b0",
         "group": "614bdd54e9c64248",
         "name": "Estoque 3",
         "label": "Definir Estoque 3",
-        "order": 8,
+        "order": 6,
         "width": 1,
         "height": 0,
         "topic": "topic",
@@ -1083,14 +1083,14 @@
         "y": 880,
         "wires": [
             [
-                "4ae081a0827728b5"
+                "d95ad4026d22c767"
             ]
         ]
     },
     {
-        "id": "fb42e31ea2bc88b2",
+        "id": "a1235e3cb8712930",
         "type": "comment",
-        "z": "165c9cd4e414f75b",
+        "z": "8496e6936d8e92b0",
         "name": "Controle",
         "info": "",
         "x": 180,
@@ -1098,9 +1098,9 @@
         "wires": []
     },
     {
-        "id": "4825e098707c95a7",
+        "id": "78e60f5c46dfb8ec",
         "type": "ui-switch",
-        "z": "165c9cd4e414f75b",
+        "z": "8496e6936d8e92b0",
         "name": "",
         "label": "Reset fila de pedidos",
         "group": "614bdd54e9c64248",
@@ -1127,14 +1127,14 @@
         "y": 960,
         "wires": [
             [
-                "f2cb6ea747e82b7a"
+                "df189c6d0b3f724f"
             ]
         ]
     },
     {
-        "id": "f2cb6ea747e82b7a",
+        "id": "df189c6d0b3f724f",
         "type": "modbus-write",
-        "z": "165c9cd4e414f75b",
+        "z": "8496e6936d8e92b0",
         "name": "Reset Pedidos",
         "showStatusActivities": true,
         "showErrors": true,
@@ -1144,7 +1144,7 @@
         "adr": "208",
         "quantity": "1",
         "server": "7b75d210d181d3bb",
-        "emptyMsgOnFail": false,
+        "emptyMsgOnFail": true,
         "keepMsgProperties": true,
         "delayOnStart": false,
         "startDelayTime": "",
@@ -1152,15 +1152,15 @@
         "y": 960,
         "wires": [
             [
-                "1e7db63a78e10c17"
+                "6db8d3493b304181"
             ],
             []
         ]
     },
     {
-        "id": "1e7db63a78e10c17",
+        "id": "6db8d3493b304181",
         "type": "function",
-        "z": "165c9cd4e414f75b",
+        "z": "8496e6936d8e92b0",
         "name": "function 3",
         "func": "return {payload:false}",
         "outputs": 1,
@@ -1173,43 +1173,43 @@
         "y": 1000,
         "wires": [
             [
-                "e22c7a775f522147"
+                "27a04904edcdb4db"
             ]
         ]
     },
     {
-        "id": "e22c7a775f522147",
+        "id": "27a04904edcdb4db",
         "type": "link out",
-        "z": "165c9cd4e414f75b",
+        "z": "8496e6936d8e92b0",
         "name": "reset switch pedidos",
         "mode": "link",
         "links": [
-            "bf59c1952760dfc5"
+            "39436a162dfe6b67"
         ],
         "x": 445,
         "y": 1000,
         "wires": []
     },
     {
-        "id": "bf59c1952760dfc5",
+        "id": "39436a162dfe6b67",
         "type": "link in",
-        "z": "165c9cd4e414f75b",
+        "z": "8496e6936d8e92b0",
         "name": "reset switch pedidos",
         "links": [
-            "e22c7a775f522147"
+            "27a04904edcdb4db"
         ],
         "x": 55,
         "y": 960,
         "wires": [
             [
-                "4825e098707c95a7"
+                "78e60f5c46dfb8ec"
             ]
         ]
     },
     {
-        "id": "81186d220b14d032",
+        "id": "036a71ed288ecec6",
         "type": "function",
-        "z": "165c9cd4e414f75b",
+        "z": "8496e6936d8e92b0",
         "name": "Processamento",
         "func": "const INTERVALO_MAXIMO = 1100;\nlet timer = context.get('timer') || null;\n\nfunction dispararTimeout() {\n    context.set('timer', null);\n    node.status({ fill: \"red\", shape: \"ring\", text: \"Timeout: Sem comunicação\" });\n    node.send({ payload: { \"cicloAutomatico\": false } });\n}\n\nif (timer) clearTimeout(timer);\n\nif (Array.isArray(msg.payload) && msg.payload[0] === true) {\n    timer = setTimeout(dispararTimeout, INTERVALO_MAXIMO);\n    context.set('timer', timer);\n    node.status({ fill: \"green\", shape: \"dot\", text: \"Conectado\" });\n    return { payload: { \"cicloAutomatico\": true } };\n} else {\n    context.set('timer', null);\n    node.status({ fill: \"red\", shape: \"dot\", text: \"Resposta inesperada\" });\n    return { payload: { \"cicloAutomatico\": false } };\n}",
         "outputs": 1,
@@ -1218,18 +1218,18 @@
         "initialize": "if (context.get('timer')) { clearTimeout(context.get('timer')); context.set('timer', null); }",
         "finalize": "return { payload: { \"cicloAutomatico\": false } };",
         "libs": [],
-        "x": 960,
+        "x": 1020,
         "y": 500,
         "wires": [
             [
-                "6f5c5ea6cd5a641f"
+                "053b92feb5e4e6bf"
             ]
         ]
     },
     {
-        "id": "b46f82f1484dd3bf",
+        "id": "729c8ff604446883",
         "type": "modbus-read",
-        "z": "165c9cd4e414f75b",
+        "z": "8496e6936d8e92b0",
         "name": "CLP ON",
         "topic": "",
         "showStatusActivities": true,
@@ -1240,8 +1240,8 @@
         "dataType": "Coil",
         "adr": "0",
         "quantity": "1",
-        "rate": "2390",
-        "rateUnit": "ms",
+        "rate": "1",
+        "rateUnit": "s",
         "delayOnStart": false,
         "enableDeformedMessages": false,
         "startDelayTime": "",
@@ -1249,40 +1249,41 @@
         "useIOFile": false,
         "ioFile": "",
         "useIOForPayload": false,
-        "emptyMsgOnFail": false,
-        "x": 780,
+        "emptyMsgOnFail": true,
+        "x": 840,
         "y": 560,
         "wires": [
             [
-                "668eb1c32081e15f"
+                "27850dd4500b9901",
+                "49fbded4c837aaa4"
             ],
             []
         ]
     },
     {
-        "id": "668eb1c32081e15f",
+        "id": "27850dd4500b9901",
         "type": "function",
-        "z": "165c9cd4e414f75b",
+        "z": "8496e6936d8e92b0",
         "name": "Processamento",
-        "func": "const INTERVALO_MAXIMO = 1500;\nlet timer = context.get('timer') || null;\n\nfunction dispararTimeout() {\n    context.set('timer', null);\n    node.status({ fill: \"red\", shape: \"ring\", text: \"Timeout: Sem comunicação\" });\n    node.send({ payload: { \"clpConectado\": false } });\n}\n\nif (timer) clearTimeout(timer);\n\nif (Array.isArray(msg.payload) && msg.payload[0] === true) {\n    timer = setTimeout(dispararTimeout, INTERVALO_MAXIMO);\n    context.set('timer', timer);\n    node.status({ fill: \"green\", shape: \"dot\", text: \"Conectado\" });\n    return { payload: { \"clpConectado\": true } };\n} else {\n    context.set('timer', null);\n    node.status({ fill: \"red\", shape: \"dot\", text: \"Resposta inesperada\" });\n    return { payload: { \"clpConectado\": false } };\n}",
+        "func": "const INTERVALO_MAXIMO = 1100;\nlet timer = context.get('timer') || null;\n\nfunction dispararTimeout() {\n    context.set('timer', null);\n    node.status({ fill: \"red\", shape: \"ring\", text: \"Timeout: Sem comunicação\" });\n    node.send({ payload: { \"clpConectado\": false } });\n}\n\nif (timer) clearTimeout(timer);\n\nif (Array.isArray(msg.payload) && msg.payload[0] === true) {\n    timer = setTimeout(dispararTimeout, INTERVALO_MAXIMO);\n    context.set('timer', timer);\n    node.status({ fill: \"green\", shape: \"dot\", text: \"Conectado\" });\n    return { payload: { \"clpConectado\": true } };\n} else {\n    context.set('timer', null);\n    node.status({ fill: \"red\", shape: \"dot\", text: \"Resposta inesperada\" });\n    return { payload: { \"clpConectado\": false } };\n}",
         "outputs": 1,
         "timeout": "1",
         "noerr": 0,
         "initialize": "if (context.get('timer')) { clearTimeout(context.get('timer')); context.set('timer', null); }",
-        "finalize": "return { payload: { \"clpConectado\": false } };",
+        "finalize": "// Campo \"Na saída\" (On Close)\nlet timer = context.get('timer');\nif (timer) {\n    clearTimeout(timer);\n    context.set('timer', null);\n}",
         "libs": [],
-        "x": 960,
+        "x": 1020,
         "y": 560,
         "wires": [
             [
-                "6f5c5ea6cd5a641f"
+                "053b92feb5e4e6bf"
             ]
         ]
     },
     {
-        "id": "e6c61a0679e2c9d7",
+        "id": "4e3bf81e96d7be2f",
         "type": "function",
-        "z": "165c9cd4e414f75b",
+        "z": "8496e6936d8e92b0",
         "name": "LED",
         "func": "if (msg.payload = true) {\n    node.status({ fill: \"green\", shape: \"dot\", text: \"Conectado\" });\n} else{\n    node.status({ fill: \"red\", shape: \"dot\", text: \"Resposta inesperada\" });\n}",
         "outputs": 1,
@@ -1298,9 +1299,9 @@
         ]
     },
     {
-        "id": "ebfd7d75dd6e734c",
+        "id": "d076d0b97e5abeea",
         "type": "rbe",
-        "z": "165c9cd4e414f75b",
+        "z": "8496e6936d8e92b0",
         "name": "",
         "func": "rbe",
         "gap": "",
@@ -1309,49 +1310,65 @@
         "septopics": true,
         "property": "payload",
         "topi": "topic",
-        "x": 1090,
+        "x": 1150,
         "y": 640,
         "wires": [
             [
-                "2ef388b6e34c025a",
-                "6f5c5ea6cd5a641f"
+                "7878cec33a732a6b",
+                "053b92feb5e4e6bf"
             ]
         ]
     },
     {
-        "id": "6f5c5ea6cd5a641f",
+        "id": "053b92feb5e4e6bf",
         "type": "link out",
-        "z": "165c9cd4e414f75b",
-        "name": "ModBus Entradas",
+        "z": "8496e6936d8e92b0",
+        "name": "Modbus I",
         "mode": "link",
         "links": [
-            "d2ab1fcd59b20d6a",
-            "3e5589a423a94dc9"
+            "440850b758b7dc43",
+            "27cb3de418554a88"
         ],
-        "x": 1175,
+        "x": 1195,
         "y": 420,
         "wires": []
     },
     {
-        "id": "d2ab1fcd59b20d6a",
+        "id": "440850b758b7dc43",
         "type": "link in",
-        "z": "165c9cd4e414f75b",
-        "name": "ModBus Entradas",
+        "z": "8496e6936d8e92b0",
+        "name": "link in 1",
         "links": [
-            "6f5c5ea6cd5a641f"
+            "053b92feb5e4e6bf"
         ],
-        "x": 1175,
+        "x": 1255,
         "y": 420,
         "wires": [
             [
-                "ffa078874e730c2a"
+                "1a307d5686bd39bc"
             ]
         ]
     },
     {
-        "id": "aba2221d9f0ba485",
+        "id": "49fbded4c837aaa4",
+        "type": "debug",
+        "z": "8496e6936d8e92b0",
+        "name": "debug 1",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "false",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 1360,
+        "y": 580,
+        "wires": []
+    },
+    {
+        "id": "e3e0e8a940fd16e4",
         "type": "comment",
-        "z": "a0e5734fb3d03f9f",
+        "z": "7aae740c266d0d41",
         "name": "Aviso de Volume",
         "info": "Persistência em volume do Docker recomendada para gravar dados.",
         "x": 350,
@@ -1359,9 +1376,9 @@
         "wires": []
     },
     {
-        "id": "e5d16e14e13b76b2",
+        "id": "72d1b7aea10234f3",
         "type": "comment",
-        "z": "a0e5734fb3d03f9f",
+        "z": "7aae740c266d0d41",
         "name": "Decoração e Estilo",
         "info": "",
         "x": 180,
@@ -1369,9 +1386,9 @@
         "wires": []
     },
     {
-        "id": "271806fb3ba5c2aa",
+        "id": "895bc2148b1e3cef",
         "type": "ui-template",
-        "z": "a0e5734fb3d03f9f",
+        "z": "7aae740c266d0d41",
         "group": "",
         "page": "",
         "ui": "f26cc9bff8326cdd",
@@ -1380,22 +1397,22 @@
         "width": 0,
         "height": 0,
         "head": "",
-        "format": "/* Design System Corporate Slate Dark SENAI SP */\n:root {\n  --slate-bg-base: #0b0f19;\n  --slate-bg-surface: #0f172a;\n  --slate-bg-card: #1e293b;\n  --slate-border: #334155;\n  --senai-red: #e30613;\n  --senai-red-dark: #b8050f;\n}\nbody, html, .nr-dashboard-theme {\n  background-color: var(--slate-bg-base) !important;\n  color: #f8fafc !important;\n  font-family: var(--font-sans, system-ui, -apple-system, sans-serif) !important;\n}\n/* Oculta redundâncias para deixar o topo sob controle do nosso widget UI */\n.v-toolbar__title {\n  font-weight: 700 !important;\n  letter-spacing: -0.01em !important;\n}\nmd-card, .v-card {\n  background: var(--slate-bg-card) !important;\n  border-radius: 10px !important;\n  border: 1px solid var(--slate-border) !important;\n}",
+        "format": "/* Design System Corporate Slate Dark SENAI SP */\n:root {\n  --slate-bg-base: #0b0f19;\n  --slate-bg-surface: #0f172a;\n  --slate-bg-card: #1e293b;\n  --slate-border: #334155;\n  --senai-red: #e30613;\n  --senai-red-dark: #b8050f;\n}\nbody, html, .nr-dashboard-theme {\n  background-color: var(--slate-bg-base) !important;\n  color: #f8fafc !important;\n  font-family: var(--font-sans, system-ui, -apple-system, sans-serif) !important;\n  margin: 0 !important;\n  padding: 0 !important;\n}\n\n/* OCULTA TOTALMENTE A APP-BAR / TOOLBAR / DRAWER E BOTÃO HAMBÚRGUER PADRÃO DO DASHBOARD 2.0 */\nheader.v-toolbar,\nheader.v-app-bar,\n.v-navigation-drawer,\n.v-app-bar-nav-icon,\n.v-toolbar__content,\n.v-app-bar__content,\n.nr-dashboard-header,\n.v-navigation-drawer__scrim,\n.v-overlay--active {\n  display: none !important;\n  height: 0 !important;\n  min-height: 0 !important;\n  visibility: hidden !important;\n  pointer-events: none !important;\n}\n\n/* Espaço reservado para o Top Header Fixo no topo de todas as páginas */\n.nr-dashboard-page,\nmain.v-main > .v-container,\n.v-container.v-locale--is-ltr,\n.v-container {\n  padding-top: 106px !important;\n}\n\n/* Oculta scada-top-bar legado se ainda existir em cache */\n.scada-top-bar {\n  display: none !important;\n}\n\nmd-card, .v-card {\n  background: var(--slate-bg-card) !important;\n  border-radius: 10px !important;\n  border: 1px solid var(--slate-border) !important;\n  margin-top: 55px;\n}",
         "storeOutMessages": true,
         "passthru": true,
         "resendOnRefresh": true,
         "templateScope": "site:style",
         "className": "",
-        "x": 230,
+        "x": 210,
         "y": 220,
         "wires": [
             []
         ]
     },
     {
-        "id": "7b82f7145aafc0a7",
+        "id": "cc82566764c1308f",
         "type": "function",
-        "z": "a0e5734fb3d03f9f",
+        "z": "7aae740c266d0d41",
         "name": "Agregador de Produtividade FMS",
         "func": "// Agregador Inteligente de Produtividade FMS SENAI SP\n// Processa telemetrias do CLP, pedidos e comandos do Injetor de Estados\nlet historico = flow.get('fms_prod_history') || {\n    totalEntregue: 35,\n    metaTurno: 40,\n    mediaCicloSegundos: 495, // ~8m 15s\n    disponibilidadePercent: 87.2,\n    eficienciaPercent: 96.5,\n    pecasPadrao: 14,\n    pecasPersonalizadas: 21,\n    minutosOperando: 297,\n    minutosTotais: 360,\n    currentState: 'PRODUZINDO',\n    clpConectado: true,\n    cicloAutomatico: true,\n    ultimaPecaConcluida: 'SENAI',\n    throughput: [\n        { hora: '08:00', real: 0, meta: 0 },\n        { hora: '09:00', real: 6, meta: 6 },\n        { hora: '10:00', real: 13, meta: 12 },\n        { hora: '11:00', real: 18, meta: 18 },\n        { hora: '12:00', real: 23, meta: 24 },\n        { hora: '13:00', real: 30, meta: 30 },\n        { hora: '14:00', real: 35, meta: 36 }\n    ],\n    estagios: [\n        { id: 'torno_l1', nome: '1. Torno: Faceamento & L1', teorico: 90, real: 104, desvio: 15.5 },\n        { id: 'torno_l2', nome: '2. Torno: Perfil & L2', teorico: 85, real: 92, desvio: 8.2 },\n        { id: 'centro_usina', nome: '3. Centro: Furação & Contorno', teorico: 120, real: 148, desvio: 23.3 },\n        { id: 'centro_grava', nome: '4. Centro: Gravação do Nome', teorico: 80, real: 84, desvio: 5.0 },\n        { id: 'logistica', nome: '5. Logística: Manipulador & Rampas', teorico: 70, real: 67, desvio: -4.3 }\n    ],\n    estados: [\n        { estado: 'PRODUZINDO', label: 'Peça em Processamento / Linha Ativa', cor: '#10b981', pct: 82.5, min: 297, cod: 1 },\n        { estado: 'OCIOSO', label: 'CLP Parado (Sem Pedidos)', cor: '#64748b', pct: 8.9, min: 32, cod: 2 },\n        { estado: 'ESTOQUE_BAIXO', label: 'Estoque Baixo (Requisitar Recarga)', cor: '#f59e0b', pct: 4.7, min: 17, cod: 3 },\n        { estado: 'EMERGENCIA', label: 'Emergência Acionada', cor: '#ef4444', pct: 2.2, min: 8, cod: 4 },\n        { estado: 'FALHA_ROBO', label: 'Falha Comunicação Robô', cor: '#a855f7', pct: 1.7, min: 6, cod: 5 }\n    ]\n};\n\nlet notificacaoParaDisparar = null;\n\n// 1. TRATA COMANDO DO INJETOR DE ESTADOS (Enviado pelo painel de controle)\nif (msg.topic === 'fms/injetar_estado') {\n    const cmd = msg.payload || {};\n    \n    if (cmd.tipo === 'set_estado') {\n        historico.currentState = cmd.estado;\n        \n        // Ajusta percentuais dos estados na rosca de forma consistente\n        const mapaPcts = {\n            'PRODUZINDO': [82.5, 8.9, 4.7, 2.2, 1.7],\n            'OCIOSO': [55.0, 36.4, 4.7, 2.2, 1.7],\n            'ESTOQUE_BAIXO': [60.0, 10.0, 26.1, 2.2, 1.7],\n            'EMERGENCIA': [45.0, 10.0, 4.0, 39.3, 1.7],\n            'FALHA_ROBO': [50.0, 10.0, 4.0, 2.0, 34.0]\n        };\n        const pcts = mapaPcts[cmd.estado] || mapaPcts['PRODUZINDO'];\n        historico.estados[0].pct = pcts[0];\n        historico.estados[1].pct = pcts[1];\n        historico.estados[2].pct = pcts[2];\n        historico.estados[3].pct = pcts[3];\n        historico.estados[4].pct = pcts[4];\n        historico.disponibilidadePercent = Number((pcts[0] + (pcts[1] * 0.5)).toFixed(1));\n    }\n    \n    if (cmd.tipo === 'simular_conclusao') {\n        historico.totalEntregue += 1;\n        const nomePeca = cmd.nome || 'SENAI';\n        historico.ultimaPecaConcluida = nomePeca;\n        if (nomePeca === 'SENAI') historico.pecasPadrao += 1;\n        else historico.pecasPersonalizadas += 1;\n        \n        // Atualiza throughput hora atual\n        if (historico.throughput.length > 0) {\n            historico.throughput[historico.throughput.length - 1].real = historico.totalEntregue;\n        }\n        \n        notificacaoParaDisparar = {\n            nome: nomePeca,\n            timestamp: new Date().toLocaleTimeString('pt-BR')\n        };\n    }\n\n    if (cmd.tipo === 'reset_metricas') {\n        historico.totalEntregue = 0;\n        historico.pecasPadrao = 0;\n        historico.pecasPersonalizadas = 0;\n        historico.throughput.forEach(t => t.real = 0);\n    }\n}\n\n// 2. DETECÇÃO DE PEÇA PRONTA VINDA DO CLP REAL\nif (msg.payload && Array.isArray(msg.payload)) {\n    const concluidas = msg.payload.filter(p => p.estado === 'Peça pronta');\n    if (concluidas.length > 0) {\n        historico.totalEntregue += concluidas.length;\n        const ultima = concluidas[concluidas.length - 1];\n        historico.ultimaPecaConcluida = ultima.nome || 'SENAI';\n        notificacaoParaDisparar = {\n            nome: ultima.nome || 'SENAI',\n            timestamp: new Date().toLocaleTimeString('pt-BR')\n        };\n    }\n}\n\n// 3. ATUALIZA TELEMETRIAS GERAIS DO CLP\nif (msg.payload && msg.payload.clpConectado !== undefined) {\n    historico.clpConectado = !!msg.payload.clpConectado;\n}\nif (msg.payload && msg.payload.cicloAutomatico !== undefined) {\n    historico.cicloAutomatico = !!msg.payload.cicloAutomatico;\n}\n\n// Salva no contexto de fluxo (persistente)\nflow.set('fms_prod_history', historico);\n\nreturn {\n    topic: 'fms/produtividade',\n    payload: historico,\n    notificacaoPecaPronta: notificacaoParaDisparar\n};",
         "outputs": 1,
@@ -1404,23 +1421,23 @@
         "initialize": "",
         "finalize": "",
         "libs": [],
-        "x": 1000,
+        "x": 1020,
         "y": 460,
         "wires": [
             [
-                "f5985c2bf92f14a0",
-                "db103ca12a00eeb6",
-                "9012ee28dde31985",
-                "a00cd7867012f83b",
-                "94cbb8d213fb2eed",
-                "c5216abc3336a4db"
+                "c77364524358a853",
+                "b835882ae9c9402a",
+                "fdd6c3c92086ada3",
+                "52deefe58b356801",
+                "523a6554c3c0e26b",
+                "d3f90fa5b6d02b4e"
             ]
         ]
     },
     {
-        "id": "94cbb8d213fb2eed",
+        "id": "523a6554c3c0e26b",
         "type": "ui-template",
-        "z": "a0e5734fb3d03f9f",
+        "z": "7aae740c266d0d41",
         "group": "",
         "page": "",
         "ui": "f26cc9bff8326cdd",
@@ -1429,22 +1446,22 @@
         "width": 0,
         "height": 0,
         "head": "",
-        "format": "<!-- TOP HEADER CORPORATIVO SENAI SP + MENU DE NAVEGAÇÃO + NOTIFICAÇÃO FLUTUANTE -->\n<div class=\"senai-global-topbar-wrapper\">\n  <!-- Faixa Vermelha SENAI SP no Topo -->\n  <div class=\"senai-red-accent-line\"></div>\n\n  <div class=\"senai-header-main\">\n    <!-- Bloco Esquerdo: Logo SENAI SP e Título -->\n    <div class=\"senai-brand-col\">\n      <div class=\"senai-badge-logo\">\n        <span>SENAI SP</span>\n      </div>\n      <div class=\"senai-header-divider\"></div>\n      <div>\n        <h1 class=\"senai-header-title\">Célula Integrada de Manufatura de Chaveiros</h1>\n        <p class=\"senai-header-sub\">Supervisório Industrial & Produtividade FMS • Indústria 4.0</p>\n      </div>\n    </div>\n\n    <!-- Bloco Direito: Indicadores Rápidos do CLP e Relógio -->\n    <div class=\"senai-telemetry-col\">\n      <!-- CLP Conectado -->\n      <div class=\"senai-status-chip\">\n        <span class=\"senai-dot\" :class=\"clpConectado ? 'dot-online' : 'dot-offline'\"></span>\n        <span class=\"chip-label\">CLP Altus:</span>\n        <span class=\"chip-val\">{{ clpConectado ? 'Conectado' : 'Desconectado' }}</span>\n      </div>\n\n      <!-- Ciclo Automático -->\n      <div class=\"senai-status-chip\">\n        <span class=\"senai-dot\" :class=\"cicloAutomatico ? 'dot-online' : 'dot-warning'\"></span>\n        <span class=\"chip-label\">Ciclo:</span>\n        <span class=\"chip-val\">{{ cicloAutomatico ? 'Automático' : 'Manual' }}</span>\n      </div>\n\n      <!-- Estado Operacional da Célula -->\n      <div class=\"senai-state-badge\" :style=\"{ backgroundColor: stateMeta.bg, borderColor: stateMeta.border, color: stateMeta.color }\">\n        <span class=\"senai-dot\" :style=\"{ backgroundColor: stateMeta.color }\"></span>\n        <span>{{ stateMeta.label }}</span>\n      </div>\n\n      <!-- Relógio Digital -->\n      <div class=\"senai-clock-box\">\n        <span>{{ relogio }}</span>\n      </div>\n    </div>\n  </div>\n\n  <!-- Menu de Navegação Superior com Abas Elegantes -->\n  <div class=\"senai-nav-strip\">\n    <div class=\"senai-nav-links\">\n      <a href=\"/dashboard/supervisorio\" class=\"senai-nav-tab\" :class=\"{ 'tab-active': currentPath.includes('supervisorio') }\">\n        <svg class=\"tab-icon\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\"><rect width=\"18\" height=\"18\" x=\"3\" y=\"3\" rx=\"2\"/><path d=\"M7 7h10M7 12h10M7 17h10\"/></svg>\n        <span>Supervisório Célula FMS</span>\n      </a>\n\n      <a href=\"/dashboard/pedidos\" class=\"senai-nav-tab\" :class=\"{ 'tab-active': currentPath.includes('pedidos') }\">\n        <svg class=\"tab-icon\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\"><path d=\"M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2\"/><rect width=\"8\" height=\"4\" x=\"8\" y=\"2\" rx=\"1\"/></svg>\n        <span>Terminal de Pedidos</span>\n      </a>\n\n      <a href=\"/dashboard/Controle\" class=\"senai-nav-tab\" :class=\"{ 'tab-active': currentPath.includes('Controle') || currentPath.includes('controle') }\">\n        <svg class=\"tab-icon\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\"><path d=\"M12.22 2h-.44a2 2 0 0 0-2 2v.18a2 2 0 0 1-1 1.73l-.43.25a2 2 0 0 1-2 0l-.15-.08a2 2 0 0 0-2.73.73l-.22.38a2 2 0 0 0 .73 2.73l.15.1a2 2 0 0 1 1 1.72v.51a2 2 0 0 1-1 1.74l-.15.09a2 2 0 0 0-.73 2.73l.22.38a2 2 0 0 0 2.73.73l.15-.08a2 2 0 0 1 2 0l.43.25a2 2 0 0 1 1 1.73V20a2 2 0 0 0 2 2h.44a2 2 0 0 0 2-2v-.18a2 2 0 0 1 1-1.73l.43-.25a2 2 0 0 1 2 0l.15.08a2 2 0 0 0 2.73-.73l.22-.39a2 2 0 0 0-.73-2.73l-.15-.08a2 2 0 0 1-1-1.74v-.5a2 2 0 0 1 1-1.74l.15-.09a2 2 0 0 0 .73-2.73l-.22-.38a2 2 0 0 0-2.73-.73l-.15.08a2 2 0 0 1-2 0l-.43-.25a2 2 0 0 1-1-1.73V4a2 2 0 0 0-2-2z\"/><circle cx=\"12\" cy=\"12\" r=\"3\"/></svg>\n        <span>Controle CLP Altus</span>\n      </a>\n\n      <a href=\"/dashboard/produtividade\" class=\"senai-nav-tab\" :class=\"{ 'tab-active': currentPath.includes('produtividade') || currentPath === '/dashboard' || currentPath === '/dashboard/' }\">\n        <svg class=\"tab-icon\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\"><line x1=\"18\" x2=\"18\" y1=\"20\" y2=\"10\"/><line x1=\"12\" x2=\"12\" y1=\"20\" y2=\"4\"/><line x1=\"6\" x2=\"6\" y1=\"20\" y2=\"14\"/></svg>\n        <span>Dashboard de Produtividade</span>\n        <span class=\"tab-badge-pulse\">AO VIVO</span>\n      </a>\n    </div>\n  </div>\n\n  <!-- NOTIFICAÇÃO FLUTUANTE DE PEÇA PRONTA (TOAST ANIMADO NO TOPO) -->\n  <transition name=\"toast-slide\">\n    <div v-if=\"toastAtivo\" class=\"senai-ready-toast\">\n      <div class=\"toast-glow\"></div>\n      <div class=\"toast-content\">\n        <div class=\"toast-icon-wrap\">\n          <svg class=\"trophy-icon\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2.5\"><path d=\"M6 9H4.5a2.5 2.5 0 0 1 0-5H6\"/><path d=\"M18 9h1.5a2.5 2.5 0 0 0 0-5H18\"/><path d=\"M4 22h16\"/><path d=\"M10 14.66V17c0 .55-.45 1-1 1H7v4h10v-4h-2c-.55 0-1-.45-1-1v-2.34\"/><path d=\"M18 2H6v7a6 6 0 0 0 12 0V2z\"/></svg>\n        </div>\n        <div class=\"toast-text\">\n          <span class=\"toast-title\">Peça Usinada e Pronta para Entrega!</span>\n          <span class=\"toast-desc\">Chaveiro <strong>\"{{ toastNome }}\"</strong> finalizado com sucesso no Centro de Usinagem às {{ toastHora }}.</span>\n        </div>\n        <button class=\"toast-close-btn\" @click=\"toastAtivo = false\" title=\"Fechar\">✕</button>\n      </div>\n    </div>\n  </transition>\n</div>\n\n<script>\nexport default {\n  data() {\n    return {\n      clpConectado: true,\n      cicloAutomatico: true,\n      currentState: 'PRODUZINDO',\n      relogio: '',\n      relogioInterval: null,\n      currentPath: '',\n      toastAtivo: false,\n      toastNome: 'MARCELO',\n      toastHora: '',\n      toastTimer: null\n    };\n  },\n  computed: {\n    stateMeta() {\n      const s = this.currentState;\n      if (s === 'PRODUZINDO') return { label: 'Linha Ativa', color: '#10b981', bg: 'rgba(16, 185, 129, 0.15)', border: 'rgba(16, 185, 129, 0.3)' };\n      if (s === 'OCIOSO') return { label: 'CLP Parado (Sem Pedidos)', color: '#94a3b8', bg: 'rgba(148, 163, 184, 0.15)', border: 'rgba(148, 163, 184, 0.3)' };\n      if (s === 'ESTOQUE_BAIXO') return { label: 'Estoque Baixo (Recarga)', color: '#f59e0b', bg: 'rgba(245, 158, 11, 0.15)', border: 'rgba(245, 158, 11, 0.3)' };\n      if (s === 'EMERGENCIA') return { label: 'Emergência Acionada', color: '#ef4444', bg: 'rgba(239, 68, 68, 0.2)', border: 'rgba(239, 68, 68, 0.4)' };\n      if (s === 'FALHA_ROBO') return { label: 'Falha Comunicação Robô', color: '#c084fc', bg: 'rgba(192, 132, 252, 0.15)', border: 'rgba(192, 132, 252, 0.3)' };\n      return { label: 'Linha Ativa', color: '#10b981', bg: 'rgba(16, 185, 129, 0.15)', border: 'rgba(16, 185, 129, 0.3)' };\n    }\n  },\n  watch: {\n    msg: {\n      immediate: true,\n      handler(newVal) {\n        if (!newVal) return;\n        \n        // Trata notificação de peça pronta\n        if (newVal.notificacaoPecaPronta) {\n          this.dispararToast(newVal.notificacaoPecaPronta.nome, newVal.notificacaoPecaPronta.timestamp);\n        }\n        \n        const p = newVal.payload;\n        if (!p) return;\n        if (p.clpConectado !== undefined) this.clpConectado = !!p.clpConectado;\n        if (p.cicloAutomatico !== undefined) this.cicloAutomatico = !!p.cicloAutomatico;\n        if (p.currentState) this.currentState = p.currentState;\n        \n        // Verifica se veio do array de pedidos com estado 'Peça pronta'\n        if (Array.isArray(p)) {\n          const prontas = p.filter(item => item.estado === 'Peça pronta');\n          if (prontas.length > 0) {\n            const ultima = prontas[prontas.length - 1];\n            this.dispararToast(ultima.nome || 'SENAI', new Date().toLocaleTimeString('pt-BR'));\n          }\n        }\n      }\n    }\n  },\n  mounted() {\n    this.currentPath = window.location.pathname || '';\n    this.atualizarRelogio();\n    this.relogioInterval = setInterval(this.atualizarRelogio, 1000);\n    \n    // Escuta evento do socket caso venha direto\n    this.$socket?.on('ui-template:' + this.id, (msg) => {\n      if (msg && msg.notificacaoPecaPronta) {\n        this.dispararToast(msg.notificacaoPecaPronta.nome, msg.notificacaoPecaPronta.timestamp);\n      }\n    });\n  },\n  beforeUnmount() {\n    if (this.relogioInterval) clearInterval(this.relogioInterval);\n    if (this.toastTimer) clearTimeout(this.toastTimer);\n  },\n  methods: {\n    atualizarRelogio() {\n      const now = new Date();\n      this.relogio = now.toLocaleTimeString('pt-BR');\n    },\n    dispararToast(nome, hora) {\n      this.toastNome = nome || 'SENAI';\n      this.toastHora = hora || new Date().toLocaleTimeString('pt-BR');\n      this.toastAtivo = true;\n      \n      // Tenta tocar um bip agradável sintetizado via Web Audio API\n      try {\n        const AudioContext = window.AudioContext || window.webkitAudioContext;\n        if (AudioContext) {\n          const ctx = new AudioContext();\n          const osc = ctx.createOscillator();\n          const gain = ctx.createGain();\n          osc.type = 'sine';\n          osc.frequency.setValueAtTime(587.33, ctx.currentTime); // D5\n          osc.frequency.exponentialRampToValueAtTime(880, ctx.currentTime + 0.15); // A5\n          gain.gain.setValueAtTime(0.12, ctx.currentTime);\n          gain.gain.exponentialRampToValueAtTime(0.01, ctx.currentTime + 0.35);\n          osc.connect(gain);\n          gain.connect(ctx.destination);\n          osc.start();\n          osc.stop(ctx.currentTime + 0.36);\n        }\n      } catch (e) {}\n\n      if (this.toastTimer) clearTimeout(this.toastTimer);\n      this.toastTimer = setTimeout(() => {\n        this.toastAtivo = false;\n      }, 5500);\n    }\n  }\n};\n</script>\n\n<style>\n.senai-global-topbar-wrapper {\n  position: sticky;\n  top: 0;\n  z-index: 1000;\n  background: #0f172a;\n  border-bottom: 1px solid #334155;\n  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.35);\n  width: 100%;\n  margin-bottom: 14px;\n}\n.senai-red-accent-line {\n  height: 3px;\n  background: #e30613;\n  width: 100%;\n}\n.senai-header-main {\n  display: flex;\n  justify-content: space-between;\n  align-items: center;\n  padding: 10px 18px;\n  gap: 16px;\n  flex-wrap: wrap;\n}\n.senai-brand-col {\n  display: flex;\n  align-items: center;\n  gap: 12px;\n}\n.senai-badge-logo {\n  background: #e30613;\n  color: #ffffff;\n  font-weight: 900;\n  font-size: 0.85rem;\n  letter-spacing: 0.08em;\n  padding: 6px 14px;\n  border-radius: 6px;\n  box-shadow: 0 2px 10px rgba(227, 6, 19, 0.4);\n}\n.senai-header-divider {\n  width: 1px;\n  height: 30px;\n  background: #334155;\n}\n.senai-header-title {\n  font-size: 1.05rem;\n  font-weight: 700;\n  color: #ffffff;\n  margin: 0;\n  letter-spacing: -0.01em;\n}\n.senai-header-sub {\n  font-size: 0.75rem;\n  color: #94a3b8;\n  margin: 2px 0 0 0;\n}\n.senai-telemetry-col {\n  display: flex;\n  align-items: center;\n  gap: 12px;\n  flex-wrap: wrap;\n}\n.senai-status-chip {\n  display: flex;\n  align-items: center;\n  gap: 6px;\n  font-size: 0.78rem;\n  background: #1e293b;\n  border: 1px solid #334155;\n  border-radius: 6px;\n  padding: 4px 10px;\n}\n.chip-label { color: #94a3b8; }\n.chip-val { color: #f8fafc; font-weight: 600; font-family: monospace; }\n.senai-dot { width: 7px; height: 7px; border-radius: 50%; }\n.dot-online { background: #10b981; box-shadow: 0 0 8px rgba(16, 185, 129, 0.7); }\n.dot-offline { background: #ef4444; box-shadow: 0 0 8px rgba(239, 68, 68, 0.7); }\n.dot-warning { background: #f59e0b; }\n.senai-state-badge {\n  display: inline-flex;\n  align-items: center;\n  gap: 6px;\n  font-size: 0.75rem;\n  font-weight: 600;\n  border-radius: 6px;\n  border: 1px solid;\n  padding: 4px 10px;\n}\n.senai-clock-box {\n  background: #1e293b;\n  border: 1px solid #334155;\n  border-radius: 6px;\n  padding: 4px 10px;\n  font-family: monospace;\n  font-size: 0.8rem;\n  color: #cbd5e1;\n  font-weight: 600;\n}\n\n/* Faixa de Navegação por Abas */\n.senai-nav-strip {\n  background: #0b0f19;\n  border-top: 1px solid #1e293b;\n  padding: 4px 18px;\n  overflow-x: auto;\n}\n.senai-nav-links {\n  display: flex;\n  gap: 6px;\n  align-items: center;\n}\n.senai-nav-tab {\n  display: flex;\n  align-items: center;\n  gap: 8px;\n  padding: 8px 14px;\n  border-radius: 6px;\n  font-size: 0.8rem;\n  font-weight: 600;\n  color: #94a3b8;\n  text-decoration: none;\n  transition: all 0.2s ease;\n  border: 1px solid transparent;\n}\n.senai-nav-tab:hover {\n  background: #1e293b;\n  color: #f8fafc;\n}\n.senai-nav-tab.tab-active {\n  background: #1e293b;\n  color: #ffffff;\n  border-color: #334155;\n  border-bottom: 2px solid #e30613;\n}\n.tab-icon {\n  width: 14px;\n  height: 14px;\n}\n.tab-badge-pulse {\n  background: rgba(16, 185, 129, 0.2);\n  color: #10b981;\n  font-size: 0.65rem;\n  padding: 1px 6px;\n  border-radius: 4px;\n  font-weight: 700;\n  border: 1px solid rgba(16, 185, 129, 0.4);\n}\n\n/* NOTIFICAÇÃO TOAST FLUTUANTE */\n.senai-ready-toast {\n  position: fixed;\n  top: 75px;\n  left: 50%;\n  transform: translateX(-50%);\n  z-index: 9999;\n  min-width: 380px;\n  max-width: 90vw;\n  background: rgba(15, 23, 42, 0.95);\n  backdrop-filter: blur(12px);\n  border: 1px solid rgba(16, 185, 129, 0.5);\n  border-radius: 12px;\n  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5), 0 0 20px rgba(16, 185, 129, 0.3);\n  padding: 12px 16px;\n}\n.toast-content {\n  display: flex;\n  align-items: center;\n  gap: 12px;\n}\n.toast-icon-wrap {\n  width: 36px;\n  height: 36px;\n  border-radius: 50%;\n  background: rgba(16, 185, 129, 0.2);\n  display: flex;\n  align-items: center;\n  justify-content: center;\n  color: #10b981;\n  flex-shrink: 0;\n}\n.trophy-icon { width: 20px; height: 20px; }\n.toast-text {\n  flex: 1;\n  display: flex;\n  flex-direction: column;\n  gap: 2px;\n}\n.toast-title {\n  font-size: 0.85rem;\n  font-weight: 700;\n  color: #10b981;\n}\n.toast-desc {\n  font-size: 0.75rem;\n  color: #cbd5e1;\n}\n.toast-close-btn {\n  background: transparent;\n  border: none;\n  color: #94a3b8;\n  font-size: 1rem;\n  cursor: pointer;\n  padding: 4px;\n}\n.toast-close-btn:hover { color: #ffffff; }\n\n.toast-slide-enter-active, .toast-slide-leave-active {\n  transition: all 0.35s cubic-bezier(0.16, 1, 0.3, 1);\n}\n.toast-slide-enter-from, .toast-slide-leave-to {\n  opacity: 0;\n  transform: translate(-50%, -20px);\n}\n</style>",
+        "format": "<!-- TOP HEADER CORPORATIVO SENAI SP + MENU DE NAVEGAÇÃO + NOTIFICAÇÃO FLUTUANTE -->\n<div class=\"senai-global-topbar-wrapper\">\n  <!-- Faixa Vermelha SENAI SP no Topo -->\n  <div class=\"senai-red-accent-line\"></div>\n\n  <div class=\"senai-header-main\">\n    <!-- Bloco Esquerdo: Logo SENAI SP e Título -->\n    <div class=\"senai-brand-col\">\n      <div class=\"senai-logo-wrapper\">\n        <img \n          src=\"/senai-header.jpg\" \n          alt=\"SENAI SP\" \n          class=\"senai-header-img\"\n          @error=\"$event.target.style.display='none'; $event.target.nextElementSibling.style.display='inline-flex'\" \n        />\n        <div class=\"senai-badge-logo\" style=\"display: none;\">\n          <span>SENAI SP</span>\n        </div>\n      </div>\n      <div class=\"senai-header-divider\"></div>\n      <div>\n        <h1 class=\"senai-header-title\">Célula Integrada de Manufatura de Chaveiros</h1>\n        <p class=\"senai-header-sub\">Supervisório Industrial & Produtividade FMS • Indústria 4.0</p>\n      </div>\n    </div>\n\n    <!-- Bloco Direito: Indicadores Rápidos do CLP e Relógio -->\n    <div class=\"senai-telemetry-col\">\n      <!-- CLP Conectado -->\n      <div class=\"senai-status-chip\">\n        <span class=\"senai-dot\" :class=\"clpConectado ? 'dot-online' : 'dot-offline'\"></span>\n        <span class=\"chip-label\">CLP Altus:</span>\n        <span class=\"chip-val\">{{ clpConectado ? 'Conectado' : 'Desconectado' }}</span>\n      </div>\n\n      <!-- Ciclo Automático -->\n      <div class=\"senai-status-chip\">\n        <span class=\"senai-dot\" :class=\"cicloAutomatico ? 'dot-online' : 'dot-warning'\"></span>\n        <span class=\"chip-label\">Ciclo:</span>\n        <span class=\"chip-val\">{{ cicloAutomatico ? 'Automático' : 'Manual' }}</span>\n      </div>\n\n      <!-- Estado Operacional da Célula -->\n      <div class=\"senai-state-badge\" :style=\"{ backgroundColor: stateMeta.bg, borderColor: stateMeta.border, color: stateMeta.color }\">\n        <span class=\"senai-dot\" :style=\"{ backgroundColor: stateMeta.color }\"></span>\n        <span>{{ stateMeta.label }}</span>\n      </div>\n\n      <!-- Relógio Digital -->\n      <div class=\"senai-clock-box\">\n        <span>{{ relogio }}</span>\n      </div>\n    </div>\n  </div>\n\n  <!-- Menu de Navegação Superior com Abas Elegantes -->\n  <div class=\"senai-nav-strip\">\n    <div class=\"senai-nav-links\">\n      <a href=\"/dashboard/supervisorio\" @click=\"navegar('/dashboard/supervisorio', $event)\" class=\"senai-nav-tab\" :class=\"{ 'tab-active': currentPath.includes('supervisorio') }\">\n        <svg class=\"tab-icon\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\"><rect width=\"18\" height=\"18\" x=\"3\" y=\"3\" rx=\"2\"/><path d=\"M7 7h10M7 12h10M7 17h10\"/></svg>\n        <span>Supervisório Célula FMS</span>\n      </a>\n\n      <a href=\"/dashboard/pedidos\" @click=\"navegar('/dashboard/pedidos', $event)\" class=\"senai-nav-tab\" :class=\"{ 'tab-active': currentPath.includes('pedidos') }\">\n        <svg class=\"tab-icon\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\"><path d=\"M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2\"/><rect width=\"8\" height=\"4\" x=\"8\" y=\"2\" rx=\"1\"/></svg>\n        <span>Terminal de Pedidos</span>\n      </a>\n\n      <a href=\"/dashboard/Controle\" @click=\"navegar('/dashboard/Controle', $event)\" class=\"senai-nav-tab\" :class=\"{ 'tab-active': currentPath.includes('Controle') || currentPath.includes('controle') }\">\n        <svg class=\"tab-icon\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\"><path d=\"M12.22 2h-.44a2 2 0 0 0-2 2v.18a2 2 0 0 1-1 1.73l-.43.25a2 2 0 0 1-2 0l-.15-.08a2 2 0 0 0-2.73.73l-.22.38a2 2 0 0 0 .73 2.73l.15.1a2 2 0 0 1 1 1.72v.51a2 2 0 0 1-1 1.74l-.15.09a2 2 0 0 0-.73 2.73l.22.38a2 2 0 0 0 2.73.73l.15-.08a2 2 0 0 1 2 0l.43.25a2 2 0 0 1 1 1.73V20a2 2 0 0 0 2 2h.44a2 2 0 0 0 2-2v-.18a2 2 0 0 1 1-1.73l.43-.25a2 2 0 0 1 2 0l.15.08a2 2 0 0 0 2.73-.73l.22-.39a2 2 0 0 0-.73-2.73l-.15-.08a2 2 0 0 1-1-1.74v-.5a2 2 0 0 1 1-1.74l.15-.09a2 2 0 0 0 .73-2.73l-.22-.38a2 2 0 0 0-2.73-.73l-.15.08a2 2 0 0 1-2 0l-.43-.25a2 2 0 0 1-1-1.73V4a2 2 0 0 0-2-2z\"/><circle cx=\"12\" cy=\"12\" r=\"3\"/></svg>\n        <span>Controle CLP Altus</span>\n      </a>\n\n      <a href=\"/dashboard/produtividade\" @click=\"navegar('/dashboard/produtividade', $event)\" class=\"senai-nav-tab\" :class=\"{ 'tab-active': currentPath.includes('produtividade') || currentPath === '/dashboard' || currentPath === '/dashboard/' }\">\n        <svg class=\"tab-icon\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\"><line x1=\"18\" x2=\"18\" y1=\"20\" y2=\"10\"/><line x1=\"12\" x2=\"12\" y1=\"20\" y2=\"4\"/><line x1=\"6\" x2=\"6\" y1=\"20\" y2=\"14\"/></svg>\n        <span>Dashboard de Produtividade</span>\n        <span class=\"tab-badge-pulse\">AO VIVO</span>\n      </a>\n    </div>\n  </div>\n\n  <!-- NOTIFICAÇÃO FLUTUANTE DE PEÇA PRONTA (TOAST ANIMADO NO TOPO) -->\n  <transition name=\"toast-slide\">\n    <div v-if=\"toastAtivo\" class=\"senai-ready-toast\">\n      <div class=\"toast-glow\"></div>\n      <div class=\"toast-content\">\n        <div class=\"toast-icon-wrap\">\n          <svg class=\"trophy-icon\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2.5\"><path d=\"M6 9H4.5a2.5 2.5 0 0 1 0-5H6\"/><path d=\"M18 9h1.5a2.5 2.5 0 0 0 0-5H18\"/><path d=\"M4 22h16\"/><path d=\"M10 14.66V17c0 .55-.45 1-1 1H7v4h10v-4h-2c-.55 0-1-.45-1-1v-2.34\"/><path d=\"M18 2H6v7a6 6 0 0 0 12 0V2z\"/></svg>\n        </div>\n        <div class=\"toast-text\">\n          <span class=\"toast-title\">Peça Usinada e Pronta para Entrega!</span>\n          <span class=\"toast-desc\">Chaveiro <strong>\"{{ toastNome }}\"</strong> finalizado com sucesso no Centro de Usinagem às {{ toastHora }}.</span>\n        </div>\n        <button class=\"toast-close-btn\" @click=\"toastAtivo = false\" title=\"Fechar\">✕</button>\n      </div>\n    </div>\n  </transition>\n</div>\n\n<script>\nexport default {\n  data() {\n    return {\n      clpConectado: true,\n      cicloAutomatico: true,\n      currentState: 'PRODUZINDO',\n      relogio: '',\n      relogioInterval: null,\n      currentPath: '',\n      toastAtivo: false,\n      toastNome: 'MARCELO',\n      toastHora: '',\n      toastTimer: null\n    };\n  },\n  computed: {\n    stateMeta() {\n      const s = this.currentState;\n      if (s === 'PRODUZINDO') return { label: 'Linha Ativa', color: '#10b981', bg: 'rgba(16, 185, 129, 0.15)', border: 'rgba(16, 185, 129, 0.3)' };\n      if (s === 'OCIOSO') return { label: 'CLP Parado (Sem Pedidos)', color: '#94a3b8', bg: 'rgba(148, 163, 184, 0.15)', border: 'rgba(148, 163, 184, 0.3)' };\n      if (s === 'ESTOQUE_BAIXO') return { label: 'Estoque Baixo (Recarga)', color: '#f59e0b', bg: 'rgba(245, 158, 11, 0.15)', border: 'rgba(245, 158, 11, 0.3)' };\n      if (s === 'EMERGENCIA') return { label: 'Emergência Acionada', color: '#ef4444', bg: 'rgba(239, 68, 68, 0.2)', border: 'rgba(239, 68, 68, 0.4)' };\n      if (s === 'FALHA_ROBO') return { label: 'Falha Comunicação Robô', color: '#c084fc', bg: 'rgba(192, 132, 252, 0.15)', border: 'rgba(192, 132, 252, 0.3)' };\n      return { label: 'Linha Ativa', color: '#10b981', bg: 'rgba(16, 185, 129, 0.15)', border: 'rgba(16, 185, 129, 0.3)' };\n    }\n  },\n  watch: {\n    msg: {\n      immediate: true,\n      handler(newVal) {\n        if (!newVal) return;\n        \n        // Trata notificação de peça pronta\n        if (newVal.notificacaoPecaPronta) {\n          this.dispararToast(newVal.notificacaoPecaPronta.nome, newVal.notificacaoPecaPronta.timestamp);\n        }\n        \n        const p = newVal.payload;\n        if (!p) return;\n        if (p.clpConectado !== undefined) this.clpConectado = !!p.clpConectado;\n        if (p.cicloAutomatico !== undefined) this.cicloAutomatico = !!p.cicloAutomatico;\n        if (p.currentState) this.currentState = p.currentState;\n        \n        // Verifica se veio do array de pedidos com estado 'Peça pronta'\n        if (Array.isArray(p)) {\n          const prontas = p.filter(item => item.estado === 'Peça pronta');\n          if (prontas.length > 0) {\n            const ultima = prontas[prontas.length - 1];\n            this.dispararToast(ultima.nome || 'SENAI', new Date().toLocaleTimeString('pt-BR'));\n          }\n        }\n      }\n    }\n  },\n  mounted() {\n    this.currentPath = window.location.pathname || '';\n    if (this.$router) {\n      this.$router.afterEach((to) => {\n        this.currentPath = to.path || window.location.pathname || '';\n      });\n    }\n    this.atualizarRelogio();\n    this.relogioInterval = setInterval(this.atualizarRelogio, 1000);\n    \n    // Escuta evento do socket caso venha direto\n    this.$socket?.on('ui-template:' + this.id, (msg) => {\n      if (msg && msg.notificacaoPecaPronta) {\n        this.dispararToast(msg.notificacaoPecaPronta.nome, msg.notificacaoPecaPronta.timestamp);\n      }\n    });\n  },\n  beforeUnmount() {\n    if (this.relogioInterval) clearInterval(this.relogioInterval);\n    if (this.toastTimer) clearTimeout(this.toastTimer);\n  },\n  methods: {\n    navegar(url, evt) {\n      this.currentPath = url;\n      if (this.$router && typeof this.$router.push === 'function') {\n        if (evt) evt.preventDefault();\n        const route = url.replace('/dashboard', '') || '/';\n        this.$router.push(route).catch(() => {});\n      }\n    },\n    atualizarRelogio() {\n      const now = new Date();\n      this.relogio = now.toLocaleTimeString('pt-BR');\n    },\n    dispararToast(nome, hora) {\n      this.toastNome = nome || 'SENAI';\n      this.toastHora = hora || new Date().toLocaleTimeString('pt-BR');\n      this.toastAtivo = true;\n      \n      // Tenta tocar um bip agradável sintetizado via Web Audio API\n      try {\n        const AudioContext = window.AudioContext || window.webkitAudioContext;\n        if (AudioContext) {\n          const ctx = new AudioContext();\n          const osc = ctx.createOscillator();\n          const gain = ctx.createGain();\n          osc.type = 'sine';\n          osc.frequency.setValueAtTime(587.33, ctx.currentTime); // D5\n          osc.frequency.exponentialRampToValueAtTime(880, ctx.currentTime + 0.15); // A5\n          gain.gain.setValueAtTime(0.12, ctx.currentTime);\n          gain.gain.exponentialRampToValueAtTime(0.01, ctx.currentTime + 0.35);\n          osc.connect(gain);\n          gain.connect(ctx.destination);\n          osc.start();\n          osc.stop(ctx.currentTime + 0.36);\n        }\n      } catch (e) {}\n\n      if (this.toastTimer) clearTimeout(this.toastTimer);\n      this.toastTimer = setTimeout(() => {\n        this.toastAtivo = false;\n      }, 5500);\n    }\n  }\n};\n</script>\n\n<style>\n.senai-global-topbar-wrapper {\n  position: fixed !important;\n  top: 0 !important;\n  left: 0 !important;\n  right: 0 !important;\n  width: 100vw !important;\n  max-width: 100% !important;\n  z-index: 99999 !important;\n  background: #0f172a !important;\n  border-bottom: 1px solid #334155 !important;\n  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.45) !important;\n}\n.senai-red-accent-line {\n  height: 3px;\n  background: #e30613;\n  width: 100%;\n}\n.senai-header-main {\n  display: flex;\n  justify-content: space-between;\n  align-items: center;\n  padding: 10px 18px;\n  gap: 16px;\n  flex-wrap: wrap;\n}\n.senai-brand-col {\n  display: flex;\n  align-items: center;\n  gap: 12px;\n}\n.senai-logo-wrapper {\n  display: flex;\n  align-items: center;\n  justify-content: center;\n}\n.senai-header-img {\n  height: 42px;\n  max-height: 42px;\n  width: auto;\n  max-width: 170px;\n  object-fit: contain;\n  display: block;\n  border-radius: 4px;\n}\n.senai-badge-logo {\n  background: #e30613;\n  color: #ffffff;\n  font-weight: 900;\n  font-size: 0.85rem;\n  letter-spacing: 0.08em;\n  padding: 6px 14px;\n  border-radius: 6px;\n  box-shadow: 0 2px 10px rgba(227, 6, 19, 0.4);\n}\n.senai-header-divider {\n  width: 1px;\n  height: 30px;\n  background: #334155;\n}\n.senai-header-title {\n  font-size: 1.05rem;\n  font-weight: 700;\n  color: #ffffff;\n  margin: 0;\n  letter-spacing: -0.01em;\n}\n.senai-header-sub {\n  font-size: 0.75rem;\n  color: #94a3b8;\n  margin: 2px 0 0 0;\n}\n.senai-telemetry-col {\n  display: flex;\n  align-items: center;\n  gap: 12px;\n  flex-wrap: wrap;\n}\n.senai-status-chip {\n  display: flex;\n  align-items: center;\n  gap: 6px;\n  font-size: 0.78rem;\n  background: #1e293b;\n  border: 1px solid #334155;\n  border-radius: 6px;\n  padding: 4px 10px;\n}\n.chip-label { color: #94a3b8; }\n.chip-val { color: #f8fafc; font-weight: 600; font-family: monospace; }\n.senai-dot { width: 7px; height: 7px; border-radius: 50%; }\n.dot-online { background: #10b981; box-shadow: 0 0 8px rgba(16, 185, 129, 0.7); }\n.dot-offline { background: #ef4444; box-shadow: 0 0 8px rgba(239, 68, 68, 0.7); }\n.dot-warning { background: #f59e0b; }\n.senai-state-badge {\n  display: inline-flex;\n  align-items: center;\n  gap: 6px;\n  font-size: 0.75rem;\n  font-weight: 600;\n  border-radius: 6px;\n  border: 1px solid;\n  padding: 4px 10px;\n}\n.senai-clock-box {\n  background: #1e293b;\n  border: 1px solid #334155;\n  border-radius: 6px;\n  padding: 4px 10px;\n  font-family: monospace;\n  font-size: 0.8rem;\n  color: #cbd5e1;\n  font-weight: 600;\n}\n\n/* Faixa de Navegação por Abas */\n.senai-nav-strip {\n  background: #0b0f19;\n  border-top: 1px solid #1e293b;\n  padding: 4px 18px;\n  overflow-x: auto;\n}\n.senai-nav-links {\n  display: flex;\n  gap: 6px;\n  align-items: center;\n}\n.senai-nav-tab {\n  display: flex;\n  align-items: center;\n  gap: 8px;\n  padding: 8px 14px;\n  border-radius: 6px;\n  font-size: 0.8rem;\n  font-weight: 600;\n  color: #94a3b8;\n  text-decoration: none;\n  transition: all 0.2s ease;\n  border: 1px solid transparent;\n}\n.senai-nav-tab:hover {\n  background: #1e293b;\n  color: #f8fafc;\n}\n.senai-nav-tab.tab-active {\n  background: #1e293b;\n  color: #ffffff;\n  border-color: #334155;\n  border-bottom: 2px solid #e30613;\n}\n.tab-icon {\n  width: 14px;\n  height: 14px;\n}\n.tab-badge-pulse {\n  background: rgba(16, 185, 129, 0.2);\n  color: #10b981;\n  font-size: 0.65rem;\n  padding: 1px 6px;\n  border-radius: 4px;\n  font-weight: 700;\n  border: 1px solid rgba(16, 185, 129, 0.4);\n}\n\n/* NOTIFICAÇÃO TOAST FLUTUANTE */\n.senai-ready-toast {\n  position: fixed !important;\n  top: 96px !important;\n  left: 50% !important;\n  transform: translateX(-50%) !important;\n  z-index: 100000 !important;\n  min-width: 380px;\n  max-width: 90vw;\n  background: rgba(15, 23, 42, 0.95);\n  backdrop-filter: blur(12px);\n  border: 1px solid rgba(16, 185, 129, 0.5);\n  border-radius: 12px;\n  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5), 0 0 20px rgba(16, 185, 129, 0.3);\n  padding: 12px 16px;\n}\n.toast-content {\n  display: flex;\n  align-items: center;\n  gap: 12px;\n}\n.toast-icon-wrap {\n  width: 36px;\n  height: 36px;\n  border-radius: 50%;\n  background: rgba(16, 185, 129, 0.2);\n  display: flex;\n  align-items: center;\n  justify-content: center;\n  color: #10b981;\n  flex-shrink: 0;\n}\n.trophy-icon { width: 20px; height: 20px; }\n.toast-text {\n  flex: 1;\n  display: flex;\n  flex-direction: column;\n  gap: 2px;\n}\n.toast-title {\n  font-size: 0.85rem;\n  font-weight: 700;\n  color: #10b981;\n}\n.toast-desc {\n  font-size: 0.75rem;\n  color: #cbd5e1;\n}\n.toast-close-btn {\n  background: transparent;\n  border: none;\n  color: #94a3b8;\n  font-size: 1rem;\n  cursor: pointer;\n  padding: 4px;\n}\n.toast-close-btn:hover { color: #ffffff; }\n\n.toast-slide-enter-active, .toast-slide-leave-active {\n  transition: all 0.35s cubic-bezier(0.16, 1, 0.3, 1);\n}\n.toast-slide-enter-from, .toast-slide-leave-to {\n  opacity: 0;\n  transform: translate(-50%, -20px);\n}\n</style>",
         "storeOutMessages": true,
         "passthru": true,
         "resendOnRefresh": true,
         "templateScope": "widget:ui",
         "className": "",
-        "x": 1020,
-        "y": 120,
+        "x": 1440,
+        "y": 260,
         "wires": [
             []
         ]
     },
     {
-        "id": "656a114ed6b449ba",
+        "id": "65b91cb7de8c42cc",
         "type": "ui-template",
-        "z": "a0e5734fb3d03f9f",
+        "z": "7aae740c266d0d41",
         "group": "",
         "page": "32417dfad0f1b8da",
         "ui": "",
@@ -1459,18 +1476,18 @@
         "resendOnRefresh": true,
         "templateScope": "widget:page",
         "className": "",
-        "x": 1020,
-        "y": 180,
+        "x": 1220,
+        "y": 560,
         "wires": [
             [
-                "7b82f7145aafc0a7"
+                "cc82566764c1308f"
             ]
         ]
     },
     {
-        "id": "c5216abc3336a4db",
+        "id": "d3f90fa5b6d02b4e",
         "type": "ui-template",
-        "z": "a0e5734fb3d03f9f",
+        "z": "7aae740c266d0d41",
         "group": "",
         "page": "32417dfad0f1b8da",
         "ui": "",
@@ -1485,18 +1502,18 @@
         "resendOnRefresh": true,
         "templateScope": "page:style",
         "className": "",
-        "x": 1010,
-        "y": 60,
+        "x": 850,
+        "y": 560,
         "wires": [
             [
-                "656a114ed6b449ba"
+                "65b91cb7de8c42cc"
             ]
         ]
     },
     {
-        "id": "f5985c2bf92f14a0",
+        "id": "c77364524358a853",
         "type": "ui-template",
-        "z": "a0e5734fb3d03f9f",
+        "z": "7aae740c266d0d41",
         "group": "e63a5aa36b9dfcb7",
         "page": "",
         "ui": "",
@@ -1511,16 +1528,16 @@
         "resendOnRefresh": true,
         "templateScope": "local",
         "className": "",
-        "x": 1400,
-        "y": 380,
+        "x": 1410,
+        "y": 320,
         "wires": [
             []
         ]
     },
     {
-        "id": "db103ca12a00eeb6",
+        "id": "b835882ae9c9402a",
         "type": "ui-template",
-        "z": "a0e5734fb3d03f9f",
+        "z": "7aae740c266d0d41",
         "group": "3f88899ef0a52a88",
         "page": "",
         "ui": "",
@@ -1535,16 +1552,16 @@
         "resendOnRefresh": true,
         "templateScope": "local",
         "className": "",
-        "x": 1400,
-        "y": 440,
+        "x": 1410,
+        "y": 380,
         "wires": [
             []
         ]
     },
     {
-        "id": "9012ee28dde31985",
+        "id": "fdd6c3c92086ada3",
         "type": "ui-template",
-        "z": "a0e5734fb3d03f9f",
+        "z": "7aae740c266d0d41",
         "group": "d293c9150ffced6c",
         "page": "",
         "ui": "",
@@ -1559,16 +1576,16 @@
         "resendOnRefresh": true,
         "templateScope": "local",
         "className": "",
-        "x": 1400,
-        "y": 500,
+        "x": 1410,
+        "y": 440,
         "wires": [
             []
         ]
     },
     {
-        "id": "a00cd7867012f83b",
+        "id": "52deefe58b356801",
         "type": "ui-template",
-        "z": "a0e5734fb3d03f9f",
+        "z": "7aae740c266d0d41",
         "group": "ea22cc545355c9fc",
         "page": "",
         "ui": "",
@@ -1583,26 +1600,49 @@
         "resendOnRefresh": true,
         "templateScope": "local",
         "className": "",
-        "x": 1400,
-        "y": 560,
+        "x": 1410,
+        "y": 500,
         "wires": [
             []
         ]
     },
     {
-        "id": "3e5589a423a94dc9",
+        "id": "27cb3de418554a88",
         "type": "link in",
-        "z": "a0e5734fb3d03f9f",
-        "name": "ModBus Entradas",
+        "z": "7aae740c266d0d41",
+        "name": "link in 2",
         "links": [
-            "6f5c5ea6cd5a641f"
+            "053b92feb5e4e6bf"
         ],
-        "x": 765,
+        "x": 795,
         "y": 460,
         "wires": [
             [
-                "7b82f7145aafc0a7"
+                "cc82566764c1308f"
             ]
+        ]
+    },
+    {
+        "id": "d25b2741552a111b",
+        "type": "modbus-queue-info",
+        "z": "7aae740c266d0d41",
+        "name": "",
+        "topic": "",
+        "unitid": 1,
+        "queueReadIntervalTime": 1000,
+        "lowLowLevel": 25,
+        "lowLevel": "50",
+        "highLevel": "100",
+        "highHighLevel": "110",
+        "server": "7b75d210d181d3bb",
+        "errorOnHighLevel": false,
+        "showStatusActivities": true,
+        "updateOnAllQueueChanges": true,
+        "updateOnAllUnitQueues": true,
+        "x": 550,
+        "y": 760,
+        "wires": [
+            []
         ]
     }
 ]
